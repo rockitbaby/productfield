@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>The Product Test Field</title>
+
+</head>
+<body class="ProductField" style="background-color: #EDEDED">
+  <div class="TestField">
+    
+  </div>
+
+<script src="jquery.min.js"></script>
+<script type="text/javascript" src="p5js.min.js"></script>
+
+<script id="#fakeapi">
+
+// test data
+var energies = [
+  new Energy({x: 0.5, y: 0.8}, 0.2),
+  new Energy({x: -0.8, y: 0.5}, -0.2),
+  new Energy({x: -0.7, y: -0.7}, 1)
+];
+
+function Energy(_pos, _force) {
+
+  var self = this;
+  self.pos = _pos;
+  self.force = _force;
+
+  // view calls this to set color of energy
+  self.isPositive = function() {
+    return (self.force > 0);
+  }
+}
+
+// view calls this datasource to draw all engeries
+function getAllEnergies() {
+  return energies;
+}
+
+// view calls this math function to get force
+function getForceAtPosition(pos) {
+
+  // dir: direction of vector
+  // dir.x: between -1 and 1
+  // dir.y: between -1 and 1
+  // strength: between 0 and 1
+  return {dir: {x: (-1 + Math.random() * 2), y: (-1 + Math.random() * 2)}, strength: 1};
+}
+
+</script>
+
+<script>
+
+var GU = GRID_UNIT = 28;
+var GU10 = GU * 10;
+var W = GU * 20;
+var H = GU * 20;
+
+var cRed = "#FF3D00";
+var cGreen = "#00E676";
+var cIndigo = "#304FFE";
+var cLightGrey = "#F2F2F2";
+var cBlack = "#000000";
+
+function setup() {
+
+  canvas = createCanvas();
+  $canvas = $(canvas.elt);
+  $canvas.css({
+    width: 800,
+    height: 800,
+    border: '2px solid #EEE',
+    margin: '20px auto',
+    display: 'block'
+  });
+  $('.TestField').append($canvas);
+  frameRate(1);
+  resizeCanvas(W, H);
+
+}
+
+function draw() {
+  background('#FFFFFF');
+  drawGridChrome();
+  drawEnergies();
+
+  for(var x = -1; x < 1; x = x + 0.1) {
+    for(var y = -1; y < 1; y = y + 0.1) {
+      drawForce({x: x, y: y});
+    }
+  }
+  
+}
+
+function drawForce(pos) {
+
+  var force = getForceAtPosition(pos);
+
+  push();
+  translate(W / 2, H / 2);
+
+  function pullArrow(x1, y1, x2, y2, len) {
+    stroke(cBlack)
+    line(x1, y1, x2, y2);
+    push();
+    translate(x2, y2);
+    var a = atan2(x1-x2, y2-y1);
+    rotate(a);
+    noStroke();
+    fill(cBlack);
+    translate(0, len);
+    triangle(len, -len, -len, -len, 0, 0)
+    pop();
+  }
+
+  pullArrow(
+      pos.x * GU10,
+      pos.y * GU10,
+      pos.x * GU10 + force.dir.x * GU,
+      pos.y * GU10 + force.dir.y * GU,
+      4 //force.strength * GU
+      )
+
+  pop();
+}
+
+function drawEnergies() {
+
+  push();
+  translate(W / 2, H / 2);
+  noStroke();
+  for (var i = 0; i < energies.length; i++) {
+    var energy = energies[i];
+
+    var energyWidth = 6;
+    if(energy.isPositive()) {
+      fill(cGreen);
+    } else {
+      fill(cRed);
+    }
+    ellipse(energy.pos.x * GU10, energy.pos.y * GU10, energyWidth, energyWidth);
+
+  }
+
+  pop();
+}
+
+function drawGridChrome() {
+  push();
+  translate(W / 2, H / 2);
+  
+  // circel
+  noFill();
+  stroke(cIndigo);
+  strokeWeight(2);
+  ellipseMode(CENTER);
+  var r = sqrt(sq(GU) * 2) * 2;
+  
+  ellipse(0, 0, r, r);
+  
+  noStroke();
+  
+  // dots
+  fill(cIndigo);
+  var dotWidth = 6;
+  ellipse(5 * GU, -5 * GU, dotWidth, dotWidth);
+  ellipse(5 * GU, 5 * GU, dotWidth, dotWidth);
+  ellipse(-5 * GU, 5 * GU, dotWidth, dotWidth);
+  ellipse(-5 * GU, -5 * GU, dotWidth, dotWidth);
+  
+  // edges
+  fill(cIndigo);
+  var ew = 2;
+  rect(8 * GU, -8 * GU  - ew / 2, GU / 2, ew);
+  rect(8 * GU - ew / 2, -8 * GU - GU / 2, ew, GU / 2);
+  
+  rect(8 * GU, 8 * GU  - ew / 2, GU / 2, ew);
+  rect(8 * GU - ew / 2, 8 * GU, ew, GU / 2);
+  
+  rect(-8 * GU, 8 * GU  - ew / 2, ew, GU / 2);
+  rect(-8 * GU - GU / 2, 8 * GU  - ew / 2, GU / 2, ew);
+
+  
+  rect(-8 * GU, -8 * GU  - GU / 2, ew, GU / 2);
+  rect(-8 * GU - GU / 2, -8 * GU  - ew / 2, GU / 2, ew);
+  
+  pop();
+
+}
+
+</script>
+
+</body>
+</html>
