@@ -1,5 +1,5 @@
-var ForceField;
-window.ForceField = ForceField || {
+var ForceFieldCanvas;
+window.ForceFieldCanvas = ForceFieldCanvas || {
   options: {
     gridUnit: 28,
     scale: 20,
@@ -59,12 +59,11 @@ window.ForceField = ForceField || {
     pop();
   },
   getForceAtPosition: function(pos) {
-    // dir: direction of vector
-    // dir.x: between -1 and 1
-    // dir.y: between -1 and 1
-    // strength: between 0 and 1
-    var number = .4;//Math.random()
-    return {dir: {x: (-1 + number * 2), y: (-1 + number * 2)}, strength: 1};
+    var forceField = new ForceField(this.getAllEnergies());
+    var forceVector = forceField.forceVectorAtPoint(pos.x, pos.y);
+
+
+    return {dir: {x: forceVector.x, y: forceVector.y}, strength: forceVector.length()};
   },
   drawForce: function(pos) {
     var force = this.getForceAtPosition(pos);
@@ -101,12 +100,6 @@ window.ForceField = ForceField || {
   },
   addEnergyFromEvent: function(event) {
     $canvas = $(event.target);
-    // var gridX = ((event.offsetX - ($canvas.data("gridDotSize")/2)) - ($canvas.width()/2)) / (($canvas.data("gridUnit")/2)*($canvas.data("gridScale")));
-    // console.log((event.offsetX - ($canvas.width()/2)) / (($canvas.data("gridUnit")/2)*($canvas.data("gridScale"))));
-    //
-    // var gridY = ((event.offsetY - ($canvas.data("gridDotSize")/2)) - ($canvas.height()/2)) / (($canvas.data("gridUnit")/2)*($canvas.data("gridScale"))) * -1;
-    // console.log((event.offsetY - ($canvas.height()/2)) / (($canvas.data("gridUnit")/2)*($canvas.data("gridScale")))*-1);
-    // debugger
     $newDot = $("<div/>")
       .addClass("forcefield-dot")
       .css("width", this.options.gridDotSize)
@@ -118,38 +111,59 @@ window.ForceField = ForceField || {
     $(".forcefield").append($newDot);
   },
   getAllEnergies: function() {
-    return $(".forcefield-dot")
+    var gridScale = this.options.scale;
+    var halfGridDotSize = this.options.gridDotSize / 2;
+    var halfGridUnit = this.options.gridUnit / 2;
+    var halfWidth = this.options.width / 2;
+    var halfHeight = this.options.height / 2;
+
+    // var gridX = ((event.offsetX - ($canvas.data("gridDotSize")/2)) - ($canvas.width()/2)) / (($canvas.data("gridUnit")/2)*($canvas.data("gridScale")));
+    // var gridY = ((event.offsetY - ($canvas.data("gridDotSize")/2)) - ($canvas.height()/2)) / (($canvas.data("gridUnit")/2)*($canvas.data("gridScale"))) * -1;
+
+    var domEnergyObjects =  $(".forcefield-dot")
+
+    var energyObjects = domEnergyObjects.map(function(index, object) {
+      return {
+        pos: {
+          x: ($(object).offset().left - halfGridDotSize - halfWidth) / (halfGridUnit * gridScale),
+          y: ($(object).offset().top - halfGridDotSize - halfHeight) / (halfGridUnit * gridScale)
+        },
+        strength: 2
+      }
+    });
+
+    return $.makeArray(energyObjects);
   }
 };
 
 window.setup = function() {
-  ForceField.init();
+  ForceFieldCanvas.init();
   canvas = createCanvas();
   $canvas = $(canvas.elt);
   $canvas.css({
     display: 'block'
   });
   $canvas.data({
-    gridUnit: ForceField.options.gridUnit,
-    gridScale: ForceField.options.scale,
-    gridDotSize: ForceField.options.gridDotSize
+    gridUnit: ForceFieldCanvas.options.gridUnit,
+    gridScale: ForceFieldCanvas.options.scale,
+    gridDotSize: ForceFieldCanvas.options.gridDotSize
   });
   $('.forcefield').append($canvas);
   frameRate(30);
-  resizeCanvas(ForceField.options.width, ForceField.options.height);
+  resizeCanvas(ForceFieldCanvas.options.width, ForceFieldCanvas.options.height);
 };
 
 window.draw = function() {
   background('#FFFFFF');
-  ForceField.drawGridChrome();
+  ForceFieldCanvas.drawGridChrome();
 
   for(var x = -1; x < 1; x = x + 0.1) {
     for(var y = -1; y < 1; y = y + 0.1) {
-      ForceField.drawForce({x: x, y: y});
+      ForceFieldCanvas.drawForce({x: x, y: y});
     }
   }
 };
 
 $(document).on('click', 'canvas', function(event) {
-  ForceField.addEnergyFromEvent(event)
+  ForceFieldCanvas.addEnergyFromEvent(event)
 });

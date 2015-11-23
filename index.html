@@ -3,6 +3,60 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <script src="./bower_components/victor/build/victor.js"></script>
+    <script src="jquery.min.js"></script>
+    <script type="text/javascript" src="p5js.min.js"></script>
+    <script id="#fakeapi">
+      var EnergyVector = function(x, y, strength, absForceFieldStrength) {
+        this.x = x;
+        this.y = y;
+        this.strength = strength;
+        this.length = (this.strength / absForceFieldStrength);
+        this.originVector = new Victor(x, y);
+
+        if(x < 0) {
+          this.directionVector = new Victor((-x * this.length), (-y * this.length));
+        } else {
+          this.directionVector = new Victor((x * this.length), (y * this.length));
+        }
+      }
+
+      var ForceField = function(energies) {
+        var absStrengthSum  = energies.map(function(energy) { return Math.abs(energy.strength) }).reduce(function(prev, curr) {
+          return prev + curr;
+        }, 0);
+
+        this.absStrengthSum = absStrengthSum;
+
+        this.energyVectors = energies.map(function(energy) {
+          return new EnergyVector(energy.pos.x, energy.pos.y, energy.strength, absStrengthSum)
+        });
+
+        this.forceVectorAtPoint = function(x, y) {
+          var vectorToPOI = new Victor(x, y);
+
+          var weights = [];
+          var energyDirectionVectors = [];
+
+          this.energyVectors.forEach(function(energyVector, index) {
+            var distance = vectorToPOI.distance(energyVector.originVector)
+            weights[index] = 1 - (distance / Math.sqrt(8));
+          })
+
+          this.energyVectors.forEach(function(energyVector, index) {
+            energyDirectionVectors[index] = new Victor(0, 0).copy(energyVector.directionVector);
+          })
+
+          var resultVector = energyDirectionVectors.reduce(function(prev, curr, index) {
+            return prev.add(curr.multiplyScalar(weights[index]));
+          }, new Victor(0, 0))
+
+          return resultVector;
+        }
+      }
+    </script>
+    <script type="text/javascript" src="forceField.js"></script>
+
     <title>The Product Test Field</title>
     <style>
       body {
@@ -24,11 +78,5 @@
   </head>
   <body class="ProductField" style="background-color: #EDEDED">
     <div class="forcefield">
-
     </div>
-
-    <script src="jquery.min.js"></script>
-    <script type="text/javascript" src="p5js.min.js"></script>
-    <script type="text/javascript" src="forceField.js"></script>
   </body>
-</html>
