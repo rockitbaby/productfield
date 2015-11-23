@@ -1,0 +1,324 @@
+@import 'nib'
+@import 'styl/skeleton'
+
+$beige = #E6D7C7
+$dimmedBeige = #DBD8D7
+$white = #FFF
+$lightGrey = #F2F2F2
+$black = #1A1A1A
+$green = #00E676
+$red = #FF3D00
+$indigo = #304FFE
+$dimmedIndigo = #3949AB
+
+.BrowserUpgrade 
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+
+*
+  box-sizing border-box
+
+body
+  font-family 'Cabin', sans;
+  font-size 1.8em
+  background $lightGrey
+  margin 0
+  color $black
+
+a
+  color $indigo
+  &:hover
+    color $indigo
+
+strong
+  font-weight 800
+
+section
+  margin-bottom 2.5rem
+
+.Header
+.ForceField
+  .stage
+  .backdrop
+    padding (28 * 1.5px - 4) 0 12rem
+    overflow hidden
+    background-color $beige 
+    z-index 100
+    position relative
+    background URL('/assets/img/dot64@2x.png') repeat 50% 0, URL('/assets/img/header-bg.jpg') repeat 50% 50%
+    background-size 28px 28px, 1500px 380px
+
+    img
+      display block
+      margin 0 auto
+    .EditorImg
+      position absolute
+      top 0
+      width 100%
+      img
+        margin 0 auto
+
+  margin-bottom 0
+  
+  h1
+    z-index 101
+    position relative
+    font-family 'Josefin Slab', serif;
+    font-weight 700
+    font-size 94px
+    line-height 128px
+    color $white
+    text-transform uppercase
+    margin 0
+    img
+      position relative
+      top -(130 / 2)px
+      display block
+      margin 0 auto
+
+.ForceField
+  .stage
+    background #FFF
+  header
+    img
+      top 3rem
+
+@media (max-width: 550px)
+
+  .Header
+    .backdrop
+      img
+        width 60%
+        height auto
+
+    h1
+      img
+        width 100%
+        top -(100 / 2)px
+        height auto
+
+h2
+  font-family 'Cabin', sans-serif;
+  font-size 3.2rem
+
+.Main
+  position relative
+  z-index 10
+
+.Intro
+  position relative
+  z-index 10
+  font-size 2.6rem
+  line-height 3.7rem
+  color $black
+  margin-bottom 5rem
+  font-weight 600
+  p
+    margin-bottom 5rem
+  .Intro-small
+    font-size 2.5rem
+    line-height 3.6rem
+    font-weight 400
+    p
+      margin-bottom 1.5rem
+  ul
+    list-style-position inside
+    list-style none
+    margin-left 0
+    padding 0 6rem
+    //text-indent -3rem
+    li:before
+      content "•"
+      display inline-block
+      font-size 2.2rem
+      width 3rem
+      margin-left -3rem
+      text-align left
+    p
+      display inline
+    li
+      margin-bottom 1.5rem
+
+@media (max-width: 550px)
+  .Intro
+    font-size 2rem
+    line-height 2.8rem
+    p
+      margin-bottom 3rem
+    .Intro-small
+      font-size 2rem
+      font-weight 400
+      line-height 2.8rem
+      ul
+        padding 0 0 0 2rem
+        li:before
+          width 2rem
+          margin-left -2rem
+
+.Worksheet
+  background $white URL('/assets/img/worksheet-bg.jpg') no-repeat top left
+  background-size cover
+  //margin-bottom -10px
+  width 100%
+  float left
+  display block
+  position relative
+
+  .ratio
+    padding-top 50%
+    /* 16:9 ratio */
+    @media (max-width: 550px)
+      padding-top 62.5%
+    display block
+  .wrapper
+    position absolute
+    display table
+    top 0
+    left 0
+    min-height 100px
+    width 100%
+    z-index 2
+  .container
+    display table-cell
+    vertical-align middle
+    a
+      margin-left auto
+      margin-right auto
+      width 300px
+      display block
+      text-align center
+      text-decoration none
+      border 2px solid $indigo
+      border-radius 5px
+      padding 10px 0
+      font-size 2rem
+      font-weight 700
+      @media (max-width: 550px)
+        font-size 1.8rem
+        width 280px
+      &:hover
+        background-color $indigo
+        color $white
+
+.Action
+  padding 2.5rem 0 2.5rem
+  margin-bottom 0
+  background $white
+  background-size 32px 32px
+  text-align center
+  a
+    font-size 2rem
+    i
+      font-size 3rem
+      @media (max-width: 550px)
+        font-size 4rem
+    display inline-block
+    text-decoration none
+    padding 1em 0 0.5em
+  p
+    font-size 1.5rem
+  .Action-form
+    text-align left
+
+.Next
+  padding 0 0 5rem
+  margin-bottom 0
+  background $white
+  @media (max-width: 550px)
+    padding 0 0 0
+  .container
+    padding 5rem
+    background $indigo
+    color $white
+    @media (max-width: 550px)
+      width 100%
+      padding 2.5rem
+  a
+    color $white
+  .row
+    padding 1.5rem 0
+    border-bottom 1px solid RGBA(255,255,255,0.2)
+    &:last-child
+      border-bottom none
+    &.done
+      div
+        opacity 0.4
+    .Task-time
+        font-weight 800
+
+.Footer
+  font-size 1.5rem
+  padding 2.5rem 0 2.5rem
+  p
+    margin 0
+  a
+    color $black
+    text-decoration none
+    &:hover
+      text-decoration underline
+    &.Company
+      color $grey
+
+.ForceField
+  .EnergyBar
+    font-size 1.4rem
+    padding 1rem
+    height 80px
+    width 100%
+    overflow hidden
+    background $grey
+    .block
+      float left
+      .elm
+        float left
+        width 220px
+        padding 0 10px
+
+    .EnergyEditor
+      &.active
+        .new
+          display none
+      .selected
+        display none
+      &.active
+        .selected
+          display block
+      .EnergyEditor-force 
+        width 80px
+
+    .ImageEditor
+      .normal
+        display none
+      .editing
+        display none
+      &.has-image
+        .new
+          display none
+        .normal
+          display block
+        &.is-editing
+          .normal
+            display none
+          .editing
+            display block
+
+  .energy
+    $w = 28px
+    width $w
+    height $w
+    position absolute
+    margin-left -($w / 2)
+    margin-top -($w / 2)
+    z-index 300
+    border-radius ($w / 2)
+    &.active
+      background RGBA(255, 255, 0, 0.8)
+      border none
+    &.dragging
+      background #000
+      border 2px solid #FFF
+    &.updating
+      background RGB(255, 255, 255)
+      border 2px solid #000

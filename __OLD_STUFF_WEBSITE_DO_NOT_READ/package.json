@@ -1,0 +1,28 @@
+{
+  "name": "productfield.com",
+  "version": "1.0.0",
+  "description": "The productfield.com website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Schieben <michael@precious-forever.com>",
+  "license": "-",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-cache-bust": "^1.0.1",
+    "gulp-compile-handlebars": "^0.5.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-connect": "^2.2.0",
+    "gulp-ftp": "^1.0.3",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-stylus": "^2.0.1",
+    "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.2.4",
+    "main-bower-files": "^2.8.0",
+    "marked": "^0.3.3",
+    "nib": "^1.1.0"
+  }
+}

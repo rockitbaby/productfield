@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>The Product Field</title>
+  <meta name="description" content="The Product Field is a practical and comprehensive tool to evaluate your state of innovation. It sets a well prepared ground to improve your development process and field better products.">
+  <meta property="og:image" content="/assets/img/productfield-identity.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,600,700|Josefin+Slab:700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="assets/normalize/normalize.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/style/productfield.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
+</head>
+<body class="ProductField">
+  <!--[if lt IE 8]>
+      <p class="BrowserUpgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div class="Header">
+    <div class="backdrop">
+      <div class="backdrop-content" id="backdrop-process" data-ratio="2.2695035461" data-vcenter="0.5" data-push="0.8">
+      <img src="/assets/img/productfield-white@2x.png" width="342px" height="342px">
+      </div>
+    </div> 
+    <header class="container">
+      <h1>
+        <img src="/assets/img/productfield-text@2x.png" width="482px" height="131px">
+      </h1>
+    </header>
+  </div>
+
+  <div class="Main">
+    <section class="container Intro">
+      {{> section-intro }}
+    </section>
+
+    <section class="Worksheet">
+      <div class="ratio">
+      </div>
+      <div class="wrapper">
+        <div class="container">
+          <a href="/assets/pdf/the-productfield-v2.pdf" target="_blank"onclick="_gaq.push(['_trackEvent','Download','PDF',this.href]);" download>Download The Product Field</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="Action">
+      <div class="container">
+        {{> section-action }}
+      </div>
+    </section>
+
+    <section class="Next">
+      <div class="container">
+        {{> section-next }}
+      </div>
+    </section>
+  </div>
+
+  <div class="Footer">
+    <footer class="container">
+      {{> footer }}
+    </footer>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="assets/jquery/dist/jquery.js"><\/script>')</script>
+<script type="text/javascript" src="assets/p5js/p5js.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(e) {
+  function fixDownloadButton() {
+    $('.Worksheet .wrapper').height($('.Worksheet').height());
+  }
+  fixDownloadButton();
+  $(window).resize(fixDownloadButton);
+});
+
+function is_touch_device() {
+  return !!('ontouchstart' in window);
+}
+
+var lastX = 0;
+var lastY = 0;
+
+var GRID_UNIT = 28;
+
+var markers = [];
+
+function arrow(x1, y1, x2, y2, head) {
+  line(x1, y1, x2, y2);
+  if(head) {
+    push();
+    translate(x2, y2);
+    var a = atan2(x1-x2, y2-y1);
+    rotate(a);
+    line(0, 0, -4, -4);
+    line(0, 0, 4, -4);
+    pop();
+  }
+}
+
+function GridMarker(pos) {
+
+  var self = this;
+  self.originalPos = createVector(pos.x, pos.y);
+  self.pos = pos;
+  self.pos.x += 1;
+  self.head = false;
+
+  function draw() {
+    if(abs(self.originalPos.x - self.pos.x) < 3) {
+    } else {
+      arrow(self.originalPos.x, self.originalPos.y, self.pos.x, self.pos.y, self.head);
+    }
+  }
+
+  function updatePos(d, yd) {
+    var toForce = p5.Vector.sub(self.originalPos, createVector(mouseX, mouseY));
+    var distanceToForce = toForce.mag();
+ 
+    toForce.normalize();
+    toForce.y = yd / h;
+    toForce.x = -1;
+    
+    // 1/8 mousemovement = max force
+    var force = max(100, (d / (1/8 * w)) * 100) * w / 100;
+    toForce.mult(-force / distanceToForce);
+
+    toForce.limit(20);
+
+    self.pos = p5.Vector.add(self.originalPos, toForce);
+  }
+
+  self.draw = draw;
+  self.updatePos = updatePos;
+
+}
+
+var w = 0;
+var h = 0;
+var x = 0;
+var y = 0;
+var lastUpdateX = 0;
+var lastUpdateY = 0;
+var px = 0;
+var py = 0;
+var easing = 0.05;
+var canvas;
+var $header, $canvas;
+
+function setup() {
+  if(is_touch_device() || $(window).width() < 500) {
+    return;
+  }
+  $header = $('.Header .backdrop');
+  lastUpdateX = mouseX;
+  lastUpdateY = mouseY;
+  canvas = createCanvas();
+  $canvas = $(canvas.elt);
+  $canvas.css({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    'z-index': 99
+  });
+  $header.append($canvas);
+  window.xxx = canvas;
+  frameRate(30);
+  layoutGrid();
+}
+
+function windowResized() {
+  if(is_touch_device() || $(window).width() < 500) {
+    return;
+  }
+  layoutGrid();
+}
+
+function layoutGrid() {
+  
+  w = $header.width();
+  h = $header.outerHeight();
+
+  resizeCanvas(w, h);
+  var cols = ceil(w / GRID_UNIT);
+  var rows = ceil(h / GRID_UNIT);
+  var x_offset = (w / 2) % GRID_UNIT;
+  var y_offset = 14;
+  stroke("#FFFFFF");
+  markers = [];
+  for (var i=0; i < cols * rows; i++) {  
+    markers.push(new GridMarker(createVector(i % cols * GRID_UNIT + x_offset, floor(i / cols) * GRID_UNIT + y_offset)));
+    markers[i].draw();
+  }
+  
+}
+
+function draw() {
+  var d = dist(mouseX, mouseY, lastUpdateX, lastUpdateY);
+  if(d > 80) {
+    yd = lastUpdateY - mouseY;
+    lastUpdateX = mouseX;
+    lastUpdateY = mouseY;
+    for (var i=0; i < markers.length; i++) {
+      markers[i].updatePos(d, yd);
+    }
+  } else {
+    return;
+  }
+  clear();
+  for (var i=0; i < markers.length; i++) {
+    markers[i].draw();
+  }
+}
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63577756-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
