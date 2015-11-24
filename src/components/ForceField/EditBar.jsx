@@ -1,5 +1,6 @@
 import React from 'react';
-import Slider from './EditBar/Slider'
+import Button from './EditBar/Button';
+import GlobalStyles from '../../styles/GlobalStyles';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 export default React.createClass({
@@ -9,14 +10,14 @@ export default React.createClass({
     const editBarStyle = this.getEditBarStyle();
 
     return <div className="force-field-edit-bar" style={editBarStyle} >
-      <button onClick={this.props.addPoint}> Add Point</button>
+      <Button title='Add Point' clickAction={this.props.addPoint} />
       {this.props.editingPoint ?
         <div>
           <a href='#' onClick={() => this.props.setStrength(this.props.editingPoint.get('strength') + -1)}>reduce</a>
           <span>{this.props.editingPoint.get('strength')}</span>
           <a href='#' onClick={() => this.props.setStrength(this.props.editingPoint.get('strength') + 1)}>increase</a>
 
-          <button onClick={this.props.deletePoint}>Delete</button>
+          <Button title='Delete' clickAction={this.props.deletePoint} />
 
         </div> : <div></div>}
 
@@ -28,7 +29,8 @@ export default React.createClass({
       height: '50',
       margin: '10px',
       marginBottom: '10',
-      backgroundColor: 'lightgrey',
+      backgroundColor: GlobalStyles.backgroundGray,
+
     }
   }
 });
