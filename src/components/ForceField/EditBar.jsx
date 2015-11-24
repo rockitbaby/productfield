@@ -28,7 +28,6 @@ export default React.createClass({
       height: '50',
       margin: '10px',
       marginBottom: '10',
-      borderBottom: '1px solid grey',
       backgroundColor: 'lightgrey',
     }
   }

@@ -1,16 +1,20 @@
 import Victor from 'victor';
 
 var EnergyVector = function(x, y, strength, absForceFieldStrength) {
-  this.x = x;
-  this.y = y;
-  this.strength = strength;
-  this.length = (this.strength / absForceFieldStrength);
-  this.originVector = new Victor(x, y);
+  var length = strength / absForceFieldStrength;
 
-  if(x < 0) {
-    this.directionVector = new Victor((-x * this.length), (-y * this.length));
-  } else {
-    this.directionVector = new Victor((x * this.length), (y * this.length));
+  function directionVector (x, length) {
+    var sign = (x > 0) ? 1 : -1;
+    return new Victor(sign * x * length, sign * y * length);
+  }
+
+  return {
+    x: x,
+    y: y,
+    strength: strength,
+    length: length,
+    originVector: new Victor(x, y),
+    directionVector: directionVector(x, length)
   }
 }
 

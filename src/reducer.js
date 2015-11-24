@@ -21,10 +21,11 @@ function movePoint(state, newPoint) {
 }
 
 function addPoint(state) {
-  var nextID = state.get('points').max().get('id') + 1;
-  var newPoints = state.get('points').push(Map({id: nextID, x: 50, y: 50, strength: 1}));
+  var currentPoints = state.get('points');
+  var nextID = (currentPoints.size > 0) ? (currentPoints.max().get('id') + 1) : 1;
+  var newPoints = currentPoints.push(Map({id: nextID, x: 50, y: 50, strength: 1}));
 
-  return state.set('points',newPoints);
+  return state.set('points', newPoints);
 }
 
 function editPoint(state, point) {
@@ -52,9 +53,7 @@ function setStrength(state, newStrength) {
     }
   });
 
-  var newState = state.setIn(['editingPoint', 'strength'], newStrength).set('points', newPoints)
-
-  return newState;
+  return state.setIn(['editingPoint', 'strength'], newStrength).set('points', newPoints);
 }
 
 export default function(state = Map(), action) {
