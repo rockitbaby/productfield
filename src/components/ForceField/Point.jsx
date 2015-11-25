@@ -13,8 +13,8 @@ export default Radium(React.createClass({
     const point = event.currentTarget;
     const field = point.offsetParent;
 
-    var newX = (event.pageX - field.offsetLeft) * 100/ field.offsetWidth;
-    var newY = (event.pageY - field.offsetTop) * 100/ field.offsetHeight;
+    var newX = ((event.pageX - field.offsetLeft - 12.5) * 100) / field.offsetWidth;
+    var newY = ((event.pageY - field.offsetTop - 12.5) * 100) / field.offsetHeight;
 
     this.props.movePoint({id: this.props.id, x: newX, y: newY})
   },
@@ -27,7 +27,8 @@ export default Radium(React.createClass({
                 style={pointStyle}
                 draggable='true'
                 onClick={ () => this.props.editPoint(Map(this.props)) }
-                onDragEnd={ (e) => this.pointDragged(e) }><span style={fontStyle}>{this.props.strength}</span></div>;
+                onDragEnd={ (e) => this.pointDragged(e) }
+                onDrag={ (e) => this.pointDragged(e) }><span style={fontStyle}>{this.props.strength}</span></div>;
   },
 
   getPointStyle: function() {
