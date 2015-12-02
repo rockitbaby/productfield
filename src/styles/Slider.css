@@ -1,12 +1,34 @@
-.slider {
-  background-color: darkgray;
-  height: 2px;
-}
 .handle {
   width: 10px;
   padding-top: 0;
   height: 10px;
   box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.24), 0px 1px 4px 0px rgba(0,0,0,0.12);
   border: 2px solid white;
+  background-color: gray;
   border-radius: 10px;
+  cursor: pointer;
 }
+
+.handle.active {
+    background-color: darkgray;
+}
+
+.slider {
+    height: 200px;
+    width: 15px;
+    border: 1px solid grey;
+}
+
+.bar {
+    position: relative;
+    background: #ddd;
+    left: 5px;
+    width: 5px;
+}
+
+/*.bar.bar-1 {
+    background: #f00;
+}
+.bar.bar-2 {
+    background: #0f0;
+}*/
