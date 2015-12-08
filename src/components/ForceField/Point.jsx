@@ -1,9 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import GlobalStyles from '../../styles/GlobalStyles'
 import {connect} from 'react-redux';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Radium from 'radium';
 import {Map} from 'immutable';
+import Slider from './Slider';
 
 export default Radium(React.createClass({
   mixins: [PureRenderMixin],
@@ -13,22 +15,59 @@ export default Radium(React.createClass({
     const point = event.currentTarget;
     const field = point.offsetParent;
 
-    var newX = ((event.pageX - field.offsetLeft - 12.5) * 100) / field.offsetWidth;
-    var newY = ((event.pageY - field.offsetTop - 12.5) * 100) / field.offsetHeight;
-
+    var newX = ((event.pageX - field.offsetLeft) * 100) / field.offsetWidth;
+    var newY = ((event.pageY - field.offsetTop) * 100) / field.offsetHeight;
     this.props.movePoint({id: this.props.id, x: newX, y: newY})
+  },
+
+  pointDraggedEnded: function(event) {
+    event.preventDefault();
+    const point = event.currentTarget;
+    const field = point.offsetParent;
+
+    var newX = ((event.pageX - field.offsetLeft + 12.5) * 100) / field.offsetWidth;
+    var newY = ((event.pageY - field.offsetTop - 124.5) * 100) / field.offsetHeight;
+    this.props.movePoint({id: this.props.id, x: newX, y: newY})
+  },
+
+  pointClicked: function(event) {
+
+    var currentPoint = Map({
+      id:       this.props.id,
+      x:        this.props.x,
+      y:        this.props.y,
+      strength: this.props.strength
+    });
+
+    if (this.props.editingPoint && currentPoint.get('id') == this.props.editingPoint.get('id')) {
+      this.props.editPoint(null);
+    } else {
+      this.props.editPoint(currentPoint);
+    }
   },
 
   render: function() {
     var pointStyle = this.getPointStyle();
     var fontStyle = this.getFontStyle();
+    var pos = this.getPos();
 
     return <div className="force-field-stage-point"
-                style={pointStyle}
                 draggable='true'
-                onClick={ () => this.props.editPoint(Map(this.props)) }
-                onDragEnd={ (e) => this.pointDragged(e) }
-                onDrag={ (e) => this.pointDragged(e) }><span style={fontStyle}>{this.props.strength}</span></div>;
+                onDragEnd={ (e) => this.pointDraggedEnded(e) }
+                onDrag={ (e) => this.pointDragged(e) }
+                style={pos}>
+             <div style={pointStyle}
+                onClick={ (e) => this.pointClicked(e) }>
+                <span style={fontStyle}>{this.props.strength}</span>
+             </div>
+             { this.props.editing ?
+               <div>
+                 <Slider value={this.props.strength}
+                         setStrength={(value) => this.props.setStrength(value)}/>
+               </div>
+               : null
+             }
+           </div>;
   },
 
   getPointStyle: function() {
@@ -45,15 +84,24 @@ export default Radium(React.createClass({
     return {
       backgroundColor:  backgroundColor(this.props.strength),
       display: 'table',
-      verticalAlign: 'middle',
       textAlign: 'center',
-      position: 'absolute',
       width: '25',
-      paddingTop: '2',
+      paddingTop: '-5',
       height: '23',
       boxShadow: '0px 3px 3px 0px rgba(0,0,0,0.24), 0px 1px 4px 0px rgba(0,0,0,0.12)',
       border: '3px solid white',
-      borderRadius: '20',
+      borderRadius: '25',
+    }
+  },
+
+  getPos: function() {
+    return {
+      position: 'absolute',
+      display: 'flex',
+      alignItems: 'center',
+      marginTop: '-100px',
+      marginLeft: '-12px',
+      height: '200px',
       left: this.props.x + '%',
       top: this.props.y + '%',
     }
