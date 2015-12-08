@@ -19,7 +19,7 @@ export const ForceField = React.createClass({
 
     return <div className="force-field">
       <EditBar editingPoint={this.props.editingPoint} addPoint={this.props.addPoint} deletePoint={this.props.deletePoint} setStrength={this.props.setStrength}/>
-        <div className="force-field-stage" style={forceFieldStyle}>
+        <div className="force-field-stage" style={forceFieldStyle} id="field">
           {this.getPoints().map(point =>
             <Point key={point.get('id')}
                    id={point.get('id')}
@@ -42,8 +42,9 @@ export const ForceField = React.createClass({
       fontFamily: 'Roboto, sans-serif',
       position: 'relative',
       margin: '0 auto',
-      width: '560px',
-      height: '560px',
+      width: '100%',
+      height: '100%',
+      minHeight: '560px',
       transition: 'width 0.2s, height 0.2s',
     }
   }
