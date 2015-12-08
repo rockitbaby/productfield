@@ -13,10 +13,8 @@ export default React.createClass({
 
   getButtonStyle: function() {
     return {
-      border: '1px solid #DEDEDE',
-      padding: '3',
-      cursor: 'pointer'
-
+      cursor: 'pointer',
+      border: 'none',
     }
   }
 });
