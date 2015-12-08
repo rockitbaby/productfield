@@ -32,6 +32,7 @@
     "react-dom": "^0.14.0",
     "react-popover": "^0.4.0",
     "react-redux": "^4.0.0",
+    "react-slider": "^0.6.0",
     "redux": "^3.0.2",
     "victor": "^1.1.0"
   }
