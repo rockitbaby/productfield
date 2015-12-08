@@ -9,6 +9,7 @@ function setState(state, newState) {
 }
 
 function movePoint(state, newPoint) {
+  state.set('editingPoint', point)
   var newPoints = state.get('points').map(function(point) {
     if (point.get('id') == newPoint.id) {
       return point.merge(newPoint);
