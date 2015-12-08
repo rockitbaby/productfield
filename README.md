@@ -14,3 +14,14 @@ A Force Field Analysis Tools for the Product Field Canvas.
 - `cd PROJECT_DIR`
 - `webpack-dev-server`
 - visit `http://localhost:8080/`
+
+### Datastructure
+
+- ```{
+  editingPoint: {id: 2, x: 30, y: 50, strength: 2},
+  points: [
+    {id: 1, x: 20, y: 10, strength: 3},
+    {id: 2, x: 30, y: 50, strength: 2}
+  ]
+}
+```
