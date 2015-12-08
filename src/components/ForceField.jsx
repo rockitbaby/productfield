@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import EditBar from './ForceField/EditBar';
 import Point from './ForceField/Point';
 import * as actionCreators from '../action_creators'
+import '../styles/main.css';
+
 
 export const ForceField = React.createClass({
   mixins: [PureRenderMixin],
@@ -16,20 +18,22 @@ export const ForceField = React.createClass({
     var forceFieldStyle = this.getForceFieldStyle();
 
     return <div className="force-field">
-
-      <div className="force-field-stage" style={forceFieldStyle} >
-        {this.getPoints().map(point =>
-          <Point key={point.get('id')}
-                 id={point.get('id')}
-                 x={point.get('x')}
-                 y={point.get('y')}
-                 strength={point.get('strength')}
-                 editPoint={this.props.editPoint}
-                 movePoint={this.props.movePoint}
-          />
-        )}
-      </div>
       <EditBar editingPoint={this.props.editingPoint} addPoint={this.props.addPoint} deletePoint={this.props.deletePoint} setStrength={this.props.setStrength}/>
+        <div className="force-field-stage" style={forceFieldStyle}>
+          {this.getPoints().map(point =>
+            <Point key={point.get('id')}
+                   id={point.get('id')}
+                   x={point.get('x')}
+                   y={point.get('y')}
+                   editingPoint={this.props.editingPoint}
+                   editing={this.props.editingPoint ? this.props.editingPoint.get('id') == point.get('id') : false}
+                   strength={point.get('strength')}
+                   setStrength={this.props.setStrength}
+                   editPoint={this.props.editPoint}
+                   movePoint={this.props.movePoint}
+            />
+          )}
+      </div>
     </div>;
   },
 
