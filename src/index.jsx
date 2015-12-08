@@ -50,7 +50,6 @@ window.draw = function() {
   var width = $('#field').width();
 
   var xAmount = ((width / ForceFieldCanvas.options.gridUnit) / 10) / 2;
-  debugger
 
   for(var x = xAmount * (-1); x < xAmount; x = x + 0.1) {
     for(var y = -1; y < 1; y = y + 0.1) {
