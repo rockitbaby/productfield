@@ -15,37 +15,108 @@ export default Radium(React.createClass({
   componentWillReceiveProps: function(nextProps) {
     var calculationPoints = coordinateSystemTransformation(nextProps.points)
     ForceFieldCalculationSingleton.getInstance().setEnergies(calculationPoints);
+
+    var svgContainer = d3.select(".force-field-canvas").select("svg");
+
+    // this.props.setLastRenderTimestamp(Date.now());
+
+    var date2 = new Date(this.props.lastTimestamp);
+    var date1 = new Date();
+    if(date1-date2 > 150)
+    {
+        // console.log("Bullshit");
+        this.props.setLastRenderTimestamp(Date.now());
+        this.updateLines(svgContainer);
+    }
+
   },
 
-  componentDidMount: function() {
+  getPrefrences: function() {
+    return {
+      coreSize: 480,
+      dotsOffset: 100,
+      edgeSize: 20,
+      triangleSize: 2.5,
+      minLengthForArrowsToDisplay: 2,
+      width:  $("#field").width(),
+      height: $("#field").height()
+    }
+  },
 
-    var width = $("#field").width();
-    var height = $("#field").height();
+  updateLines: function(svgContainer) {
 
-    var coreSize = 480;
-    var dotsOffset = 100;
-    var edgeSize = 20;
-    var triangleSize = 2.5;
-    var minLengthForArrowsToDisplay = 2;
+    var prefrences = this.getPrefrences();
+    var forceField = ForceFieldCalculationSingleton.getInstance();
 
-    //Creates overall svgContainer
-    var svgContainer = d3.select(".force-field-canvas").append("svg").attr("width", width).attr("height", height);
+    svgContainer.selectAll("line").each(function(d,i){
 
-    //Creates inner svgContainer for the inner Field
-    var coreContainer = svgContainer.append("svg")
-                                    .attr("width", coreSize)
-                                    .attr("height", coreSize)
-                                    .attr("x", width/2 - coreSize/2)
-                                    .attr("y", height/2 - coreSize/2);
+      var line = d3.select(this);
+
+      var x = line.attr("x1");
+      var y = line.attr("y2");
+
+      var result = forceField.forceVectorAtPoint(x,y);
+
+      var length = Math.sqrt(Math.pow(result.x/prefrences.edgeSize, 2) + Math.pow(result.y/prefrences.edgeSize, 2));
+
+      var xDelta = result.x / prefrences.edgeSize;
+      var yDelta = result.y / prefrences.edgeSize;
+
+      var x2 = x;
+      var y2 = y - length;
+
+      line.attr("x2",x2);
+      line.attr("y2",y2)
+
+
+      //creates arrow-triangles on spares of lines
+      var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
+      // var triangleSvg = svgContainer.append("polyline")
+      //              .attr("points", triangleCoordinates)
+      //              .style("fill", "black");
+
+      //Calculation of degree for direction
+      var a = Math.atan(result.y / result.x);
+      var deg = (180 / Math.PI) * a;
+
+      if(yDelta > 0) {
+        var deg = 180 / a;
+      } else {
+        var deg = 180 / a + 180;
+      }
+
+      //Rotation of triangle and line in dependence of direction degree
+      // triangleSvg.attr("transform", "rotate("+deg+","+ x +","+ y +")" );
+      line.attr("transform", "rotate("+deg+","+ x +","+ y +")" );
+
+    });
+
+    // lines[0].map( line => {
+    //   debugger
+    //   line.setAttribute("x2", 10).setAttribute("y2", 10)
+    //   debugger
+    // });
+
+  },
+
+  renderPoints: function(svgContainer) {
+
+    var prefrences = this.getPrefrences();
+    //
+    // var test = svgContainer.selectAll("line");
+    // test.remove();
+    // var test1 = svgContainer.selectAll("line");
+
+    // svgContainer.append("svg").attr("width", prefrences.width).attr("height", prefrences.height);
 
     //Creates all Points for the Forcefield
-    for(var x = edgeSize; x < width; x = x + edgeSize){
-      for(var y = edgeSize; y < height; y = y + edgeSize){
+    for(var x = prefrences.edgeSize; x < prefrences.width; x = x + prefrences.edgeSize){
+      for(var y = prefrences.edgeSize; y < prefrences.height; y = y + prefrences.edgeSize){
         //Get Forefieldvectors and already calculated values for directions of points and arrows
         var forceField = ForceFieldCalculationSingleton.getInstance();
         var result = forceField.forceVectorAtPoint(x,y);
 
-        var length = Math.sqrt(Math.pow(result.x/edgeSize, 2) + Math.pow(result.y/edgeSize, 2));
+        var length = Math.sqrt(Math.pow(result.x/prefrences.edgeSize, 2) + Math.pow(result.y/prefrences.edgeSize, 2));
 
         svgContainer.append("circle")
                        .attr("cx", x)
@@ -53,15 +124,12 @@ export default Radium(React.createClass({
                        .attr("r", .8)
                        .style("fill", "blue");
         //Show Arrows and lines only if they're long enough
-        if(length > minLengthForArrowsToDisplay) {
-          var xDelta = result.x / edgeSize;
-          var yDelta = result.y / edgeSize;
+        if(length > prefrences.minLengthForArrowsToDisplay) {
+          var xDelta = result.x / prefrences.edgeSize;
+          var yDelta = result.y / prefrences.edgeSize;
 
           var x2 = x;
           var y2 = y - length;
-
-          console.log(xDelta + "  "+yDelta);
-
 
           //creates the lines
           var line = svgContainer.append("line")
@@ -73,7 +141,7 @@ export default Radium(React.createClass({
                        .attr("stroke", "black");
 
           //creates arrow-triangles on spares of lines
-          var triangleCoordinates = [x2, y2, x2 + triangleSize, y2, x2, y2 - triangleSize, x2 - triangleSize, y2, x2,y2].join();
+          var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
           var triangleSvg = svgContainer.append("polyline")
                        .attr("points", triangleCoordinates)
                        .style("fill", "black");
@@ -93,8 +161,36 @@ export default Radium(React.createClass({
           line.attr("transform", "rotate("+deg+","+ x +","+ y +")" );
         }
       }
-
     }
+  },
+
+  componentDidMount: function() {
+
+    this.props.setLastRenderTimestamp(Date.now());
+
+    var prefrences = this.getPrefrences();
+
+    var coreSize = prefrences.coreSize;
+    var dotsOffset = prefrences.dotsOffset;
+    var edgeSize = prefrences.edgeSize;
+    var triangleSize = prefrences.triangleSize;
+    var minLengthForArrowsToDisplay = prefrences.minLengthForArrowsToDisplay;
+
+    var width = prefrences.width;
+    var height = prefrences.height;
+
+    //Creates overall svgContainer
+    var svgContainer = d3.select(".force-field-canvas").append("svg").attr("width", width).attr("height", height)
+
+    this.renderPoints(svgContainer);
+
+    //Creates inner svgContainer for the inner Field
+    var coreContainer = svgContainer.append("svg")
+                                    .attr("width", coreSize)
+                                    .attr("height", coreSize)
+                                    .attr("x", width/2 - coreSize/2)
+                                    .attr("y", height/2 - coreSize/2);
+
 
     //creates inner blue Circle for the Field
     coreContainer.append("circle")

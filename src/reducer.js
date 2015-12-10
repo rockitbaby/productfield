@@ -33,6 +33,10 @@ function editPoint(state, point) {
   return state.set('editingPoint', point)
 }
 
+function setLastRenderTimestamp(state, timestamp) {
+  return state.set('lastTimestamp', timestamp)
+}
+
 function deletePoint(state) {
   var deletingPointId = state.getIn(['editingPoint', 'id'])
 
@@ -71,6 +75,8 @@ export default function(state = Map(), action) {
     return setState(state, editPoint(state, action.point))
   case 'SET_STRENGTH':
     return setState(state, setStrength(state, action.strength))
+  case 'SET_TIMESTAMP':
+    return setState(state, setLastRenderTimestamp(state, action.timestamp))
   }
 
   return state;
