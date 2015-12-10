@@ -3,6 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import EditBar from './ForceField/EditBar';
 import Point from './ForceField/Point';
+import Canvas from './ForceField/Canvas';
 import * as actionCreators from '../action_creators'
 import '../styles/main.css';
 
@@ -19,7 +20,8 @@ export const ForceField = React.createClass({
 
     return <div className="force-field">
       <EditBar editingPoint={this.props.editingPoint} addPoint={this.props.addPoint} deletePoint={this.props.deletePoint} setStrength={this.props.setStrength}/>
-        <div className="force-field-stage" style={forceFieldStyle}>
+        <div className="force-field-stage" style={forceFieldStyle} id="field">
+          <Canvas points={this.getPoints()} />
           {this.getPoints().map(point =>
             <Point key={point.get('id')}
                    id={point.get('id')}
@@ -42,8 +44,9 @@ export const ForceField = React.createClass({
       fontFamily: 'Roboto, sans-serif',
       position: 'relative',
       margin: '0 auto',
-      width: '560px',
-      height: '560px',
+      width: '100%',
+      height: '100%',
+      minHeight: '560px',
       transition: 'width 0.2s, height 0.2s',
     }
   }
