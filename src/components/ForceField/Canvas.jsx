@@ -18,17 +18,14 @@ export default Radium(React.createClass({
 
     var svgContainer = d3.select(".force-field-canvas").select("svg");
 
-    // this.props.setLastRenderTimestamp(Date.now());
+    var dateLastRender = new Date(this.props.lastTimestamp);
+    var dateNow = new Date();
 
-    var date2 = new Date(this.props.lastTimestamp);
-    var date1 = new Date();
-    if(date1-date2 > 150)
+    if(dateNow - dateLastRender > 400)
     {
-        // console.log("Bullshit");
         this.props.setLastRenderTimestamp(Date.now());
         this.updateLines(svgContainer);
     }
-
   },
 
   getPrefrences: function() {
@@ -53,7 +50,7 @@ export default Radium(React.createClass({
       var line = d3.select(this);
 
       var x = line.attr("x1");
-      var y = line.attr("y2");
+      var y = line.attr("y1");
 
       var result = forceField.forceVectorAtPoint(x,y);
 
@@ -70,7 +67,7 @@ export default Radium(React.createClass({
 
 
       //creates arrow-triangles on spares of lines
-      var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
+      // var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
       // var triangleSvg = svgContainer.append("polyline")
       //              .attr("points", triangleCoordinates)
       //              .style("fill", "black");
@@ -87,27 +84,17 @@ export default Radium(React.createClass({
 
       //Rotation of triangle and line in dependence of direction degree
       // triangleSvg.attr("transform", "rotate("+deg+","+ x +","+ y +")" );
-      line.attr("transform", "rotate("+deg+","+ x +","+ y +")" );
+      line.attr("transform", "rotate(" + deg + "," + x + "," + y + ")" );
 
     });
 
-    // lines[0].map( line => {
-    //   debugger
-    //   line.setAttribute("x2", 10).setAttribute("y2", 10)
-    //   debugger
-    // });
+
 
   },
 
   renderPoints: function(svgContainer) {
 
     var prefrences = this.getPrefrences();
-    //
-    // var test = svgContainer.selectAll("line");
-    // test.remove();
-    // var test1 = svgContainer.selectAll("line");
-
-    // svgContainer.append("svg").attr("width", prefrences.width).attr("height", prefrences.height);
 
     //Creates all Points for the Forcefield
     for(var x = prefrences.edgeSize; x < prefrences.width; x = x + prefrences.edgeSize){
