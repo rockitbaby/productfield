@@ -21,7 +21,8 @@ export default Radium(React.createClass({
     var dateLastRender = new Date(this.props.lastTimestamp);
     var dateNow = new Date();
 
-    if(dateNow - dateLastRender > 400)
+    //Timerenderer. UpdateLines is only called, when e certain time has expired
+    if(dateNow - dateLastRender > 150)
     {
         this.props.setLastRenderTimestamp(Date.now());
         this.updateLines(svgContainer);
@@ -49,8 +50,8 @@ export default Radium(React.createClass({
 
       var line = d3.select(this);
 
-      var x = line.attr("x1");
-      var y = line.attr("y1");
+      var x = parseInt(line.attr("x1"));
+      var y = parseInt(line.attr("y1"));
 
       var result = forceField.forceVectorAtPoint(x,y);
 
@@ -63,14 +64,13 @@ export default Radium(React.createClass({
       var y2 = y - length;
 
       line.attr("x2",x2);
-      line.attr("y2",y2)
+      line.attr("y2",y2);
 
+      //creates new arrow-triangle coordiantes for spares of lines
+      var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2, y2].join();
 
-      //creates arrow-triangles on spares of lines
-      // var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
-      // var triangleSvg = svgContainer.append("polyline")
-      //              .attr("points", triangleCoordinates)
-      //              .style("fill", "black");
+      var svgTriangle = d3.select("#triangle" + x + "" + y);
+      svgTriangle.attr("points", triangleCoordinates);
 
       //Calculation of degree for direction
       var a = Math.atan(result.y / result.x);
@@ -83,13 +83,10 @@ export default Radium(React.createClass({
       }
 
       //Rotation of triangle and line in dependence of direction degree
-      // triangleSvg.attr("transform", "rotate("+deg+","+ x +","+ y +")" );
+      svgTriangle.attr("transform", "rotate(" + deg + "," + x + "," + y + ")" );
       line.attr("transform", "rotate(" + deg + "," + x + "," + y + ")" );
 
     });
-
-
-
   },
 
   renderPoints: function(svgContainer) {
@@ -118,21 +115,6 @@ export default Radium(React.createClass({
           var x2 = x;
           var y2 = y - length;
 
-          //creates the lines
-          var line = svgContainer.append("line")
-                       .attr("x1", x)
-                       .attr("y1", y)
-                       .attr("x2", x2)
-                       .attr("y2", y2)
-                       .attr("stroke-width", 1)
-                       .attr("stroke", "black");
-
-          //creates arrow-triangles on spares of lines
-          var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
-          var triangleSvg = svgContainer.append("polyline")
-                       .attr("points", triangleCoordinates)
-                       .style("fill", "black");
-
           //Calculation of degree for direction
           var a = Math.atan(result.y / result.x);
           var deg = (180 / Math.PI) * a;
@@ -143,9 +125,23 @@ export default Radium(React.createClass({
             var deg = 180 / a + 180;
           }
 
-          //Rotation of triangle and line in dependence of direction degree
-          triangleSvg.attr("transform", "rotate("+deg+","+ x +","+ y +")" );
-          line.attr("transform", "rotate("+deg+","+ x +","+ y +")" );
+          //creates the lines
+          svgContainer.append("line")
+                      .attr("x1", x)
+                      .attr("y1", y)
+                      .attr("x2", x2)
+                      .attr("y2", y2)
+                      .attr("stroke-width", 1)
+                      .attr("stroke", "black")
+                      .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ); // Rotation of the line in dependence of the direction delta
+
+          //creates arrow-triangles on spares of lines
+          var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
+          svgContainer.append("polyline")
+                      .attr("id", "triangle" + x + "" + y)
+                      .attr("points", triangleCoordinates)
+                      .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ) // Rotation of the tirangles in dependence of the direction delta
+                      .style("fill", "black");
         }
       }
     }
@@ -177,7 +173,6 @@ export default Radium(React.createClass({
                                     .attr("height", coreSize)
                                     .attr("x", width/2 - coreSize/2)
                                     .attr("y", height/2 - coreSize/2);
-
 
     //creates inner blue Circle for the Field
     coreContainer.append("circle")
