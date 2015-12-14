@@ -19,16 +19,16 @@ export default React.createClass({
     return <div className="force-field-edit-bar" style={editBarStyle} >
             <div className="row">
               <div className="col-md-1">
-                <button><span className="glyphicon glyphicon-share" style={IconStyle}/></button>
+                <a className="btn btn-link"><img src="img/share.svg" style={IconStyle}></img></a>
               </div>
-              <div className="col-md-9">
-                <input type="Text" style={InputStyle} placeholder={"Untitled Project"} />
+              <div className="col-md-3">
+                <input className="form-control" type="Text" style={InputStyle} placeholder={"Untitled Project"} />
               </div>
-              <div className="col-md-1">
-                <button><span className="glyphicon glyphicon-edit" style={IconStyle}/></button>
-              </div>
-              <div className="col-md-1">
-                <button><span className="glyphicon glyphicon-eye-open" style={IconStyle}/></button>
+              <div className="col-md-2 col-md-offset-6">
+                <div className="pull-right">
+                  <a className="btn btn-link"><img src="img/map.svg" style={IconStyle}></img></a>
+                  <a className="btn btn-link"><img src="img/presentation.svg" style={IconStyle}></img></a>
+                </div>
               </div>
             </div>
       <Button title='Add Point' clickAction={this.props.addPoint} />
@@ -41,7 +41,6 @@ export default React.createClass({
       marginBottom: '20',
       padding: '10',
       backgroundColor: GlobalStyles.backgroundGray,
-
     }
   },
   getInputStyle: function() {
@@ -52,7 +51,8 @@ export default React.createClass({
   },
   getIconStyle: function() {
     return {
-
+      width: '24',
+      height: '24',
     }
   }
 });
