@@ -61,7 +61,7 @@ export default Radium(React.createClass({
                 <span style={fontStyle}>{this.props.strength}</span>
              </div>
              { this.props.editing ?
-               <div>
+               <div className="sliderWrapper">
                  <div className="sliderAdditionTriangle"></div>
                  <Slider value={this.props.strength}
                          setStrength={(value) => this.props.setStrength(value)}/>

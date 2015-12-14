@@ -1,12 +1,12 @@
 .handle {
   padding-top: 0;
-  width:20px;
-  height:20px;
+  width: 20px;
+  height: 20px;
   border: 1px solid lightgray;
   background-color: #fff;
   border-radius: 25px;
   cursor: pointer;
-  left:8px;
+  left: 8px;
 }
 
 .handle.active {
@@ -20,15 +20,18 @@
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     box-shadow: 0px 0px 6px -2px rgba(128,128,128,1);
+    top: -37px;
+    left: 15px;
 }
 
 .bar {
     position: relative;
     background: #ddd;
     width: 4px;
-    left:16px;
-    top:5px;
-    bottom:5px;
+    left: 16px;
+    top: 15px !important;
+    bottom: 15px !important;
+    border-radius: 90px !important;
 }
 
 .sliderAddition {
@@ -39,6 +42,9 @@
   border-bottom-right-radius: 3px;
   box-shadow: 0px 3px 6px -2px rgba(128,128,128,1);
   border-top: 1px lightgrey solid;
+  position:relative;
+  top: -37px;
+  left: 15px;
 }
 
 /*.sliderAdditionTriangle {
@@ -54,8 +60,8 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
-  left: -27px;
-  top: 142px;
+  left: -12px;
+  top: 105px;
   z-index: 9999;
 }
 .sliderAdditionTriangle:after {
