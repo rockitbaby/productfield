@@ -29,21 +29,27 @@ export default Radium(React.createClass({
     }
   },
 
-  getPrefrences: function() {
+  getPreferences: function() {
+    var gridUnit = 24;
     return {
-      coreSize: 480,
-      dotsOffset: 100,
-      edgeSize: 20,
+      coreSize: gridUnit * 20,
+      gridUnit: gridUnit,
       triangleSize: 2.5,
       minLengthForArrowsToDisplay: 2,
       width:  $("#field").width(),
-      height: $("#field").height()
+      height: $("#field").height(),
+      skin: {
+        dots: "#304FFE",
+        marker: "#304FFE",
+        arrows: "#F2F2F2",
+        background: '#FFFFFF'
+      }
     }
   },
 
   updateLines: function(svgContainer) {
 
-    var prefrences = this.getPrefrences();
+    var preferences = this.getPreferences();
     var forceField = ForceFieldCalculationSingleton.getInstance();
 
     svgContainer.selectAll("line").each(function(d,i){
@@ -55,10 +61,10 @@ export default Radium(React.createClass({
 
       var result = forceField.forceVectorAtPoint(x,y);
 
-      var length = Math.sqrt(Math.pow(result.x/prefrences.edgeSize, 2) + Math.pow(result.y/prefrences.edgeSize, 2));
+      var length = Math.sqrt(Math.pow(result.x/preferences.gridUnit, 2) + Math.pow(result.y/preferences.gridUnit, 2));
 
-      var xDelta = result.x / prefrences.edgeSize;
-      var yDelta = result.y / prefrences.edgeSize;
+      var xDelta = result.x / preferences.gridUnit;
+      var yDelta = result.y / preferences.gridUnit;
 
       var x2 = x;
       var y2 = y - length;
@@ -67,7 +73,7 @@ export default Radium(React.createClass({
       line.attr("y2",y2);
 
       //creates new arrow-triangle coordiantes for spares of lines
-      var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2, y2].join();
+      var triangleCoordinates = [x2, y2, x2 + preferences.triangleSize, y2, x2, y2 - preferences.triangleSize, x2 - preferences.triangleSize, y2, x2, y2].join();
 
       var svgTriangle = d3.select("#triangle" + x + "" + y);
       svgTriangle.attr("points", triangleCoordinates);
@@ -91,25 +97,30 @@ export default Radium(React.createClass({
 
   renderPoints: function(svgContainer) {
 
-    var prefrences = this.getPrefrences();
+    var preferences = this.getPreferences();
+
+    var width = preferences.width - 5;
+    var height = preferences.height - 5;
+    var group = svgContainer.append("g").attr("width", width).attr("height", height);
 
     //Creates all Points for the Forcefield
-    for(var x = prefrences.edgeSize; x < prefrences.width; x = x + prefrences.edgeSize){
-      for(var y = prefrences.edgeSize; y < prefrences.height; y = y + prefrences.edgeSize){
+
+    var offsetX = Math.floor(width - preferences.coreSize) / 2 % preferences.gridUnit;
+    var offsetY = Math.floor(height / 2 - preferences.coreSize / 2) % preferences.gridUnit;
+
+    console.log((height / 2 - preferences.coreSize / 2), preferences);
+
+    for(var x = offsetX; x < preferences.width; x = x + preferences.gridUnit){
+      for(var y = offsetY; y < preferences.height; y = y + preferences.gridUnit){
         //Get Forefieldvectors and already calculated values for directions of points and arrows
         var forceField = ForceFieldCalculationSingleton.getInstance();
         var result = forceField.forceVectorAtPoint(x,y);
 
-        var length = Math.sqrt(Math.pow(result.x/prefrences.edgeSize, 2) + Math.pow(result.y/prefrences.edgeSize, 2));
+        var length = Math.sqrt(Math.pow(result.x/preferences.gridUnit, 2) + Math.pow(result.y/preferences.gridUnit, 2));
 
-        svgContainer.append("circle")
-                       .attr("cx", x)
-                       .attr("cy", y)
-                       .attr("r", .8)
-                       .style("fill", "blue");
         //Show Arrows and lines only if they're long enough
-        var xDelta = result.x / prefrences.edgeSize;
-        var yDelta = result.y / prefrences.edgeSize;
+        var xDelta = result.x / preferences.gridUnit;
+        var yDelta = result.y / preferences.gridUnit;
 
         var x2 = x;
         var y2 = y - length;
@@ -124,23 +135,34 @@ export default Radium(React.createClass({
           var deg = 180 / a + 180;
         }
 
-        //creates the lines
-        svgContainer.append("line")
-                    .attr("x1", x)
-                    .attr("y1", y)
-                    .attr("x2", x2)
-                    .attr("y2", y2)
-                    .attr("stroke-width", 1)
-                    .attr("stroke", "black")
-                    .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ); // Rotation of the line in dependence of the direction delta
+        var doDrawForces = false;
+        if(doDrawForces) {
+          //creates the lines
+          svgContainer.append("line")
+                      .attr("x1", x)
+                      .attr("y1", y)
+                      .attr("x2", x2)
+                      .attr("y2", y2)
+                      .attr("stroke-width", 1)
+                      .attr("stroke", "black")
+                      .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ); // Rotation of the line in dependence of the direction delta
 
-        //creates arrow-triangles on spares of lines
-        var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
-        svgContainer.append("polyline")
-                    .attr("id", "triangle" + x + "" + y)
-                    .attr("points", triangleCoordinates)
-                    .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ) // Rotation of the tirangles in dependence of the direction delta
-                    .style("fill", "black");
+          //creates arrow-triangles on spares of lines
+          var triangleCoordinates = [x2, y2, x2 + preferences.triangleSize, y2, x2, y2 - preferences.triangleSize, x2 - preferences.triangleSize, y2, x2,y2].join();
+          svgContainer.append("polyline")
+                      .attr("id", "triangle" + x + "" + y)
+                      .attr("points", triangleCoordinates)
+                      .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ) // Rotation of the tirangles in dependence of the direction delta
+                      .style("fill", "black");
+        }
+
+
+
+        group.append("circle")
+                       .attr("cx", x)
+                       .attr("cy", y)
+                       .attr("r", .8)
+                       .style("fill", preferences.skin.dots);
       }
     }
   },
@@ -149,16 +171,17 @@ export default Radium(React.createClass({
 
     this.props.setLastRenderTimestamp(Date.now());
 
-    var prefrences = this.getPrefrences();
+    var preferences = this.getPreferences();
 
-    var coreSize = prefrences.coreSize;
-    var dotsOffset = prefrences.dotsOffset;
-    var edgeSize = prefrences.edgeSize;
-    var triangleSize = prefrences.triangleSize;
-    var minLengthForArrowsToDisplay = prefrences.minLengthForArrowsToDisplay;
+    var coreSize = preferences.coreSize;
+    var gridUnit = preferences.gridUnit;
+    var gridUnit = preferences.gridUnit;
 
-    var width = prefrences.width;
-    var height = prefrences.height;
+    var triangleSize = preferences.triangleSize;
+    var minLengthForArrowsToDisplay = preferences.minLengthForArrowsToDisplay;
+
+    var width = preferences.width - 5;
+    var height = preferences.height - 5;
 
     //Creates overall svgContainer
     var svgContainer = d3.select(".force-field-canvas").append("svg").attr("width", width).attr("height", height)
@@ -169,53 +192,52 @@ export default Radium(React.createClass({
     var coreContainer = svgContainer.append("svg")
                                     .attr("width", coreSize)
                                     .attr("height", coreSize)
-                                    .attr("x", width/2 - coreSize/2)
-                                    .attr("y", height/2 - coreSize/2);
+                                    .attr("x", Math.floor(width / 2 - coreSize / 2))
+                                    .attr("y", Math.floor(height / 2 - coreSize / 2));
+
+console.log(",,,", Math.ceil(height / 2 - coreSize / 2), preferences);
+
+    coreContainer.append("rect")
+                        .attr("class", "visual-debug")
+                        .attr("width", coreSize)
+                        .attr("height", coreSize)
+                        .style("fill", "RGBA(255, 0, 0, 0.4)")
 
     //creates inner blue Circle for the Field
     coreContainer.append("circle")
                  .attr("cx", coreSize/2)
                  .attr("cy", coreSize/2)
-                 .attr("r", 40)
+                 .attr("r", Math.sqrt(2 * gridUnit * gridUnit))
                  .style("fill", "none")
                  .style("stroke-opacity", 1)
                  .style("stroke-width", 2)
-                 .style("stroke", "blue");
+                 .style("stroke", preferences.skin.marker);
 
-    //Coordinates for the 4 dots as marker
-    var dotsCoordinates = [
-              {cx: dotsOffset , cy: dotsOffset},
-              {cx:  dotsOffset , cy: coreSize - dotsOffset},
-              {cx: coreSize  - dotsOffset , cy: + dotsOffset},
-              {cx: coreSize  - dotsOffset , cy: coreSize - dotsOffset}
-            ];
 
     //Coordinates for the the edges as marker
-    var edgesCoordinates =  [
-        //Top-Left
-        [0,edgeSize,edgeSize,edgeSize,edgeSize,0].join(),
-        //Bottom-Left
-        [0,coreSize - edgeSize,edgeSize,coreSize - edgeSize,edgeSize,coreSize].join(),
-        //Bottom-Right
-        [coreSize - edgeSize, coreSize, coreSize - edgeSize, coreSize - edgeSize, coreSize, coreSize - edgeSize].join(),
-        //Top-Right
-        [coreSize - edgeSize, 0, coreSize - edgeSize, edgeSize, coreSize, edgeSize].join()
-    ];
+    var characterMarkerCoordinates = [2 * gridUnit - 1/2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit - 1/2 * gridUnit].join()
 
-    dotsCoordinates.map( dot => {
-      coreContainer.append("circle")
-                   .attr("r", 2.5)
-                   .attr("cx", dot.cx)
-                   .attr("cy", dot.cy)
-                   .style("fill", "blue");
-    });
+    var g = coreContainer.append("g")
+                 .attr("width", 10 * gridUnit)
+                 .attr("height", 10 * gridUnit)
+                 .attr("id", "chrome");
 
-    edgesCoordinates.map( edge => {
-      coreContainer.append("polyline")
-                   .attr("points", edge)
-                   .style("fill", "none")
-                   .style("stroke-opacity", .7)
-                   .style("stroke", "blue");
+    [0, 90, 180, 270].forEach(function(deg) {
+      g.append("polyline")
+                     .attr("points", characterMarkerCoordinates)
+                     .style("fill", "none")
+                     .style("stroke-opacity", .7)
+                     .style("stroke-width", 2)
+                     .style("stroke", preferences.skin.marker)
+                     .attr("transform", "rotate(" + deg + ", " + 10 * gridUnit + ", " + 10 * gridUnit + ")")
+
+      g.append("circle")
+                     .attr("r", 2.5)
+                     .attr("cx", 5 * gridUnit)
+                     .attr("cy", 5 * gridUnit)
+                     .style("fill", preferences.skin.marker)
+                     .attr("transform", "rotate(" + deg + ", " + 10 * gridUnit + ", " + 10 * gridUnit + ")")
+
     });
 
   },
