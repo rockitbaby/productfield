@@ -9,16 +9,16 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   onChange: function(e){
-    this.props.setStrength( e - 10);
+    this.props.setStrength( e * -1);
   },
 
   render: function() {
     return <ReactSlider orientation = {'vertical'}
                         withBars
-                        min = {0}
-                        max = {20}
+                        min = {-10}
+                        max = {10}
                         onChange = {(e) => this.onChange(e)}
-                        value = { (this.props.value + 10)}/>;
+                        value = { (this.props.value * -1)}/>;
   },
 
 });
