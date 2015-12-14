@@ -108,41 +108,39 @@ export default Radium(React.createClass({
                        .attr("r", .8)
                        .style("fill", "blue");
         //Show Arrows and lines only if they're long enough
-        if(length > prefrences.minLengthForArrowsToDisplay) {
-          var xDelta = result.x / prefrences.edgeSize;
-          var yDelta = result.y / prefrences.edgeSize;
+        var xDelta = result.x / prefrences.edgeSize;
+        var yDelta = result.y / prefrences.edgeSize;
 
-          var x2 = x;
-          var y2 = y - length;
+        var x2 = x;
+        var y2 = y - length;
 
-          //Calculation of degree for direction
-          var a = Math.atan(result.y / result.x);
-          var deg = (180 / Math.PI) * a;
+        //Calculation of degree for direction
+        var a = Math.atan(result.y / result.x);
+        var deg = (180 / Math.PI) * a;
 
-          if(yDelta > 0) {
-            var deg = 180 / a;
-          } else {
-            var deg = 180 / a + 180;
-          }
-
-          //creates the lines
-          svgContainer.append("line")
-                      .attr("x1", x)
-                      .attr("y1", y)
-                      .attr("x2", x2)
-                      .attr("y2", y2)
-                      .attr("stroke-width", 1)
-                      .attr("stroke", "black")
-                      .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ); // Rotation of the line in dependence of the direction delta
-
-          //creates arrow-triangles on spares of lines
-          var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
-          svgContainer.append("polyline")
-                      .attr("id", "triangle" + x + "" + y)
-                      .attr("points", triangleCoordinates)
-                      .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ) // Rotation of the tirangles in dependence of the direction delta
-                      .style("fill", "black");
+        if(yDelta > 0) {
+          var deg = 180 / a;
+        } else {
+          var deg = 180 / a + 180;
         }
+
+        //creates the lines
+        svgContainer.append("line")
+                    .attr("x1", x)
+                    .attr("y1", y)
+                    .attr("x2", x2)
+                    .attr("y2", y2)
+                    .attr("stroke-width", 1)
+                    .attr("stroke", "black")
+                    .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ); // Rotation of the line in dependence of the direction delta
+
+        //creates arrow-triangles on spares of lines
+        var triangleCoordinates = [x2, y2, x2 + prefrences.triangleSize, y2, x2, y2 - prefrences.triangleSize, x2 - prefrences.triangleSize, y2, x2,y2].join();
+        svgContainer.append("polyline")
+                    .attr("id", "triangle" + x + "" + y)
+                    .attr("points", triangleCoordinates)
+                    .attr("transform", "rotate(" + deg + "," + x + "," + y + ")" ) // Rotation of the tirangles in dependence of the direction delta
+                    .style("fill", "black");
       }
     }
   },

@@ -64,6 +64,7 @@ export default Radium(React.createClass({
                <div>
                  <Slider value={this.props.strength}
                          setStrength={(value) => this.props.setStrength(value)}/>
+                       <div className="sliderAddition"></div>
                </div>
                : null
              }
