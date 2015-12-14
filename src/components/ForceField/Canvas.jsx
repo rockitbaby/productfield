@@ -178,7 +178,8 @@ export default Radium(React.createClass({
                  .attr("cy", coreSize/2)
                  .attr("r", 40)
                  .style("fill", "none")
-                 .style("stroke-opacity", .5)
+                 .style("stroke-opacity", 1)
+                 .style("stroke-width", 2)
                  .style("stroke", "blue");
 
     //Coordinates for the 4 dots as marker

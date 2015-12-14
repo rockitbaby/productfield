@@ -62,6 +62,7 @@ export default Radium(React.createClass({
              </div>
              { this.props.editing ?
                <div>
+                 <div className="sliderAdditionTriangle"></div>
                  <Slider value={this.props.strength}
                          setStrength={(value) => this.props.setStrength(value)}/>
                        <div className="sliderAddition"></div>
