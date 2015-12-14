@@ -43,3 +43,9 @@ export function setLastRenderTimestamp(timestamp) {
     timestamp
   };
 }
+export function setPresentation(presentation) {
+  return {
+    type: 'SET_PRESENTATION',
+    presentation
+  };
+}

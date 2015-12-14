@@ -19,9 +19,9 @@ export const ForceField = React.createClass({
     var forceFieldStyle = this.getForceFieldStyle();
 
     return <div className="force-field">
-      <EditBar editingPoint={this.props.editingPoint} addPoint={this.props.addPoint} deletePoint={this.props.deletePoint} setStrength={this.props.setStrength}/>
+      <EditBar editingPoint={this.props.editingPoint} addPoint={this.props.addPoint} deletePoint={this.props.deletePoint} setStrength={this.props.setStrength} setPresentation={this.props.setPresentation} isPresentation={this.props.isPresentation}/>
         <div className="force-field-stage" style={forceFieldStyle} id="field">
-          <Canvas points={this.getPoints()} setLastRenderTimestamp={this.props.setLastRenderTimestamp} lastTimestamp={this.props.lastTimestamp}/>
+          <Canvas points={this.getPoints()} setLastRenderTimestamp={this.props.setLastRenderTimestamp} lastTimestamp={this.props.lastTimestamp} isPresentation={this.props.isPresentation}/>
           {this.getPoints().map(point =>
             <Point key={point.get('id')}
                    id={point.get('id')}
@@ -56,7 +56,8 @@ function mapStateToProps(state) {
   return {
     points: state.get('points'),
     editingPoint: state.get('editingPoint'),
-    lastTimestamp: state.get('lastTimestamp')
+    lastTimestamp: state.get('lastTimestamp'),
+    isPresentation: state.get('isPresentation')
   };
 }
 

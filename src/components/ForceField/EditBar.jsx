@@ -7,6 +7,17 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 export default React.createClass({
   mixins: [PureRenderMixin],
 
+  presentationButtonClick: function(){
+
+    if(this.props.isPresentation == false) {
+      console.log("StartPresentationMode");
+      this.props.setPresentation(true);
+    } else {
+      console.log("EndPresentationMode");
+      this.props.setPresentation(false);
+    }
+  },
+
   render: function() {
     const editBarStyle = this.getEditBarStyle();
     const InputStyle = this.getInputStyle();
@@ -27,7 +38,7 @@ export default React.createClass({
               <div className="col-md-2 col-md-offset-6">
                 <div className="pull-right">
                   <a className="btn btn-link"><img src="img/map.svg" style={IconStyle}></img></a>
-                  <a className="btn btn-link"><img src="img/presentation.svg" style={IconStyle}></img></a>
+                  <a className="btn btn-link" onClick={this.presentationButtonClick}><img src="img/presentation.svg" style={IconStyle}></img></a>
                 </div>
               </div>
             </div>
@@ -35,12 +46,19 @@ export default React.createClass({
     </div>;
   },
 
+  getBackgroundColor: function() {
+    if(this.props.isPresentation)
+      return GlobalStyles.backgroundDark;
+    else
+      return GlobalStyles.backgroundLight;
+  },
+
   getEditBarStyle: function() {
     return {
       height: '50',
       marginBottom: '20',
       padding: '10',
-      backgroundColor: GlobalStyles.backgroundGray,
+      backgroundColor: this.getBackgroundColor(),
     }
   },
   getInputStyle: function() {

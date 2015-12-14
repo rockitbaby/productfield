@@ -37,6 +37,10 @@ function setLastRenderTimestamp(state, timestamp) {
   return state.set('lastTimestamp', timestamp)
 }
 
+function setPresentationState(state, presentation = false) {
+  return state.set('isPresentation', presentation)
+}
+
 function deletePoint(state) {
   var deletingPointId = state.getIn(['editingPoint', 'id'])
 
@@ -77,6 +81,8 @@ export default function(state = Map(), action) {
     return setState(state, setStrength(state, action.strength))
   case 'SET_TIMESTAMP':
     return setState(state, setLastRenderTimestamp(state, action.timestamp))
+  case 'SET_PRESENTATION':
+    return setState(state, setPresentationState(state, action.presentation))
   }
 
   return state;
