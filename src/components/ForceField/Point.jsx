@@ -88,7 +88,7 @@ export default Radium(React.createClass({
       }
     }
 
-    return {
+    var styles = {
       backgroundColor:  backgroundColor(this.props.strength),
       display: 'table',
       textAlign: 'center',
@@ -96,9 +96,17 @@ export default Radium(React.createClass({
       paddingTop: '-20',
       height: '36',
       boxShadow: '0px 1px 1px 0px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12)',
-      border: '3px solid white',
-      borderRadius: '25',
+      borderRadius: '19px',
     }
+
+    if(this.props.editing) {
+      Object.assign(styles, {
+        borderRadius: '25px',
+        border: '3px solid white'
+      });
+    }
+
+    return styles;
   },
 
   getPos: function() {
