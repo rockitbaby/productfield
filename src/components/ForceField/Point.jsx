@@ -64,6 +64,7 @@ export default Radium(React.createClass({
                <div>
                  <Slider value={this.props.strength}
                          setStrength={(value) => this.props.setStrength(value)}/>
+                       <div className="sliderAddition"></div>
                </div>
                : null
              }
@@ -85,10 +86,10 @@ export default Radium(React.createClass({
       backgroundColor:  backgroundColor(this.props.strength),
       display: 'table',
       textAlign: 'center',
-      width: '25',
-      paddingTop: '-5',
-      height: '23',
-      boxShadow: '0px 3px 3px 0px rgba(0,0,0,0.24), 0px 1px 4px 0px rgba(0,0,0,0.12)',
+      width: '36',
+      paddingTop: '-20',
+      height: '36',
+      boxShadow: '0px 1px 1px 0px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12)',
       border: '3px solid white',
       borderRadius: '25',
     }
@@ -109,7 +110,7 @@ export default Radium(React.createClass({
 
   getFontStyle: function() {
     return {
-      fontSize: '0.8em',
+      fontSize: '1.0em',
       color: GlobalStyles.fontColor,
       opacity: '0.5',
     }
