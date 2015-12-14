@@ -46,7 +46,6 @@ export const ForceField = React.createClass({
       margin: '0 auto',
       width: '100%',
       height: '100%',
-      minHeight: '560px',
       transition: 'width 0.2s, height 0.2s',
     }
   }
