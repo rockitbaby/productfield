@@ -6,6 +6,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Radium from 'radium';
 import {Map} from 'immutable';
 import Slider from './Slider';
+import Button from './EditBar/Button';
+
 
 export default Radium(React.createClass({
   mixins: [PureRenderMixin],
@@ -50,6 +52,7 @@ export default Radium(React.createClass({
     var pointStyle = this.getPointStyle();
     var fontStyle = this.getFontStyle();
     var pos = this.getPos();
+    var icon = this.getIconStyle();
 
     return <div className="force-field-stage-point"
                 draggable='true'
@@ -65,7 +68,9 @@ export default Radium(React.createClass({
                  <div className="sliderAdditionTriangle"></div>
                  <Slider value={this.props.strength}
                          setStrength={(value) => this.props.setStrength(value)}/>
-                       <div className="sliderAddition"></div>
+                       <div className="sliderAddition">
+                         <img src="/img/delete.svg" style={icon} />
+                      </div>
                </div>
                : null
              }
@@ -114,6 +119,13 @@ export default Radium(React.createClass({
       fontSize: '1.0em',
       color: GlobalStyles.fontColor,
       opacity: '0.5',
+    }
+  },
+
+  getIconStyle: function() {
+    return {
+      verticalAlign: 'middle',
+      cursor: 'pointer',
     }
   }
 }));
