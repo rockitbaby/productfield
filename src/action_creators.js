@@ -37,3 +37,9 @@ export function setStrength(strength) {
     strength
   };
 }
+export function setLastRenderTimestamp(timestamp) {
+  return {
+    type: 'SET_TIMESTAMP',
+    timestamp
+  };
+}

@@ -1,4 +1,6 @@
 import {ForceFieldCalculationSingleton} from './ForceFieldCalculation';
+import jquery from 'jquery';
+
 
 export const ForceFieldCanvas = {
   options: {
@@ -13,8 +15,9 @@ export const ForceFieldCanvas = {
   },
   init: function() {
     this.options.gu10 = this.options.gridUnit * 10;
-    this.options.width = this.options.gridUnit * this.options.scale;
-    this.options.height = this.options.gridUnit * this.options.scale;
+
+    this.options.width = $("#field").width();
+    this.options.height = $("#field").height();
   },
   drawGridChrome: function() {
     push();
