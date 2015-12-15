@@ -180,7 +180,7 @@ export default Radium(React.createClass({
   componentDidMount: function() {
     this.renderField();
     $(window).resize(this.renderField);
-    $('#field').mousemove(this.mouseDebugger);
+    // $('#field').mousemove(this.mouseDebugger);
   },
 
   renderField: function() {

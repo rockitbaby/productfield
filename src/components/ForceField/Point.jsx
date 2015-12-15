@@ -13,23 +13,31 @@ export default Radium(React.createClass({
   mixins: [PureRenderMixin],
 
   pointDragged: function(event) {
+    console.log("Test");
     event.preventDefault();
     const point = event.currentTarget;
     const field = point.offsetParent;
 
-    var newX = ((event.pageX - field.offsetLeft) * 100) / field.offsetWidth;
-    var newY = ((event.pageY - field.offsetTop) * 100) / field.offsetHeight;
-    this.props.movePoint({id: this.props.id, x: newX, y: newY})
+    var newX = event.pageX - field.offsetLeft;
+    var newY = event.pageY - field.offsetTop;
+
+    var result = this.props.normalizeCoordinates(newX,newY);
+
+     this.props.movePoint({id: this.props.id, x: result[0], y: result[1]})
   },
 
   pointDraggedEnded: function(event) {
+    console.log("Test");
     event.preventDefault();
     const point = event.currentTarget;
     const field = point.offsetParent;
 
-    var newX = ((event.pageX - field.offsetLeft + 12.5) * 100) / field.offsetWidth;
-    var newY = ((event.pageY - field.offsetTop - 124.5) * 100) / field.offsetHeight;
-    this.props.movePoint({id: this.props.id, x: newX, y: newY})
+    var newX = event.pageX - field.offsetLeft;
+    var newY = event.pageY - field.offsetTop - 100;
+
+    var result = this.props.normalizeCoordinates(newX,newY);
+
+    this.props.movePoint({id: this.props.id, x: result[0], y: result[1]})
   },
 
   pointClicked: function(event) {
@@ -116,7 +124,7 @@ export default Radium(React.createClass({
       alignItems: 'center',
       marginTop: '-100px',
       marginLeft: '-12px',
-      height: '230px',
+      height: '200px',
       left: this.props.x + '%',
       top: this.props.y + '%',
     }

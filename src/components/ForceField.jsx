@@ -105,8 +105,10 @@ export const ForceField = React.createClass({
                    strength={point.get('strength')}
                    setStrength={this.props.setStrength}
                    editPoint={this.props.editPoint}
-                   movePoint={this.props.movePoint}
-            />
+                   normalizeCoordinates={this.normalizeCoordinates}
+                   deNormalizeCoordinates={this.deNormalizeCoordinates}
+                   pixelToPercentage={this.pixelToPercentage}
+                   movePoint={this.props.movePoint}/>
           )}
       </div>
     </div>;
