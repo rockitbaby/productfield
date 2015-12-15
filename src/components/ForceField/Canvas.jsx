@@ -30,14 +30,21 @@ export default Radium(React.createClass({
   },
 
   getPreferences: function() {
-    var gridUnit = 24;
+    const navbarHeight = 50;
+    const paddingBottom = 30;
+    const dotsInField = 20;
+    var availableHeight = $(window).height() - navbarHeight - paddingBottom;
+    var gridUnit = Math.min($(window).width(), availableHeight) / dotsInField;
+    var fieldSize = gridUnit * dotsInField
+
     return {
-      coreSize: gridUnit * 20,
+      fieldSize: fieldSize,
+      scale: fieldSize / $(window).width(),
       gridUnit: gridUnit,
       triangleSize: 2.5,
       minLengthForArrowsToDisplay: 2,
-      width:  $("#field").width(),
-      height: $("#field").height(),
+      width:  $(window).width(),
+      height: $(window).height() - navbarHeight,
       skin: {
         dots: "#304FFE",
         marker: "#304FFE",
@@ -95,8 +102,19 @@ export default Radium(React.createClass({
     });
   },
 
-  renderPoints: function(svgContainer) {
+  normalizeCoordinates: function(x, y) {
+    var preferences = this.getPreferences();
 
+    var translatedX = (x - preferences.width / 2);
+    var translatedY = (y - preferences.height / 2);
+
+    var normalizedX = translatedX / preferences.width * 2 * preferences.width / preferences.fieldSize;
+    var normalizedY = -1 * translatedY / preferences.height * 2 * preferences.height / preferences.fieldSize;
+
+    return [normalizedX, normalizedY];
+  },
+
+  renderPoints: function(svgContainer) {
     var preferences = this.getPreferences();
 
     var width = preferences.width - 5;
@@ -104,17 +122,14 @@ export default Radium(React.createClass({
     var group = svgContainer.append("g").attr("width", width).attr("height", height);
 
     //Creates all Points for the Forcefield
-
-    var offsetX = Math.floor(width - preferences.coreSize) / 2 % preferences.gridUnit;
-    var offsetY = Math.floor(height / 2 - preferences.coreSize / 2) % preferences.gridUnit;
-
-    console.log((height / 2 - preferences.coreSize / 2), preferences);
+    var offsetX = Math.floor(width - preferences.fieldSize) / 2 % preferences.gridUnit;
+    var offsetY = Math.floor(height / 2 - preferences.fieldSize / 2) % preferences.gridUnit;
 
     for(var x = offsetX; x < preferences.width; x = x + preferences.gridUnit){
       for(var y = offsetY; y < preferences.height; y = y + preferences.gridUnit){
-        //Get Forefieldvectors and already calculated values for directions of points and arrows
+        //Get Forcefieldvectors and already calculated values for directions of points and arrows
         var forceField = ForceFieldCalculationSingleton.getInstance();
-        var result = forceField.forceVectorAtPoint(x,y);
+        var result = forceField.forceVectorAtPoint((x - preferences.width / 2) * preferences.scale, (y - preferences.height  / 2) * preferences.scale);
 
         var length = Math.sqrt(Math.pow(result.x/preferences.gridUnit, 2) + Math.pow(result.y/preferences.gridUnit, 2));
 
@@ -167,13 +182,32 @@ export default Radium(React.createClass({
     }
   },
 
-  componentDidMount: function() {
+  mouseDebugger: function(event) {
+    event.preventDefault();
+    const point = event.currentTarget;
+    const field = point;
 
+    var newX = ((event.pageX - field.offsetLeft) * 100) / field.offsetWidth;
+    var newY = ((event.pageY - field.offsetTop) * 100) / field.offsetHeight;
+
+    var pxX = event.pageX - field.offsetLeft;
+    var pxY = event.pageY - field.offsetTop;
+
+    console.log(pxX, pxY, this.normalizeCoordinates(pxX, pxY));
+  },
+
+  componentDidMount: function() {
+    this.renderField();
+    $(window).resize(this.renderField);
+    $('#field').mousemove(this.mouseDebugger);
+  },
+
+  renderField: function() {
     this.props.setLastRenderTimestamp(Date.now());
 
     var preferences = this.getPreferences();
 
-    var coreSize = preferences.coreSize;
+    var fieldSize = preferences.fieldSize;
     var gridUnit = preferences.gridUnit;
     var gridUnit = preferences.gridUnit;
 
@@ -184,29 +218,28 @@ export default Radium(React.createClass({
     var height = preferences.height - 5;
 
     //Creates overall svgContainer
+    d3.select(".force-field-canvas").select('svg').remove();
     var svgContainer = d3.select(".force-field-canvas").append("svg").attr("width", width).attr("height", height)
 
     this.renderPoints(svgContainer);
 
     //Creates inner svgContainer for the inner Field
     var coreContainer = svgContainer.append("svg")
-                                    .attr("width", coreSize)
-                                    .attr("height", coreSize)
-                                    .attr("x", Math.floor(width / 2 - coreSize / 2))
-                                    .attr("y", Math.floor(height / 2 - coreSize / 2));
-
-console.log(",,,", Math.ceil(height / 2 - coreSize / 2), preferences);
+                                    .attr("width", fieldSize)
+                                    .attr("height", fieldSize)
+                                    .attr("x", Math.floor(width / 2 - fieldSize / 2))
+                                    .attr("y", Math.floor(height / 2 - fieldSize / 2));
 
     coreContainer.append("rect")
                         .attr("class", "visual-debug")
-                        .attr("width", coreSize)
-                        .attr("height", coreSize)
+                        .attr("width", fieldSize)
+                        .attr("height", fieldSize)
                         .style("fill", "RGBA(255, 0, 0, 0.4)")
 
     //creates inner blue Circle for the Field
     coreContainer.append("circle")
-                 .attr("cx", coreSize/2)
-                 .attr("cy", coreSize/2)
+                 .attr("cx", fieldSize/2)
+                 .attr("cy", fieldSize/2)
                  .attr("r", Math.sqrt(2 * gridUnit * gridUnit))
                  .style("fill", "none")
                  .style("stroke-opacity", 1)

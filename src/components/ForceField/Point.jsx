@@ -116,7 +116,7 @@ export default Radium(React.createClass({
       alignItems: 'center',
       marginTop: '-100px',
       marginLeft: '-12px',
-      height: '200px',
+      height: '230px',
       left: this.props.x + '%',
       top: this.props.y + '%',
     }

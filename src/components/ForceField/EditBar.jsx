@@ -56,7 +56,6 @@ export default React.createClass({
   getEditBarStyle: function() {
     return {
       height: '50',
-      marginBottom: '20',
       padding: '10',
       backgroundColor: this.getBackgroundColor(),
     }
