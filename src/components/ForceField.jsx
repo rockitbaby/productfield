@@ -114,6 +114,7 @@ export const ForceField = React.createClass({
                    x={this.pixelToPercentage(point.get('x'), false)}
                    y={this.pixelToPercentage(point.get('y'), true)}
                    editingPoint={this.props.editingPoint}
+                   deletePoint={this.props.deletePoint}
                    editing={this.props.editingPoint ? this.props.editingPoint.get('id') == point.get('id') : false}
                    strength={point.get('strength')}
                    setStrength={this.props.setStrength}

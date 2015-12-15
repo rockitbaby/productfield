@@ -46,11 +46,9 @@ function setPresentationState(state, presentation = false) {
 
 function deletePoint(state) {
   var deletingPointId = state.getIn(['editingPoint', 'id'])
-
   var newPoints = state.get('points').filter(function(point) {
     return point.get('id') !== deletingPointId;
   });
-
   return state.set('editingPoint', null).set('points', newPoints);
 }
 

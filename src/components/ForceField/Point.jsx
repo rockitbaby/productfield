@@ -22,7 +22,7 @@ export default Radium(React.createClass({
 
     var result = this.props.normalizeCoordinates(newX,newY);
 
-     this.props.movePoint({id: this.props.id, x: result[0], y: result[1]})
+    this.props.movePoint({id: this.props.id, x: result[0], y: result[1]})
   },
 
   pointDraggedEnded: function(event) {
@@ -75,7 +75,7 @@ export default Radium(React.createClass({
                  <Slider value={this.props.strength}
                          setStrength={(value) => this.props.setStrength(value)}/>
                        <div className="sliderAddition">
-                         <img src="/img/delete.svg" style={icon} />
+                         <img src="/img/delete.svg" style={icon} onClick={ () => this.props.deletePoint()}/>
                       </div>
                </div>
                : null
