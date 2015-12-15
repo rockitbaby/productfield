@@ -13,7 +13,6 @@ export default Radium(React.createClass({
   mixins: [PureRenderMixin],
 
   pointDragged: function(event) {
-    console.log("Test");
     event.preventDefault();
     const point = event.currentTarget;
     const field = point.offsetParent;
@@ -27,7 +26,6 @@ export default Radium(React.createClass({
   },
 
   pointDraggedEnded: function(event) {
-    console.log("Test");
     event.preventDefault();
     const point = event.currentTarget;
     const field = point.offsetParent;
