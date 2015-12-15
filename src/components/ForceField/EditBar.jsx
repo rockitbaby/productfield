@@ -42,8 +42,7 @@ export default React.createClass({
                 </div>
               </div>
             </div>
-      <Button title='Add Point' clickAction={this.props.addPoint} />
-    </div>;
+          </div>;
   },
 
   getBackgroundColor: function() {

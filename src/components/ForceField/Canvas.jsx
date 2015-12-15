@@ -14,7 +14,7 @@ export default Radium(React.createClass({
 
   componentWillReceiveProps: function(nextProps) {
     var calculationPoints = coordinateSystemTransformation(nextProps.points)
-    ForceFieldCalculationSingleton.getInstance().setEnergies(calculationPoints);
+    ForceFieldCalculationSingleton.getInstance().setEnergies(nextProps.points);
 
     var svgContainer = d3.select(".force-field-canvas").select("svg");
 

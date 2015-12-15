@@ -21,16 +21,19 @@ function movePoint(state, newPoint) {
   return state.set('points', newPoints);
 }
 
-function addPoint(state) {
+function addPoint(state, point) {
   var currentPoints = state.get('points');
   var nextID = (currentPoints.size > 0) ? (currentPoints.max().get('id') + 1) : 1;
-  var newPoints = currentPoints.push(Map({id: nextID, x: 50, y: 50, strength: 1}));
-
+  var newPoints = currentPoints.push(Map({id: nextID, x: point.x, y: point.y, strength: 0}));
   return state.set('points', newPoints);
 }
 
 function editPoint(state, point) {
   return state.set('editingPoint', point)
+}
+
+function exitEdit(state) {
+  return state.set('editingPoint', null)
 }
 
 function setLastRenderTimestamp(state, timestamp) {
@@ -72,7 +75,7 @@ export default function(state = Map(), action) {
   case 'MOVE_POINT':
     return setState(state, movePoint(state, action.point));
   case 'ADD_POINT':
-    return setState(state, addPoint(state))
+    return setState(state, addPoint(state,action.point));
   case 'DELETE_POINT':
     return setState(state, deletePoint(state))
   case 'EDIT_POINT':
@@ -83,6 +86,8 @@ export default function(state = Map(), action) {
     return setState(state, setLastRenderTimestamp(state, action.timestamp))
   case 'SET_PRESENTATION':
     return setState(state, setPresentationState(state, action.presentation))
+  case 'EXIT_EDIT':
+    return setState(state, exitEdit(state))
   }
 
   return state;

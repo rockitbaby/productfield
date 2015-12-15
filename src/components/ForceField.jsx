@@ -82,12 +82,25 @@ export const ForceField = React.createClass({
     return this.props.points || [];
   },
 
+  addPoint: function(event) {
+    event.preventDefault();
+    const point = event.currentTarget;
+    const field = point.offsetParent;
+
+    var newX = event.pageX - field.offsetLeft;
+    var newY = event.pageY - field.offsetTop - 100;
+
+    var result = this.normalizeCoordinates(newX,newY);
+
+    this.props.addPoint({id: null, x: result[0], y: result[1]})
+  },
+
   render: function() {
     var forceFieldStyle = this.getForceFieldStyle();
 
     return <div className="force-field">
       <EditBar editingPoint={this.props.editingPoint} addPoint={this.props.addPoint} deletePoint={this.props.deletePoint} setStrength={this.props.setStrength} setPresentation={this.props.setPresentation} isPresentation={this.props.isPresentation}/>
-        <div className="force-field-stage" style={forceFieldStyle} id="field">
+        <div className="force-field-stage" style={forceFieldStyle} onDoubleClick={(e) => this.addPoint(e)} id="field">
           <Canvas points={this.getPoints()}
                   setLastRenderTimestamp={this.props.setLastRenderTimestamp}
                   lastTimestamp={this.props.lastTimestamp}

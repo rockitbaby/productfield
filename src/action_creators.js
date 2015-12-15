@@ -19,16 +19,23 @@ export function editPoint(point) {
   };
 }
 
+export function exitEdit() {
+  return {
+    type: 'EXIT_EDIT',
+  };
+}
+
 export function deletePoint() {
   return {
     type: 'DELETE_POINT'
   };
 }
 
-export function addPoint() {
+export function addPoint(point) {
   return {
-    type: 'ADD_POINT'
-  }
+    type: 'ADD_POINT',
+    point
+  };
 }
 
 export function setStrength(strength) {
