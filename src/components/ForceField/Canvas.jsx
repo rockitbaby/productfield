@@ -8,6 +8,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Radium from 'radium';
 import {Map} from 'immutable';
 import {ForceFieldCalculationSingleton, coordinateSystemTransformation} from '../../ForceFieldCalculation';
+import {ForceFieldDescriptor} from '../../ForceFieldDescriptor';
 
 export default Radium(React.createClass({
   mixins: [PureRenderMixin],
@@ -193,7 +194,13 @@ export default Radium(React.createClass({
     var pxX = event.pageX - field.offsetLeft;
     var pxY = event.pageY - field.offsetTop;
 
+    var [normalizedX, normalizedY] = this.normalizeCoordinates(pxX, pxY);
+
     console.log(pxX, pxY, this.normalizeCoordinates(pxX, pxY));
+
+    var descriptor = new ForceFieldDescriptor(normalizedX, normalizedY);
+    console.log(descriptor.getClassNames());
+
   },
 
   componentDidMount: function() {
