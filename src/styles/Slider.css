@@ -50,28 +50,6 @@
   text-align: center;
 }
 
-.sliderAdditionTriangle {
-  width: 27px;
-  height: 100px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
-  left: -12px;
-  top: 105px;
-  z-index: 9999;
-}
-.sliderAdditionTriangle:after {
-  content: "";
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background: #fff;
-  transform: rotate(45deg); /* Prefixes... */
-  top: 50px;
-  left: 25px;
-  box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
-}
-
 /*.bar.bar-1 {
     background: #f00;
 }
