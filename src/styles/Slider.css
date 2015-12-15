@@ -20,8 +20,6 @@
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     box-shadow: 0px 0px 6px -2px rgba(128,128,128,1);
-    top: -37px;
-    left: 15px;
 }
 
 .bar {
@@ -34,6 +32,13 @@
     border-radius: 90px !important;
 }
 
+.sliderWrapper {
+  height:265px;
+  max-height:255px;
+  margin-left:15px;
+  margin-top: 25px;
+}
+
 .sliderAddition {
   background-color: #ddd;
   width: 35px;
@@ -42,18 +47,8 @@
   border-bottom-right-radius: 3px;
   box-shadow: 0px 3px 6px -2px rgba(128,128,128,1);
   border-top: 1px lightgrey solid;
-  position:relative;
-  top: -37px;
-  left: 15px;
   text-align: center;
 }
-
-/*.sliderAdditionTriangle {
-  border-style: solid;
-  border-width: 15px 15px 15px 0;
-  border-color: transparent blue transparent transparent;
-  box-shadow: 0px 3px 6px -2px rgba(128,128,128,1);
-}*/
 
 .sliderAdditionTriangle {
   width: 27px;

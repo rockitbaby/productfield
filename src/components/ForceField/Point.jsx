@@ -12,6 +12,14 @@ import Button from './EditBar/Button';
 export default Radium(React.createClass({
   mixins: [PureRenderMixin],
 
+  getEnergyTransformPrefrences: function() {
+    return {
+      translateX: 20,
+      translateY: 141,
+      energyWidth: 34
+    }
+  },
+
   pointDragged: function(event) {
     event.preventDefault();
     const point = event.currentTarget;
@@ -30,8 +38,9 @@ export default Radium(React.createClass({
     const point = event.currentTarget;
     const field = point.offsetParent;
 
-    var newX = event.pageX - field.offsetLeft;
-    var newY = event.pageY - field.offsetTop - 100;
+    var pref = this.getEnergyTransformPrefrences();
+    var newX = event.pageX + pref.translateX;
+    var newY = event.pageY - (pref.translateY + pref.energyWidth);
 
     var result = this.props.normalizeCoordinates(newX,newY);
 
@@ -71,7 +80,6 @@ export default Radium(React.createClass({
              </div>
              { this.props.editing ?
                <div className="sliderWrapper">
-                 <div className="sliderAdditionTriangle"></div>
                  <Slider value={this.props.strength}
                          setStrength={(value) => this.props.setStrength(value)}/>
                        <div className="sliderAddition">
@@ -99,7 +107,6 @@ export default Radium(React.createClass({
       display: 'table',
       textAlign: 'center',
       width: '36',
-      paddingTop: '-20',
       height: '36',
       boxShadow: '0px 1px 1px 0px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12)',
       borderRadius: '19px',
@@ -120,11 +127,10 @@ export default Radium(React.createClass({
       position: 'absolute',
       display: 'flex',
       alignItems: 'center',
-      marginTop: '-100px',
-      marginLeft: '-12px',
-      height: '200px',
+      transform: 'translate(-20px, -130px)',
       left: this.props.x + '%',
       top: this.props.y + '%',
+      height: '255px',
     }
   },
 
