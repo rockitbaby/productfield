@@ -14,7 +14,7 @@ const pointDragged = (id, ) => { console.log(`Dragged point ${id}`) };
 const pointClicked = (id) => { alert(`CLICKED POINT ${id}`) }
 
 const store = createStore(reducer);
-var initialState = fromJS({points: [{id: 2, x: 2, y: 95, strength: 1}, {id: 1, x: 50, y: 50, strength: 1}]});
+var initialState = fromJS({points: [{id: 2, x: 0.5, y: -1, strength: 1}, {id: 1, x: 0, y: 0, strength: 1}]});
 store.dispatch(setState(initialState));
 
 ReactDOM.render(

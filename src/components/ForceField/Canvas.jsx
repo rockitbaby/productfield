@@ -102,14 +102,26 @@ export default Radium(React.createClass({
     });
   },
 
+  deNormalizeCoordinates: function (x, y) {
+    var preferences = this.getPreferences();
+
+    var deNormalizedX = (x * preferences.fieldSize) / 2;
+    var deNormalizedY = (y * preferences.fieldSize) / 2;
+
+    var deTranslatedX = (deNormalizedX + preferences.width / 2);
+    var deTranslatedY = (deNormalizedY - preferences.height / 2);
+
+    return [deTranslatedX, -deTranslatedY];
+  },
+
   normalizeCoordinates: function(x, y) {
     var preferences = this.getPreferences();
 
     var translatedX = (x - preferences.width / 2);
     var translatedY = (y - preferences.height / 2);
 
-    var normalizedX = translatedX / preferences.width * 2 * preferences.width / preferences.fieldSize;
-    var normalizedY = -1 * translatedY / preferences.height * 2 * preferences.height / preferences.fieldSize;
+    var normalizedX = (2 * translatedX) / preferences.fieldSize;
+    var normalizedY = -(2 * translatedY) / preferences.fieldSize;
 
     return [normalizedX, normalizedY];
   },
@@ -193,7 +205,7 @@ export default Radium(React.createClass({
     var pxX = event.pageX - field.offsetLeft;
     var pxY = event.pageY - field.offsetTop;
 
-    console.log(pxX, pxY, this.normalizeCoordinates(pxX, pxY));
+    console.log(this.normalizeCoordinates(pxX, pxY) + ' ' + this.deNormalizeCoordinates(this.normalizeCoordinates(pxX, pxY)[0], this.normalizeCoordinates(pxX, pxY)[1]));
   },
 
   componentDidMount: function() {
