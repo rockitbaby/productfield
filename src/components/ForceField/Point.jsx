@@ -12,14 +12,6 @@ import Button from './EditBar/Button';
 export default Radium(React.createClass({
   mixins: [PureRenderMixin],
 
-  getEnergyTransformPrefrences: function() {
-    return {
-      translateX: 20,
-      translateY: 90,
-      energyHeight: 35
-    }
-  },
-
   pointDragged: function(event) {
     event.preventDefault();
     const point = event.currentTarget;
@@ -36,10 +28,8 @@ export default Radium(React.createClass({
   pointDraggedEnded: function(event) {
     event.preventDefault();
     const point = event.currentTarget;
-    const field = point.offsetParent;
 
-    var pref = this.getEnergyTransformPrefrences();
-    var newX = event.pageX + pref.translateX;
+    var newX = event.nativeEvent.offsetX;
     var newY = event.nativeEvent.offsetY - point.clientHeight + point.offsetTop;
 
     var result = this.props.normalizeCoordinates(newX,newY);
