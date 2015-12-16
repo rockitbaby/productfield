@@ -122,8 +122,8 @@ export const ForceField = React.createClass({
           {this.getPoints().map(point =>
             <Point key={point.get('id')}
                    id={point.get('id')}
-                   x={this.pixelToPercentage(point.get('x'), false)}
-                   y={this.pixelToPercentage(point.get('y'), true)}
+                   x={this.deNormalizeCoordinates(point.get('x'), false)}
+                   y={this.deNormalizeCoordinates(point.get('y'), true)}
                    editingPoint={this.props.editingPoint}
                    deletePoint={this.props.deletePoint}
                    editing={this.props.editingPoint ? this.props.editingPoint.get('id') == point.get('id') : false}

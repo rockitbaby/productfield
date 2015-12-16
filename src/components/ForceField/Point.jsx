@@ -126,8 +126,8 @@ export default Radium(React.createClass({
       display: 'flex',
       alignItems: 'center',
       transform: 'translate(-20px, -130px)',
-      left: this.props.x + '%',
-      top: this.props.y + '%',
+      left: this.props.x + 'px',
+      top: this.props.y + 'px',
       height: '255px',
     }
   },
