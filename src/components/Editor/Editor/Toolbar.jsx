@@ -1,7 +1,5 @@
 import React from 'react';
-import Button from './EditBar/Button';
-import Slider from './Slider';
-import GlobalStyles from '../../styles/GlobalStyles';
+import GlobalStyles from '../../../styles/GlobalStyles';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 export default React.createClass({
@@ -23,11 +21,7 @@ export default React.createClass({
     const InputStyle = this.getInputStyle();
     const IconStyle = this.getIconStyle();
 
-    // <a href='#' onClick={() => this.props.setStrength(this.props.editingPoint.get('strength') + -1)}>reduce</a>
-    // <a href='#' onClick={() => this.props.setStrength(this.props.editingPoint.get('strength') + 1)}>increase</a>
-    // <span>{this.props.editingPoint.get('strength')}</span>
-
-    return <div className="force-field-edit-bar" style={editBarStyle} >
+    return <div className="Editor-toolbar" style={editBarStyle} >
             <div className="row">
               <div className="col-md-1">
                 <a className="btn btn-link"><img src="img/share.svg" style={IconStyle}></img></a>

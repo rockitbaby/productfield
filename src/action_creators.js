@@ -5,36 +5,30 @@ export function setState(state) {
   };
 }
 
-export function movePoint(point) {
+export function moveEnergy(energy) {
   return {
-    type: 'MOVE_POINT',
-    point
+    type: 'MOVE_ENERGY',
+    energy
   };
 }
 
-export function editPoint(point) {
+export function editEnergy(energy) {
   return {
-    type: 'EDIT_POINT',
-    point
+    type: 'EDIT_ENERGY',
+    energy
   };
 }
 
-export function exitEdit() {
+export function deleteEnergy() {
   return {
-    type: 'EXIT_EDIT',
+    type: 'DELETE_ENERGY'
   };
 }
 
-export function deletePoint() {
+export function addEnergy(energy) {
   return {
-    type: 'DELETE_POINT'
-  };
-}
-
-export function addPoint(point) {
-  return {
-    type: 'ADD_POINT',
-    point
+    type: 'ADD_ENERGY',
+    energy
   };
 }
 
@@ -44,12 +38,7 @@ export function setStrength(strength) {
     strength
   };
 }
-export function setLastRenderTimestamp(timestamp) {
-  return {
-    type: 'SET_TIMESTAMP',
-    timestamp
-  };
-}
+
 export function setPresentation(presentation) {
   return {
     type: 'SET_PRESENTATION',
