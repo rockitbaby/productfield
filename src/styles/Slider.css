@@ -50,6 +50,28 @@
   text-align: center;
 }
 
+.sliderTriangleAddition {
+    width: 27px;
+    height: 100px;
+    margin-left:-27px;
+    margin-top:42px;
+    position: absolute;
+    overflow: hidden;
+    box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
+    z-index:999;
+}
+.sliderTriangleAddition:after {
+   content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    -webkit-transform: rotate(45deg);
+    top: 50px;
+    left: 25px;
+    box-shadow: -1px 0px 6px -2px rgba(0, 0, 0, 0.5);
+}
+
 /*.bar.bar-1 {
     background: #f00;
 }
