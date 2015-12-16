@@ -11,14 +11,13 @@ export const Stage = React.createClass({
   mixins: [PureRenderMixin],
 
   getProperties: function() {
-    const dotsInField = 10;
-    const maximumFieldSize = Math.floor(Math.min(this.props.width, this.props.height));
+    const dotsInField = 20;
+    const maximumFieldSize = Math.floor(Math.min(this.props.width, this.props.height)) - 50;
     const gridUnit = Math.floor(maximumFieldSize / dotsInField);
     const fieldSize = gridUnit * dotsInField
 
     return {
       fieldSize: fieldSize,
-      scale: fieldSize / this.props.width,
       gridUnit: gridUnit,
       triangleSize: 2.5,
       minLengthForArrowsToDisplay: 2,
