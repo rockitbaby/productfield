@@ -28,10 +28,9 @@ export default Radium(React.createClass({
   pointDraggedEnded: function(event) {
     event.preventDefault();
     const point = event.currentTarget;
-    const field = point.offsetParent;
 
-    var newX = event.pageX - field.offsetLeft;
-    var newY = event.pageY - field.offsetTop - 100;
+    var newX = event.nativeEvent.offsetX;
+    var newY = event.nativeEvent.offsetY - point.clientHeight + point.offsetTop;
 
     var result = this.props.normalizeCoordinates(newX,newY);
 
@@ -59,6 +58,7 @@ export default Radium(React.createClass({
     var fontStyle = this.getFontStyle();
     var pos = this.getPos();
     var icon = this.getIconStyle();
+    var IconWrapper = this.getIconWrapperStyle();
 
     return <div className="force-field-stage-point"
                 draggable='true'
@@ -71,13 +71,17 @@ export default Radium(React.createClass({
              </div>
              { this.props.editing ?
                <div className="sliderWrapper">
-                 <div className="sliderAdditionTriangle"></div>
+                 <div className={this.props.isPresentation? "sliderTriangleAddition" : "sliderTriangleAddition"}></div>
                  <Slider value={this.props.strength}
                          setStrength={(value) => this.props.setStrength(value)}
                          isPresentation={this.props.isPresentation}/>
                        <div className={this.props.isPresentation? "sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"} >
-                         <img src="/img/delete.svg" style={icon} onClick={ () => this.props.deletePoint()}/>
-                         <img src="/img/mute.svg" style={icon}/>
+                         <div className="IconWrapper" style={IconWrapper}>
+                           <img src="/img/delete.svg" style={icon} onClick={ () => this.props.deletePoint()}/>
+                          </div>
+                          <div className="IconWrapper" style={IconWrapper}>
+                           <img src="/img/mute.svg" style={icon}/>
+                         </div>
                       </div>
                </div>
                : null
@@ -101,7 +105,6 @@ export default Radium(React.createClass({
       display: 'table',
       textAlign: 'center',
       width: '36',
-      paddingTop: '-20',
       height: '36',
       boxShadow: '0px 1px 1px 0px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12)',
       borderRadius: '19px',
@@ -122,11 +125,10 @@ export default Radium(React.createClass({
       position: 'absolute',
       display: 'flex',
       alignItems: 'center',
-      marginTop: '-100px',
-      marginLeft: '-12px',
-      height: '200px',
+      transform: 'translate(-20px, -130px)',
       left: this.props.x + '%',
       top: this.props.y + '%',
+      height: '255px',
     }
   },
 
@@ -142,7 +144,14 @@ export default Radium(React.createClass({
     return {
       verticalAlign: 'middle',
       cursor: 'pointer',
-      height: '13',
+      height: '14',
+    }
+  },
+  getIconWrapperStyle: function() {
+    return {
+      width: '13',
+      margin: '2',
+      float: 'left',
     }
   }
 }));

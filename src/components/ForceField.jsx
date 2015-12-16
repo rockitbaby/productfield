@@ -94,8 +94,8 @@ export const ForceField = React.createClass({
     const point = event.currentTarget;
     const field = point.offsetParent;
 
-    var newX = event.pageX - field.offsetLeft;
-    var newY = event.pageY - field.offsetTop - 100;
+    var newX = event.nativeEvent.offsetX;
+    var newY = event.nativeEvent.offsetY - point.clientHeight + point.offsetTop;
 
     var result = this.normalizeCoordinates(newX,newY);
 

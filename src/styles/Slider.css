@@ -26,8 +26,6 @@
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     box-shadow: 0px 0px 6px -2px rgba(128,128,128,1);
-    top: -37px;
-    left: 15px;
 }
 .slider-light {
     background-color: #fff;
@@ -52,17 +50,19 @@
   background-color: #C4C4C4;
 }
 
+.sliderWrapper {
+  height:265px;
+  max-height:255px;
+  margin-left:15px;
+  margin-top: 25px;
+}
+
 .sliderAddition {
   width: 35px;
   height: 25px;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
   box-shadow: 0px 3px 6px -2px rgba(128,128,128,1);
-  border-top: 1px 494949 solid;
-  position:relative;
-  top: -37px;
-  left: 15px;
-  text-align: center;
 }
 
 .sliderAddition-dark{
@@ -74,36 +74,29 @@
   background-color: #DDDDDD;
 }
 
-
-
-/*.sliderAdditionTriangle {
-  border-style: solid;
-  border-width: 15px 15px 15px 0;
-  border-color: transparent blue transparent transparent;
-  box-shadow: 0px 3px 6px -2px rgba(128,128,128,1);
-}*/
-
-.sliderAdditionTriangle {
-  width: 27px;
-  height: 100px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
-  left: -12px;
-  top: 105px;
-  z-index: 9999;
+.sliderTriangleAddition {
+    width: 27px;
+    height: 100px;
+    margin-left:-27px;
+    margin-top:42px;
+    position: absolute;
+    overflow: hidden;
+    box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
+    z-index:999;
 }
-.sliderAdditionTriangle:after {
-  content: "";
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background: #fff;
-  transform: rotate(45deg); /* Prefixes... */
-  top: 50px;
-  left: 25px;
-  box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
+
+.sliderTriangleAddition:after {
+   content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    -webkit-transform: rotate(45deg);
+    top: 50px;
+    left: 25px;
+    box-shadow: -1px 0px 6px -2px rgba(0, 0, 0, 0.5);
 }
+
 
 /*.bar.bar-1 {
     background: #f00;
