@@ -5,7 +5,6 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import {fromJS} from 'immutable';
 import Editor from './components/Editor/Editor';
-import {ForceFieldCanvas} from './ForceFieldCanvas';
 import reducer from './reducer';
 import {setState} from './action_creators'
 
