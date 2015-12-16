@@ -15,8 +15,8 @@ export default Radium(React.createClass({
   getEnergyTransformPrefrences: function() {
     return {
       translateX: 20,
-      translateY: 141,
-      energyHeight: 34
+      translateY: 90,
+      energyHeight: 35
     }
   },
 
@@ -40,7 +40,7 @@ export default Radium(React.createClass({
 
     var pref = this.getEnergyTransformPrefrences();
     var newX = event.pageX + pref.translateX;
-    var newY = event.pageY - (pref.translateY + pref.energyHeight);
+    var newY = event.nativeEvent.offsetY - point.clientHeight + point.offsetTop;
 
     var result = this.props.normalizeCoordinates(newX,newY);
 
