@@ -1,7 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
-import Energy from './Energy';
+import {ConnectedEnergy} from './Energy';
 import Renderer from './Renderer';
 import * as actionCreators from '../../../action_creators'
 import '../../../styles/main.css';
@@ -11,7 +11,7 @@ export const Stage = React.createClass({
   mixins: [PureRenderMixin],
 
   getProperties: function() {
-    const dotsInField = 20;
+    const dotsInField = 10;
     const maximumFieldSize = Math.floor(Math.min(this.props.width, this.props.height));
     const gridUnit = Math.floor(maximumFieldSize / dotsInField);
     const fieldSize = gridUnit * dotsInField
@@ -102,28 +102,20 @@ export const Stage = React.createClass({
     })
 
     return <div className="ForceFieldStage" onDoubleClick={this.addEnergy} style={{position: 'relative'}}>
+      <Renderer {...rendererProps} />
       {this.getEnergies().map(energy =>
-        <Energy key={energy.get('id')}
-               id={energy.get('id')}
-               x={energy.get('x')}
-               y={energy.get('y')}
-               editingEnergy={this.props.editingEnergy}
-               deleteEnergy={this.props.deleteEnergy}
-               editing={this.props.editingEnergy ? this.props.editingEnergy.get('id') == energy.get('id') : false}
-               strength={energy.get('strength')}
-               setStrength={this.props.setStrength}
-               editEnergy={this.props.editEnergy}
-               moveEnergy={this.props.moveEnergy}
-               normalizeCoordinates={this.normalizeCoordinates}
-               deNormalizeCoordinates={this.deNormalizeCoordinates}
-               />
+        <ConnectedEnergy key={energy.get('id')}
+                         id={energy.get('id')}
+                         stageWidth={this.props.width}
+                         stageHeight={this.props.height}
+                         normalizeCoordinates={this.normalizeCoordinates}
+                         deNormalizeCoordinates={this.deNormalizeCoordinates} />
       )}
     </div>;
   },
 
   getForceFieldStyle: function() {
     return {
-      fontFamily: 'Roboto, sans-serif',
       position: 'relative',
       margin: '0 auto',
       width: '100%',
@@ -136,7 +128,6 @@ export const Stage = React.createClass({
 function mapStateToProps(state) {
   return {
     energies: state.get('energies'),
-    editingEnergy: state.get('editingEnergy'),
     isPresentation: state.get('isPresentation')
   };
 }

@@ -32,8 +32,6 @@
     border-radius: 90px !important;
 }
 
-
-
 .sliderAddition {
   background-color: #ddd;
   width: 35px;
@@ -44,10 +42,3 @@
   border-top: 1px lightgrey solid;
   text-align: center;
 }
-
-/*.bar.bar-1 {
-    background: #f00;
-}
-.bar.bar-2 {
-    background: #0f0;
-}*/

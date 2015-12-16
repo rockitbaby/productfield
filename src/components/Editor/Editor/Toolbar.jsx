@@ -17,24 +17,16 @@ export default React.createClass({
   },
 
   render: function() {
-    const editBarStyle = this.getEditBarStyle();
-    const InputStyle = this.getInputStyle();
-    const IconStyle = this.getIconStyle();
+    const iconStyle = this.getIconStyle();
 
-    return <div className="Editor-toolbar" style={editBarStyle} >
-            <div className="row">
-              <div className="col-md-1">
-                <a className="btn btn-link"><img src="img/share.svg" style={IconStyle}></img></a>
-              </div>
-              <div className="col-md-3">
-                <input className="form-control" type="Text" style={InputStyle} placeholder={"Untitled Project"} />
-              </div>
-              <div className="col-md-2 col-md-offset-6">
-                <div className="pull-right">
-                  <a className="btn btn-link"><img src="img/map.svg" style={IconStyle}></img></a>
-                  <a className="btn btn-link" onClick={this.presentationButtonClick}><img src="img/presentation.svg" style={IconStyle}></img></a>
-                </div>
-              </div>
+    return <div className="Editor-toolbar" style={this.getToolbarStyle()} >
+            <div style={this.getContainerStyle('left')}>
+              <a ><img src="img/share.svg" style={iconStyle}></img></a>
+              <input type="text" style={this.getInputStyle()} placeholder={"Untitled Project"} />
+            </div>
+            <div style={this.getContainerStyle('right')}>
+              <a><img src="img/map.svg" style={iconStyle}></img></a>
+              <a onClick={this.presentationButtonClick}><img src="img/presentation.svg" style={iconStyle}></img></a>
             </div>
           </div>;
   },
@@ -46,19 +38,31 @@ export default React.createClass({
       return GlobalStyles.backgroundLight;
   },
 
-  getEditBarStyle: function() {
+  getToolbarStyle: function() {
     return {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       height: '50',
-      padding: '10',
       backgroundColor: this.getBackgroundColor(),
     }
   },
+
+  getContainerStyle: function(position) {
+    return {
+      display: 'flex',
+      justifyContent: 'space-around',
+      minWidth: position == 'left' ? '25%' : '10%',
+    }
+  },
+
   getInputStyle: function() {
     return {
       border: '0',
       backgroundColor: GlobalStyles.backgroundGray,
     }
   },
+
   getIconStyle: function() {
     return {
       width: '24',

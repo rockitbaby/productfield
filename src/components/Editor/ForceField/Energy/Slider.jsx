@@ -8,8 +8,8 @@ import '../../../../styles/Slider.css';
 export default React.createClass({
   mixins: [PureRenderMixin],
 
-  onChange: function(e){
-    this.props.setStrength( e * -1);
+  onSlide: function(e){
+    this.props.setStrength(e * -1);
   },
 
   render: function() {
@@ -17,7 +17,7 @@ export default React.createClass({
                         withBars
                         min = {-10}
                         max = {10}
-                        onChange = {(e) => this.onChange(e)}
+                        onChange = {this.onSlide}
                         value = { (this.props.value * -1)}/>;
   },
 
