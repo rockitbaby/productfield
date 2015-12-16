@@ -19,10 +19,24 @@ A Force Field Analysis Tools for the Product Field Canvas.
 
 ```
 {
-  editingEnergy: {id: 2, x: 30, y: 50, strength: 2},
+  editingEnergy: {id: 2, x: 0.5, y: 0.6, strength: 2},
   energies: [
-    {id: 1, x: 20, y: 10, strength: 3},
-    {id: 2, x: 30, y: 50, strength: 2}
+    {id: 1, x: 0.8, y: -0.5, strength: 3},
+    {id: 2, x: 0.5, y: 0.6, strength: 2}
   ]
 }
+```
+
+use normalized coordinates, based on the center of the productfield.
+
+### CSS Naming Conventions
+
+Let's use [Suit CSS Naming Conventions](https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md). Reuse reacts components names.
+
+````
+u-utilityName
+ComponentName
+ComponentName--modifierName
+ComponentName-descendentName
+ComponentName.is-stateOfComponent
 ```
