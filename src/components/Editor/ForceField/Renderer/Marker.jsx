@@ -9,13 +9,31 @@ export default React.createClass({
     const centerY = Math.floor(this.props.stageHeight / 2 - this.props.fieldSize / 2);
     const circleRadius = Math.sqrt(2 * this.props.gridUnit * this.props.gridUnit);
 
-    const gridUnit = this.props.gridUni;
+    const gridUnit = this.props.gridUnit;
     var characterMarkerCoordinates = [2 * gridUnit - 1/2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit - 1/2 * gridUnit].join()
 
+    var quadrantMarkers = [];
 
-    return <svg width={this.props.fieldSize} height={this.props.fieldSize} x={centerX} y={centerY}>
-        <rect fill='transparent' className='u-visual-debug' width={this.props.fieldSize} height={this.props.fieldSize} />
+    var gu5 = 5 * gridUnit;
+    var props = this.props;
+
+    [0, 90, 180, 270].forEach(function(deg) {
+
+      var transform = "rotate(" + deg + ", " + 10 * gridUnit + ", " + 10 * gridUnit + ")";
+
+      quadrantMarkers.push(
+        <g key={deg} transform={transform}>
+        <polyline points={characterMarkerCoordinates} strokeWidth='2' fill='none' stroke={props.skin.marker} />
+        <circle r='4' cx={gu5} cy={gu5} fill={props.skin.marker} />
+        </g>
+      );
+
+    });
+
+    return <svg className='Renderer-marker' width={this.props.fieldSize} height={this.props.fieldSize} x={centerX} y={centerY}>
+        <rect className='u-visual-debug' width={this.props.fieldSize} height={this.props.fieldSize} />
         <circle cx={this.props.fieldSize / 2} cy={this.props.fieldSize / 2} r={circleRadius} fill='none' strokeWidth='2' stroke={this.props.skin.marker} />
+        <g>{quadrantMarkers}</g>
       </svg>
   }
 });
