@@ -101,7 +101,12 @@ export const Stage = React.createClass({
       isPresentation: this.props.isPresentation
     })
 
-    return <div className="ForceFieldStage" onDoubleClick={this.addEnergy} style={{position: 'relative'}}>
+    var className = 'ForceFieldStage';
+    if(this.props.dragging) {
+      className += ' is-Dragging';
+    }
+
+    return <div className={className} onDoubleClick={this.addEnergy} style={{position: 'relative'}}>
       <Renderer {...rendererProps} />
       {this.getEnergies().map(energy =>
         <ConnectedEnergy key={energy.get('id')}
@@ -128,7 +133,8 @@ export const Stage = React.createClass({
 function mapStateToProps(state) {
   return {
     energies: state.get('energies'),
-    isPresentation: state.get('isPresentation')
+    isPresentation: state.get('isPresentation'),
+    dragging: state.get('dragging')
   };
 }
 

@@ -19,6 +19,18 @@ export function editEnergy(energy) {
   };
 }
 
+export function startDragging() {
+  return {
+    type: 'START_DRAGGING'
+  };
+}
+
+export function stopDragging() {
+  return {
+    type: 'STOP_DRAGGING'
+  };
+}
+
 export function deleteEnergy() {
   return {
     type: 'DELETE_ENERGY'

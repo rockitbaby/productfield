@@ -6,3 +6,31 @@ body {
 input {
   font-family: 'Roboto', sans-serif;
 }
+
+
+svg .off {
+  fill: #999;
+}
+
+svg .field {
+  fill: #333;
+}
+
+.ForceFieldStage svg .context {
+  fill: #333;
+  stroke-width: 2;
+  stroke: transparent;
+  transition: 300ms;
+}
+
+.ForceFieldStage.is-Dragging svg .context {
+  fill: #304FFE;
+  stroke-width: 2;
+  stroke: #304FFE;
+  transition: 100ms;
+}
+
+.u-visual-debug {
+  display: none;
+  fill: RGBA(255, 0, 0, 0.2);
+}

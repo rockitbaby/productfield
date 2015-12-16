@@ -24,6 +24,7 @@ export const Energy = React.createClass({
     var [normalizedX, normalizedY] = this.props.normalizeCoordinates(pXstage, pYstage);
 
     this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY}));
+    this.props.stopDragging();
   },
 
   energyDragged: function(event) {
@@ -37,6 +38,7 @@ export const Energy = React.createClass({
 
     var [normalizedX, normalizedY] = this.props.normalizeCoordinates(newX,newY);
 
+    this.props.startDragging();
     this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY}))
   },
 
@@ -166,6 +168,8 @@ function mapStateToProps(state, ownProps) {
     y: energy.get('y'),
     strength: energy.get('strength'),
     editingEnergy: state.get('editingEnergy'),
+    startDragging: state.get('startDragging'),
+    stopDragging: state.get('stopDragging')
   };
 }
 

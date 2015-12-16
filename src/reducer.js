@@ -69,6 +69,10 @@ export default function(state = Map(), action) {
     return setState(state, deleteEnergy(state))
   case 'EDIT_ENERGY':
     return setState(state, editEnergy(state, action.energy))
+  case 'START_DRAGGING':
+    return setState(state, state.set('dragging', true))
+  case 'STOP_DRAGGING':
+    return setState(state, state.set('dragging', false))
   case 'SET_STRENGTH':
     return setState(state, setStrength(state, action.strength))
   case 'SET_PRESENTATION':
