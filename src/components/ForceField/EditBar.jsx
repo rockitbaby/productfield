@@ -23,10 +23,6 @@ export default React.createClass({
     const InputStyle = this.getInputStyle();
     const IconStyle = this.getIconStyle();
 
-    // <a href='#' onClick={() => this.props.setStrength(this.props.editingPoint.get('strength') + -1)}>reduce</a>
-    // <a href='#' onClick={() => this.props.setStrength(this.props.editingPoint.get('strength') + 1)}>increase</a>
-    // <span>{this.props.editingPoint.get('strength')}</span>
-
     return <div className="force-field-edit-bar" style={editBarStyle} >
             <div className="row">
               <div className="col-md-1">
@@ -62,13 +58,14 @@ export default React.createClass({
   getInputStyle: function() {
     return {
       border: '0',
-      backgroundColor: GlobalStyles.backgroundGray,
+      backgroundColor: this.getBackgroundColor(),
     }
   },
   getIconStyle: function() {
     return {
       width: '24',
       height: '24',
+
     }
   }
 });

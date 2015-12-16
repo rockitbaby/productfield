@@ -17,6 +17,9 @@ export default React.createClass({
                         withBars
                         min = {-10}
                         max = {10}
+                        className = {this.props.isPresentation? " slider slider-dark" : "slider slider-light"}
+                        handleClassName = {this.props.isPresentation? " handle handle-dark" : "handle handle-light"}
+                        barClassName = {this.props.isPresentation? " bar bar-dark" : "bar bar-light"}
                         onChange = {(e) => this.onChange(e)}
                         value = { (this.props.value * -1)}/>;
   },

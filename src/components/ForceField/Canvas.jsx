@@ -22,6 +22,7 @@ export default Radium(React.createClass({
     var dateNow = new Date();
 
     //Timerenderer. UpdateLines is only called, when e certain time has expired
+
     if(dateNow - dateLastRender > 300)
     {
         this.props.setLastRenderTimestamp(Date.now());

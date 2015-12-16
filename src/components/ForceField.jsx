@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import EditBar from './ForceField/EditBar';
 import Point from './ForceField/Point';
 import Canvas from './ForceField/Canvas';
+import GlobalStyles from '../styles/GlobalStyles';
 import * as actionCreators from '../action_creators'
 import '../styles/main.css';
 
@@ -18,7 +19,18 @@ export const ForceField = React.createClass({
     var availableHeight = $(window).height() - navbarHeight - paddingBottom;
     var gridUnit = Math.min($(window).width(), availableHeight) / dotsInField;
     var fieldSize = gridUnit * dotsInField
-
+    var lightSkin =  {
+                      dots:   "#304FFE",
+                      marker: "#304FFE",
+                      arrows: "#F2F2F2",
+                      background: '#FFFFFF'
+                    };
+    var darkSkin =  {
+                      dots:   "#FFFFFF",
+                      marker: "#FFFFFF",
+                      arrows: "#F2F2F2",
+                      background: '#000000'
+                    };
     return {
       fieldSize: fieldSize,
       scale: fieldSize / $(window).width(),
@@ -27,12 +39,7 @@ export const ForceField = React.createClass({
       minLengthForArrowsToDisplay: 2,
       width:  $(window).width(),
       height: $(window).height() - navbarHeight,
-      skin: {
-        dots: "#304FFE",
-        marker: "#304FFE",
-        arrows: "#F2F2F2",
-        background: '#FFFFFF'
-      }
+      skin:  this.props.isPresentation ? darkSkin : lightSkin,
     }
   },
 
@@ -95,6 +102,10 @@ export const ForceField = React.createClass({
     this.props.addPoint({id: null, x: result[0], y: result[1]})
   },
 
+  componentDidMount: function() {
+    this.props.setPresentation(false);
+  },
+
   render: function() {
     var forceFieldStyle = this.getForceFieldStyle();
 
@@ -122,7 +133,8 @@ export const ForceField = React.createClass({
                    normalizeCoordinates={this.normalizeCoordinates}
                    deNormalizeCoordinates={this.deNormalizeCoordinates}
                    pixelToPercentage={this.pixelToPercentage}
-                   movePoint={this.props.movePoint}/>
+                   movePoint={this.props.movePoint}
+                   isPresentation={this.props.isPresentation}/>
           )}
       </div>
     </div>;

@@ -73,9 +73,11 @@ export default Radium(React.createClass({
                <div className="sliderWrapper">
                  <div className="sliderAdditionTriangle"></div>
                  <Slider value={this.props.strength}
-                         setStrength={(value) => this.props.setStrength(value)}/>
-                       <div className="sliderAddition">
+                         setStrength={(value) => this.props.setStrength(value)}
+                         isPresentation={this.props.isPresentation}/>
+                       <div className={this.props.isPresentation? "sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"} >
                          <img src="/img/delete.svg" style={icon} onClick={ () => this.props.deletePoint()}/>
+                         <img src="/img/mute.svg" style={icon}/>
                       </div>
                </div>
                : null
@@ -140,6 +142,7 @@ export default Radium(React.createClass({
     return {
       verticalAlign: 'middle',
       cursor: 'pointer',
+      height: '13',
     }
   }
 }));
