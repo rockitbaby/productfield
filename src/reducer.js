@@ -9,9 +9,8 @@ function setState(state, newState) {
 }
 
 function moveEnergy(state, newEnergy) {
-  state.set('editingEnergy', newEnergy)
   var newEnergies = state.get('energies').map(function(energy) {
-    if (energy.get('id') == newEnergy.id) {
+    if (energy.get('id') == newEnergy.get('id')) {
       return energy.merge(newEnergy);
     } else {
       return energy
@@ -30,10 +29,6 @@ function addEnergy(state, energy) {
 
 function editEnergy(state, energy) {
   return state.set('editingEnergy', energy)
-}
-
-function setLastRenderTimestamp(state, timestamp) {
-  return state.set('lastTimestamp', timestamp)
 }
 
 function setPresentationState(state, presentation = false) {

@@ -66,20 +66,6 @@ export const Stage = React.createClass({
     return [normalizedX, normalizedY];
   },
 
-  //needs normalized coordinate value
-  pixelToPercentage: function(val, isY) {
-    var prop =  this.getProperties();
-
-    var deNormalizedVal = this.deNormalizeOneCoordinate(val, isY);
-
-    if(isY) {
-      var valInPercent = (deNormalizedVal / prop.height) * 100;
-    } else {
-      var valInPercent = (deNormalizedVal / prop.width) * 100;
-    }
-    return valInPercent;
-  },
-
   getEnergies: function() {
     return this.props.energies || [];
   },
@@ -115,7 +101,7 @@ export const Stage = React.createClass({
       isPresentation: this.props.isPresentation
     })
 
-    return <div className="ForceFieldStage" onDoubleClick={this.addEnergy} onMouseMove={this.mouseDebugger} style={{position: 'relative'}}>
+    return <div className="ForceFieldStage" onDoubleClick={this.addEnergy} style={{position: 'relative'}}>
       {this.getEnergies().map(energy =>
         <Energy key={energy.get('id')}
                id={energy.get('id')}
@@ -130,7 +116,6 @@ export const Stage = React.createClass({
                moveEnergy={this.props.moveEnergy}
                normalizeCoordinates={this.normalizeCoordinates}
                deNormalizeCoordinates={this.deNormalizeCoordinates}
-               pixelToPercentage={this.pixelToPercentage}
                />
       )}
     </div>;
