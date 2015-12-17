@@ -105,13 +105,17 @@ export const Energy = React.createClass({
   circleSizeWhenEditing: 36,
 
   getCircleStyle: function() {
-    var backgroundColor = function(strength) {
-      if (strength > 0) {
-        return GlobalStyles.lightGreen;
-      } else if (strength < 0) {
-        return GlobalStyles.lightRed;
-      } else {
+    var backgroundColor = function(strength, isMuted) {
+      if(isMuted) {
         return GlobalStyles.neutralGrey;
+      } else {
+        if (strength > 0) {
+          return GlobalStyles.lightGreen;
+        } else if (strength < 0) {
+          return GlobalStyles.lightRed;
+        } else {
+          return GlobalStyles.neutralGrey;
+        }
       }
     }
 
@@ -120,7 +124,7 @@ export const Energy = React.createClass({
       'boxSizing': 'border-box',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor:  backgroundColor(this.props.strength),
+      backgroundColor:  backgroundColor(this.props.strength, this.props.isMuted),
       width: this.circleSize,
       height: this.circleSize,
       boxShadow: '0px 1px 1px 0px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12)',
