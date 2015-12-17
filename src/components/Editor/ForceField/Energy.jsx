@@ -47,10 +47,23 @@ export const Energy = React.createClass({
       id:       this.props.id,
       x:        this.props.x,
       y:        this.props.y,
-      strength: this.props.strength
+      strength: this.props.strength,
+      isMuted:  this.props.isMuted
     });
 
     this.isEditing() ? this.props.editEnergy(null) : this.props.editEnergy(currentEnergy);
+  },
+
+  toggleMuteEnergy: function() {
+    var currentEnergy = Map({
+      id:       this.props.id,
+      x:        this.props.x,
+      y:        this.props.y,
+      strength: this.props.strength,
+      isMuted:  this.props.isMuted ? false : true
+    });
+
+    this.props.setMuteEnergy(currentEnergy);
   },
 
   componentSizeOffset: function() {
@@ -86,10 +99,7 @@ export const Energy = React.createClass({
                          isPresentation={this.props.isPresentation}/>
                        <div className={this.props.isPresentation? " sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"}>
                          <div className="sliderAdditionIconWrapper">
-                          { this.props.isMuted ?
-                            <img src="/img/unmute.svg" onClick={this.props.setMuteEngery("false")}/> :
-                            <img src="/img/mute.svg" onClick={this.props.setMuteEngery("true")}/>
-                          }
+                            <img src="/img/mute.svg" onClick={console.log("mute Energy")}/>
                         </div>
                         <div className="sliderAdditionIconWrapper">
                           <img src="/img/delete.svg" onClick={this.props.deleteEnergy}/>

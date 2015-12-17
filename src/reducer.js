@@ -8,14 +8,21 @@ function setState(state, newState) {
   return state.merge(newState);
 }
 
-function setMuteEnergy(state, muted = false) {
-  var muteEnergyId = state.getIn(['editingEnergy', 'id']);
-
-  var energyToBeMuted = state.get('energies').map(function(energy) {
-    return energy.get('id') == muteEnergyId;
+function setMuteEnergy(state, mutedEnergy) {
+  var mutedEnergy = state.get('energies').map(function(energy) {
+    if (energy.get('id') == mutedEnergy.get('id')) {
+      return energy.merge(mutedEnergy);
+    } else {
+      return energy;
+    }
   });
-
-  energyToBeMuted.set('isMuted', muted);
+  // var muteEnergyId = state.getIn(['editingEnergy', 'id']);
+  //
+  // var energyToBeMuted = state.get('energies').map(function(energy) {
+  //   return energy.get('id') == muteEnergyId;
+  // });
+  //
+  // //energyToBeMuted.set('isMuted', muted);
 }
 
 function moveEnergy(state, newEnergy) {
@@ -88,7 +95,7 @@ export default function(state = Map(), action) {
   case 'SET_PRESENTATION':
     return setState(state, setPresentation(state, action.presentation));
   case 'SET_MUTEENERGY':
-    return setState(state, setMuteEnergy(state, action.mute));
+    return setState(state, setMuteEnergy(state, action.energy));
   }
 
   return state;
