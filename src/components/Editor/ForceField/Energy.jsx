@@ -169,7 +169,8 @@ function mapStateToProps(state, ownProps) {
     strength: energy.get('strength'),
     editingEnergy: state.get('editingEnergy'),
     startDragging: state.get('startDragging'),
-    stopDragging: state.get('stopDragging')
+    stopDragging: state.get('stopDragging'),
+    isMuted: energy.get('isMuted')
   };
 }
 
