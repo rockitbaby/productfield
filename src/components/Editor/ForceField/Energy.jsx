@@ -97,7 +97,6 @@ export const Energy = React.createClass({
 
   getCircleStyle: function() {
     var backgroundColor = function(strength, isMuted) {
-      debugger;
       if(isMuted) {
         return GlobalStyles.neutralGrey;
       } else {
