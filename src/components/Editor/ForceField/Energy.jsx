@@ -82,9 +82,18 @@ export const Energy = React.createClass({
              { this.isEditing() ?
                <div className="Energy-pane" style={this.getPaneStyle()}>
                  <Slider value={this.props.strength}
-                         setStrength={this.props.setStrength} />
-                       <div className="sliderAddition">
-                         <img src="/img/delete.svg" onClick={this.props.deleteEnergy}/>
+                         setStrength={this.props.setStrength}
+                         isPresentation={this.props.isPresentation}/>
+                       <div className={this.props.isPresentation? " sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"}>
+                         <div className="sliderAdditionIconWrapper">
+                          { this.props.isMuted ?
+                            <img src="/img/unmute.svg" onClick={this.props.setMuteEngery("false")}/> :
+                            <img src="/img/mute.svg" onClick={this.props.setMuteEngery("true")}/>
+                          }
+                        </div>
+                        <div className="sliderAdditionIconWrapper">
+                          <img src="/img/delete.svg" onClick={this.props.deleteEnergy}/>
+                        </div>
                       </div>
                </div>
                : null
@@ -169,7 +178,9 @@ function mapStateToProps(state, ownProps) {
     strength: energy.get('strength'),
     editingEnergy: state.get('editingEnergy'),
     startDragging: state.get('startDragging'),
-    stopDragging: state.get('stopDragging')
+    stopDragging: state.get('stopDragging'),
+    isPresentation: state.get('isPresentation'),
+    isMuted: state.get('isMuted')
   };
 }
 
