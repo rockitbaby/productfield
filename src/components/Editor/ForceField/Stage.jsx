@@ -16,6 +16,19 @@ export const Stage = React.createClass({
     const gridUnit = Math.floor(maximumFieldSize / dotsInField);
     const fieldSize = gridUnit * dotsInField
 
+    const lightSkin =  {
+                     dots:   "#304FFE ",
+                     marker: "#304FFE ",
+                     arrows: "#F2F2F2 ",
+                     background: '#FFFFFF '
+                   };
+    const darkSkin =  {
+                     dots:   "#FFFFFF ",
+                     marker: "#FFFFFF ",
+                     arrows: "#F2F2F2 ",
+                     background: '#000000 '
+                   };
+
     return {
       fieldSize: fieldSize,
       gridUnit: gridUnit,
@@ -23,12 +36,7 @@ export const Stage = React.createClass({
       minLengthForArrowsToDisplay: 2,
       width:  this.props.width,
       height: this.props.height,
-      skin: {
-        dots: "#304FFE",
-        marker: "#304FFE",
-        arrows: "#F2F2F2",
-        background: '#FFFFFF'
-      }
+      skin: this.props.isPresentation ? darkSkin : lightSkin
     }
   },
 

@@ -21,7 +21,7 @@ export default React.createClass({
           radius = 1.5;
         }
         const classNames = forceFieldDescriptor.getClassNames();
-        circles.push(<circle key={`${x},${y}`} className={classNames} cx={x} cy={y} r={radius}></circle>)
+        circles.push(<circle key={`${x},${y}`} className={classNames} cx={x} cy={y} r={radius} stroke={this.props.skin.dots} ></circle>)
       }
     }
 

@@ -5,12 +5,11 @@ import {ForceFieldCalculationSingleton} from '../../../../ForceFieldCalculation'
 var ForceArrow = React.createClass({
 
   render: function() {
-
+    debugger;
     var transform = "rotate(" + this.props.deg + "," + this.props.x + "," + this.props.y + ")";
     var triangleCoordinates = [this.props.x2, this.props.y2, this.props.x2 + this.props.triangleSize, this.props.y2, this.props.x2, this.props.y2 - this.props.triangleSize, this.props.x2 - this.props.triangleSize, this.props.y2, this.props.x2, this.props.y2].join();
-
-    return <g><line x1={this.props.x} y1={this.props.y} x2={this.props.x2} y2={this.props.y2} strokeWidth='1' stroke='black' transform={transform} />
-      <polyline points={triangleCoordinates} transform={transform} fill='black' /></g>;
+    return <g><line x1={this.props.x} y1={this.props.y} x2={this.props.x2} y2={this.props.y2} strokeWidth='1' stroke={this.props.skin.arrows} transform={transform} />
+      <polyline points={triangleCoordinates} transform={transform} fill={this.props.skin.arrows} /></g>;
 
   }
 });
