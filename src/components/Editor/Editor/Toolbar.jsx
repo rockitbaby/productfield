@@ -1,12 +1,13 @@
 import React from 'react';
 import GlobalStyles from '../../../styles/GlobalStyles';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {connect} from 'react-redux';
+import * as actionCreators from '../../../action_creators';
 
-export default React.createClass({
+export const Toolbar = React.createClass({
   mixins: [PureRenderMixin],
 
   presentationButtonClick: function(){
-
     if(this.props.isPresentation == false) {
       console.log("StartPresentationMode");
       this.props.setPresentation(true);
@@ -70,3 +71,11 @@ export default React.createClass({
     }
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    isPresentation: state.get('isPresentation')
+  };
+}
+
+export const ConnectedToolbar = connect(mapStateToProps, actionCreators)(Toolbar);

@@ -31,7 +31,7 @@ function editEnergy(state, energy) {
   return state.set('editingEnergy', energy)
 }
 
-function setPresentationState(state, presentation = false) {
+function setPresentation(state, presentation = false) {
   return state.set('isPresentation', presentation)
 }
 
@@ -76,7 +76,7 @@ export default function(state = Map(), action) {
   case 'SET_STRENGTH':
     return setState(state, setStrength(state, action.strength))
   case 'SET_PRESENTATION':
-    return setState(state, setPresentationState(state, action.presentation))
+    return setState(state, setPresentation(state, action.presentation))
   }
 
   return state;

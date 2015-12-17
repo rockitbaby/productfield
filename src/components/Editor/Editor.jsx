@@ -1,9 +1,7 @@
 import React from 'react';
 import * as actionCreators from '../../action_creators'
-
-
 import {ConnectedStage} from './ForceField/Stage';
-import Toolbar from './Editor/Toolbar';
+import {ConnectedToolbar} from './Editor/Toolbar';
 
 export default React.createClass({
   getInitialState: function() {
@@ -20,7 +18,7 @@ export default React.createClass({
 
   render: function() {
     return <div className="Editor">
-      <Toolbar setPresentation={this.props.setPresentation} />
+      <ConnectedToolbar />
       <ConnectedStage height={this.state.stageHeight} width={this.state.stageWidth} />
     </div>;
   },
