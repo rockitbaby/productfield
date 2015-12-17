@@ -180,7 +180,7 @@ function mapStateToProps(state, ownProps) {
     startDragging: state.get('startDragging'),
     stopDragging: state.get('stopDragging'),
     isPresentation: state.get('isPresentation'),
-    isMuted: state.get('isMuted')
+    isMuted: energy.get('isMuted')
   };
 }
 

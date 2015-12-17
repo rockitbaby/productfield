@@ -24,7 +24,6 @@ export default React.createClass({
         circles.push(<circle key={`${x},${y}`} className={classNames} cx={x} cy={y} r={radius} stroke={this.props.skin.dots} ></circle>)
       }
     }
-
     return <g>{circles}</g>;
   }
 });

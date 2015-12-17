@@ -20,9 +20,10 @@ A Force Field Analysis Tools for the Product Field Canvas.
 ```
 {
   editingEnergy: {id: 2, x: 0.5, y: 0.6, strength: 2},
+  isPresentation: false,
   energies: [
-    {id: 1, x: 0.8, y: -0.5, strength: 3},
-    {id: 2, x: 0.5, y: 0.6, strength: 2}
+    {id: 1, x: 0.8, y: -0.5, strength: 3, isMuted: true},
+    {id: 2, x: 0.5, y: 0.6, strength: 2, isMuted: false}
   ]
 }
 ```

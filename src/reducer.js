@@ -8,6 +8,16 @@ function setState(state, newState) {
   return state.merge(newState);
 }
 
+function setMuteEnergy(state, muted = false) {
+  var muteEnergyId = state.getIn(['editingEnergy', 'id']);
+
+  var energyToBeMuted = state.get('energies').map(function(energy) {
+    return energy.get('id') == muteEnergyId;
+  });
+
+  energyToBeMuted.set('isMuted', muted);
+}
+
 function moveEnergy(state, newEnergy) {
   var newEnergies = state.get('energies').map(function(energy) {
     if (energy.get('id') == newEnergy.get('id')) {
@@ -66,17 +76,19 @@ export default function(state = Map(), action) {
   case 'ADD_ENERGY':
     return setState(state, addEnergy(state, action.energy));
   case 'DELETE_ENERGY':
-    return setState(state, deleteEnergy(state))
+    return setState(state, deleteEnergy(state));
   case 'EDIT_ENERGY':
-    return setState(state, editEnergy(state, action.energy))
+    return setState(state, editEnergy(state, action.energy));
   case 'START_DRAGGING':
-    return setState(state, state.set('dragging', true))
+    return setState(state, state.set('dragging', true));
   case 'STOP_DRAGGING':
-    return setState(state, state.set('dragging', false))
+    return setState(state, state.set('dragging', false));
   case 'SET_STRENGTH':
-    return setState(state, setStrength(state, action.strength))
+    return setState(state, setStrength(state, action.strength));
   case 'SET_PRESENTATION':
-    return setState(state, setPresentation(state, action.presentation))
+    return setState(state, setPresentation(state, action.presentation));
+  case 'SET_MUTEENERGY':
+    return setState(state, setMuteEnergy(state, action.mute));
   }
 
   return state;

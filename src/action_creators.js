@@ -57,3 +57,10 @@ export function setPresentation(presentation) {
     presentation
   };
 }
+
+export function setMuteEnergy(mute) {
+  return {
+    type: 'SET_MUTEENERGY',
+    mute
+  }
+}
