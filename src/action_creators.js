@@ -58,9 +58,9 @@ export function setPresentation(presentation) {
   };
 }
 
-export function setMuteEnergy(energy) {
+export function setMute(energy) {
   return {
-    type: 'SET_MUTEENERGY',
+    type: 'SET_MUTE',
     energy
   }
 }

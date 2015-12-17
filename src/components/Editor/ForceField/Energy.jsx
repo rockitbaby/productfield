@@ -23,7 +23,7 @@ export const Energy = React.createClass({
 
     var [normalizedX, normalizedY] = this.props.normalizeCoordinates(pXstage, pYstage);
 
-    this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY}));
+    this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY, isMuted: this.props.isMuted}));
     this.props.stopDragging();
   },
 
@@ -39,7 +39,7 @@ export const Energy = React.createClass({
     var [normalizedX, normalizedY] = this.props.normalizeCoordinates(newX,newY);
 
     this.props.startDragging();
-    this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY}))
+    this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY, isMuted: this.props.isMuted}))
   },
 
   energyClicked: function(event) {
@@ -63,7 +63,7 @@ export const Energy = React.createClass({
       isMuted:  this.props.isMuted ? false : true
     });
 
-    this.props.setMuteEnergy(currentEnergy);
+    this.props.setMute(currentEnergy);
   },
 
   componentSizeOffset: function() {
@@ -99,7 +99,11 @@ export const Energy = React.createClass({
                          isPresentation={this.props.isPresentation}/>
                        <div className={this.props.isPresentation? " sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"}>
                          <div className="sliderAdditionIconWrapper">
-                            <img src="/img/mute.svg" onClick={console.log("mute Energy")}/>
+                           {this.props.isMuted ?
+                            <img src="/img/unmute.svg" onClick={this.toggleMuteEnergy}/>
+                            :
+                            <img src="/img/mute.svg" onClick={this.toggleMuteEnergy}/>
+                            }
                         </div>
                         <div className="sliderAdditionIconWrapper">
                           <img src="/img/delete.svg" onClick={this.props.deleteEnergy}/>

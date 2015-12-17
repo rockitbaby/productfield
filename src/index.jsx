@@ -9,7 +9,7 @@ import reducer from './reducer';
 import {setState} from './action_creators'
 
 const store = createStore(reducer);
-var initialState = fromJS({energies: [{id: 2, x: 0.4, y: 0.1, strength: 1, isMuted: false}, {id: 1, x: 0, y: 0, strength: 1, isMuted: false}]});
+var initialState = fromJS({energies: [{id: 2, x: 0.4, y: 0.1, strength: 1, isMuted: false}, {id: 1, x: 0, y: 0, strength: 1, isMuted: true}]});
 store.dispatch(setState(initialState));
 
 ReactDOM.render(
