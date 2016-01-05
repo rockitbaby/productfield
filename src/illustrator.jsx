@@ -3,9 +3,31 @@ import Renderer from './components/Editor/ForceField/Renderer';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
+/*
+
+this code is used to generate static svg images.
+svg may contain a style element.
+
+the default style loader will append css to
+window.document.
+
+when creating static markup we lack a window object.
+
+why do we need gloabl styles at all?
+- to speed up svg rendering
+- allow transitions on svg elements
+- easiliy highlight certain areas of the product field
+
+--
+
+please see inline comments 1) and 2)
+
+*/
+
+// 1) we are importing additional styles as text
+import styles from 'raw!./styles/illustrator.css.txt';
+
 const DOTS_IN_FIELD = 20;
-
-
 
 
 function getProperties(params) {
@@ -62,8 +84,12 @@ if(typeof document !== "undefined") {
 
   let props = getProperties(params);
 
+  // 2) and inject them inside a style element
   ReactDOM.render(
-    <Renderer {...props} />,
+    <div>
+      <style>{styles}</style>
+      <Renderer {...props} />
+    </div>,
     document.getElementById('app')
   );
 }
@@ -71,5 +97,12 @@ if(typeof document !== "undefined") {
 export default function render(params) {
 
   let props = getProperties(params);
-  return ReactDOMServer.renderToString(<Renderer {...props} />);
+
+  // 2) and inject them inside a style element
+  return ReactDOMServer.renderToString(
+    <svg>
+      <style>{styles}</style>
+      <Renderer {...props} />
+    </svg>
+    );
 }
