@@ -4,6 +4,8 @@ var render = require("./illustrator.generated.js");
 
 var app = express();
 
+var port = process.env.PORT || 3000;
+
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.get("/", function(req, res) {
@@ -12,6 +14,6 @@ app.get("/", function(req, res) {
   res.end('<svg xmlns="http://www.w3.org/2000/svg">' + render(req.query) + '</svg>');
 });
 
-var server = app.listen(3000, function() {
+var server = app.listen(port, function() {
   console.log('Listening on port %d', server.address().port);
 });

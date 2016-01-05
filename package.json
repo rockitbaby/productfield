@@ -11,7 +11,7 @@
     "devserver": "CSS_SOURCEMAPS=true webpack-dev-server --inline",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)' --reporter nyan",
     "test:watch": "npm run test -- --watch",
-    "illustrator": "webpack && node server"
+    "start": "webpack && node server"
   },
   "author": "",
   "license": "ISC",
