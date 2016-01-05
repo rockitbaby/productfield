@@ -24,9 +24,7 @@ export class Renderer extends Component {
         <Grid
           stageWidth={width}
           stageHeight={height}
-          fieldSize={fieldSize}
           gridUnit={gridUnit}
-          normalizeCoordinates={normalizeCoordinates}
           skin={skin} />
         <Marker
           stageWidth={width}
