@@ -44,6 +44,9 @@ export class Stage extends Component {
       width:  this.props.width,
       height: this.props.height,
       skin: this.props.isPresentationModeEnabled ? darkSkin : lightSkin,
+      visibility: {
+        forces: true,
+      }
     }
   }
 

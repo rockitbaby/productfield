@@ -10,7 +10,8 @@
   "scripts": {
     "devserver": "CSS_SOURCEMAPS=true webpack-dev-server --inline",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)' --reporter nyan",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "illustrator": "webpack && node server"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "chai": "^3.3.0",
     "chai-immutable": "^1.3.0",
     "css-loader": "^0.23.0",
+    "express": "^4.13.3",
     "jsdom": "^6.5.1",
     "mocha": "^2.3.3",
     "react-addons-test-utils": "^0.14.0",

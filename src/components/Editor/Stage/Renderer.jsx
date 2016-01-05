@@ -34,17 +34,19 @@ export class Renderer extends Component {
           fieldSize={fieldSize}
           gridUnit={gridUnit}
           skin={skin} />
-        <Forces
-          energies={energies}
-          stageWidth={width}
-          stageHeight={height}
-          fieldSize={fieldSize}
-          gridUnit={gridUnit}
-          normalizeCoordinates={normalizeCoordinates}
-          arrowTriangleSize={triangleSize}
-          minArrowLength={minLengthForArrowsToDisplay}
-          skin={skin}
-        />
+        { this.props.visibility.forces ?
+          <Forces
+            energies={energies}
+            stageWidth={width}
+            stageHeight={height}
+            fieldSize={fieldSize}
+            gridUnit={gridUnit}
+            normalizeCoordinates={normalizeCoordinates}
+            arrowTriangleSize={triangleSize}
+            minArrowLength={minLengthForArrowsToDisplay}
+            skin={skin}
+          />
+        : null }
       </svg>
     );
   }
@@ -59,6 +61,9 @@ Renderer.propTypes = {
   normalizeCoordinates: PropTypes.func.isRequired,
   triangleSize: PropTypes.number.isRequired,
   minLengthForArrowsToDisplay: PropTypes.number.isRequired,
+  visibility: PropTypes.shape({
+    forces: PropTypes.bool.isRequired,
+  }),
   skin: PropTypes.shape({
     background: PropTypes.string.isRequired,
     dots: PropTypes.string.isRequired,
@@ -69,4 +74,5 @@ Renderer.propTypes = {
 
 Renderer.defaultProps = {
   energies: Forces.defaultProps.energies,
+  visibility: {forces: true},
 };
