@@ -83,7 +83,7 @@ export default class ForceFieldDescriptor {
     }
   }
 
-  getClassNames() {
+  getNames() {
     var d = [];
     if(this.isField()) {
       d.push('field');
@@ -118,7 +118,11 @@ export default class ForceFieldDescriptor {
     if(area) {
       d.push(area);
     }
-    return d.join(' ');
+    return d;
+  }
+
+  getClassNames() {
+    return this.getNames().join(' ');
   }
 
 }
