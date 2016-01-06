@@ -22,7 +22,11 @@ export class Renderer extends Component {
       minLengthForArrowsToDisplay, triangleSize, energies, highlights,
     } = this.props;
     return (
-      <svg style={this.rendererStyles()} >
+      <svg
+        style={this.rendererStyles()}
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`} >
         <Grid
           stageWidth={width}
           stageHeight={height}
