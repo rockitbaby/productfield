@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
+import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 
 const INTERSECTION_CIRCLE_RADIUS = 4;
 const DEFAULT_CIRCLE_RADIUS = 1;
@@ -7,17 +8,18 @@ const DEFAULT_CIRCLE_RADIUS = 1;
 export class Grid extends Component {
 
   render() {
-    const {stageWidth, stageHeight, gridUnit, skin: {dots}, highlights} = this.props;
+    const {stageWidth, stageHeight, gridUnit, skin: {dots}} = this.props;
     const origin = {x: stageWidth / 2, y: stageHeight / 2};
-    const highlights = new Set(highlights);
+    const highlights = new Set(this.props.highlights);
 
     let circles = []
-    [{x: 1, y: 1}, {x: 1, y: -1}, {x: -1, y: -1}, {x: -1, y: 1}].forEach(function(quadrantCoefficient) {
+
+    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
       for(let ix = 0; ix < 10; ix++) {
         for(let iy = 0; iy < 10; iy++) {
 
-          let x = quadrantCoefficient.x * ix;
-          let y = quadrantCoefficient.y * iy;
+          let x = quadrant.coefficient.x * ix;
+          let y = quadrant.coefficient.y * iy;
           let forceFieldDescriptor = new ForceFieldDescriptor(x / 10, y / 10);
           let radius = DEFAULT_CIRCLE_RADIUS;
           if (forceFieldDescriptor.isCenter()) {

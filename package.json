@@ -29,7 +29,7 @@
     "raw-loader": "^0.5.1",
     "react-addons-test-utils": "^0.14.0",
     "webpack": "^1.12.2",
-    "webpack-dev-server": "^1.12.0",
+    "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
     "express": "^4.13.3",
@@ -45,6 +45,6 @@
     "react-redux": "^4.0.0",
     "react-slider": "^0.6.0",
     "redux": "^3.0.2",
-    "victor": "^1.1.0",
+    "victor": "^1.1.0"
   }
 }

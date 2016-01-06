@@ -4,7 +4,6 @@ import uuid from 'node-uuid';
 import {Energy} from './Stage/Energy';
 import {EnergyEditor} from './Stage/EnergyEditor';
 import {Renderer} from './Stage/Renderer';
-import '../../styles/main.css';
 import sliderStyles from './Stage/Energy/slider.css';
 import energyStyles from './Stage/Energy/energy.css';
 
