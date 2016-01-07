@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react';
+import uuid from 'node-uuid';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 
 function getLine(from, to, gridUnit) {
-  return <line stroke={'black'} strokeWidth={2} x1={from.x * gridUnit} y1={-from.y * gridUnit} x2={to.x * gridUnit} y2={-to.y * gridUnit} />
+  return <line key={uuid.v1()} stroke={'black'} strokeWidth={2} x1={from.x * gridUnit} y1={-from.y * gridUnit} x2={to.x * gridUnit} y2={-to.y * gridUnit} />
 }
 
 function P(x, y) {

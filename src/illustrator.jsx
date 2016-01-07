@@ -39,6 +39,12 @@ function getProperties(params) {
   let highlights = params.highlights || '';
   highlights = highlights.split(',');
 
+  let labels = params.labels || '';
+  labels = labels.split(',');
+
+  let dots = params.dots || '';
+  dots = dots.split(',');
+
   const maximumFieldSize = Math.floor(Math.min(width, height));
   const gridUnit = Math.floor(maximumFieldSize / DOTS_IN_FIELD);
   const fieldSize = gridUnit * DOTS_IN_FIELD
@@ -61,6 +67,8 @@ function getProperties(params) {
       marker: true
     },
     highlights: highlights,
+    labels: labels,
+    dots: dots,
     fieldSize: fieldSize,
     normalizeCoordinates: function(x, y) {
 

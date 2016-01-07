@@ -4,6 +4,7 @@ import {Marker} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';
 import {Labels} from './Renderer/Labels';
 import {Grid} from './Renderer/Grid';
+import {Areas} from './Renderer/Areas';
 import {Forces} from './Renderer/Forces';
 
 export class Renderer extends Component {
@@ -20,9 +21,22 @@ export class Renderer extends Component {
     const {
       width, height, fieldSize, gridUnit, skin, normalizeCoordinates,
       minLengthForArrowsToDisplay, triangleSize, energies, highlights,
+      labels,
     } = this.props;
+
+    let classNames = [];
+    highlights.forEach(function(name) {
+      classNames.push('highlight-' + name);
+    });
+
+    labels.forEach(function(name) {
+      classNames.push('label-' + name);
+    });
+    let className = classNames.join(' ');
+
     return (
       <svg
+        className={className}
         style={this.rendererStyles()}
         width={width}
         height={height}
@@ -32,6 +46,7 @@ export class Renderer extends Component {
           stageHeight={height}
           gridUnit={gridUnit}
           skin={skin}
+          dots={this.props.dots}
           highlights={highlights} />
         <Marker
           stageWidth={width}
@@ -76,6 +91,7 @@ Renderer.propTypes = {
   normalizeCoordinates: PropTypes.func.isRequired,
   triangleSize: PropTypes.number.isRequired,
   minLengthForArrowsToDisplay: PropTypes.number.isRequired,
+  lables: React.PropTypes.arrayOf(PropTypes.string),
   visibility: PropTypes.shape({
     forces: PropTypes.bool.isRequired,
   }),
@@ -86,10 +102,13 @@ Renderer.propTypes = {
     marker: PropTypes.string.isRequired,
     arrows: PropTypes.string.isRequired,
   }).isRequired,
+  dots: PropTypes.arrayOf(PropTypes.string),
 };
 
 Renderer.defaultProps = {
   energies: Forces.defaultProps.energies,
   visibility: {forces: true},
   highlights: [],
+  labels: [],
+  dots: [],
 };

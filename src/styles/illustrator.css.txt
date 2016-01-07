@@ -1,3 +1,79 @@
 .u-visual-debug {
   display: none;
 }
+text {
+  font-family: Merriweather;
+}
+
+.highlight-goals .Areas-goals,
+.highlight-motivations .Areas-motivations,
+.highlight-users .Areas-users,
+.highlight-customers .Areas-customers,
+.highlight-distribution .Areas-distribution,
+.highlight-production .Areas-production,
+.highlight-enablers .Areas-enablers,
+.highlight-drivers .Areas-drivers,
+.highlight-competitors .Areas-competitors,
+.highlight-uniqueness .Areas-uniqueness,
+.highlight-solution .Areas-solution,
+.highlight-problem .Areas-problem,
+
+.highlight-core .Areas-core,
+.highlight-context .Areas-context,
+.highlight-all .Areas polygon,
+.highlight-all .Areas rect
+{
+  opacity: 0.8;
+}
+
+.Areas polygon,
+.Areas rect {
+  fill: #FFFF00;
+  opacity: 0.4;
+  opacity: 0;
+}
+
+.Labels text {
+  opacity: 0.2; 
+  opacity: 0; 
+}
+
+.Labels .Labels-context {
+  text-transform: uppercase;
+  font-family: sans-serif;
+}
+
+.Labels .Labels-core {
+  text-transform: lowercase;
+  font-family: sans-serif;
+}
+
+.Labels .Labels-character {
+  text-transform: uppercase;
+  font-family: serif;
+}
+
+.label-goals .Labels-goals,
+.label-motivations .Labels-motivations,
+.label-users .Labels-users,
+.label-customers .Labels-customers,
+.label-distribution .Labels-distribution,
+.label-production .Labels-production,
+.label-enablers .Labels-enablers,
+.label-drivers .Labels-drivers,
+.label-competitors .Labels-competitors,
+.label-uniqueness .Labels-uniqueness,
+.label-solution .Labels-solution,
+.label-problem .Labels-problem,
+
+.label-value .Labels-value,
+.label-market .Labels-market,
+.label-resources .Labels-resources,
+.label-idea .Labels-idea,
+
+.label-core .Labels-core,
+.label-context .Labels-context,
+.label-character .Labels-character,
+.label-all .Labels text {
+  opacity: 1;
+}

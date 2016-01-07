@@ -10,11 +10,11 @@ export class Grid extends Component {
   render() {
     const {stageWidth, stageHeight, gridUnit, skin: {dots}} = this.props;
     const origin = {x: stageWidth / 2, y: stageHeight / 2};
-    const highlights = new Set(this.props.highlights);
+    const dotHighlights = new Set(this.props.dots);
 
     let circles = []
 
-    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
+    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant, index) {
       for(let ix = 0; ix < 10; ix++) {
         for(let iy = 0; iy < 10; iy++) {
 
@@ -28,13 +28,13 @@ export class Grid extends Component {
 
           const names = new Set(forceFieldDescriptor.getNames());
 
-          let intersection = new Set([...names].filter(x => highlights.has(x)));
+          let intersection = new Set([...names].filter(x => dotHighlights.has(x)));
 
           if (intersection.size) {
             radius = INTERSECTION_CIRCLE_RADIUS;
           }
           const classNames = forceFieldDescriptor.getClassNames();
-          circles.push(<circle key={`${x},${y}`} className={classNames} cx={x * gridUnit} cy={-y * gridUnit} r={radius} stroke={dots} />)
+          circles.push(<circle key={`${index+1}: ${x},${y}`} className={classNames} cx={x * gridUnit} cy={-y * gridUnit} r={radius} stroke={dots} />)
         }
       }
 
@@ -52,9 +52,9 @@ Grid.propTypes = {
   skin: PropTypes.shape({
     dots: PropTypes.string.isRequired,
   }).isRequired,
-  highlights: PropTypes.arrayOf(PropTypes.string),
+  dots: PropTypes.arrayOf(PropTypes.string),
 };
 
 Grid.defaultProps = {
-  highlights: [],
+  dots: [],
 };

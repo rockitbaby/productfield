@@ -5,11 +5,12 @@ export default {
   QUADRANTS: [
     {
       name: 'value',
-      labels: ['motivation', 'users', 'problem'],
+      labels: ['motivations', 'users', 'problem'],
       coefficient: {
         x: 1,
         y: 1
-      }
+      },
+      deg: 0
     },
     {
       name: 'market',
@@ -17,7 +18,8 @@ export default {
       coefficient: {
         x: 1,
         y: -1
-      }
+      },
+      deg: 90
     },
     {
       name: 'ressources',
@@ -25,7 +27,8 @@ export default {
       coefficient: {
         x: -1,
         y: -1
-      }
+      },
+      deg: 180
     },
     {
       name: 'idea',
@@ -33,8 +36,10 @@ export default {
       coefficient: {
         x: -1,
         y: 1
-      }
+      },
+      deg: 270
     }
-  ]
+  ],
+  CENTER_RADIUS: Math.sqrt(2)
   
 }
