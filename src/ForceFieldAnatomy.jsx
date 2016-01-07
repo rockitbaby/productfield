@@ -2,6 +2,24 @@ const abs = Math.abs;
 
 export default {
 
+  LABELS: {
+    context: [
+        'goals',
+        'motivations',
+        'users',
+        'customers',
+        'distribution',
+        'production',
+        'enablers',
+        'drivers'
+      ],
+    core: [
+        'problem',
+        'competitors',
+        'solution',
+        'uniqueness'
+      ]
+  },
   QUADRANTS: [
     {
       name: 'value',

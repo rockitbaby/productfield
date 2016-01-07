@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import {Renderer} from './components/Editor/Stage/Renderer';
+import ForceFieldAnatomy from './ForceFieldAnatomy';
 
 /*
 
@@ -32,15 +33,25 @@ const DOTS_IN_FIELD = 20;
 
 function getProperties(params) {
 
-  console.log(params);
   // @todo url params
   let width = params.width || 800;
   let height = params.height || 800;
+
+  let describe = params.describe || false;
+
   let highlights = params.highlights || '';
   highlights = highlights.split(',');
 
   let labels = params.labels || '';
   labels = labels.split(',');
+
+  if(params.describe) {
+    let allLabels = ForceFieldAnatomy.LABELS.context.concat(ForceFieldAnatomy.LABELS.core);
+    labels = allLabels.slice(0, describe);
+    highlights = allLabels.slice(describe - 1, describe);
+
+    console.log(highlights);
+  }
 
   let dots = params.dots || '';
   dots = dots.split(',');
