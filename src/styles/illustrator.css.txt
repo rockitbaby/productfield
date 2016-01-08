@@ -29,13 +29,31 @@ text {
 .Areas polygon,
 .Areas rect {
   fill: #FFFF00;
+  fill: url(#Crosshatch);
   opacity: 0.4;
   opacity: 0;
 }
 
+.highlight-_single .Areas polygon,
+.highlight-_single .Areas rect {
+  transform-origin: 50% 50%;
+  transform: scale(1.1) rotate(1deg);  
+}
+
+.highlight-_stripe .Areas polygon,
+.highlight-_stripe .Areas rect {
+  fill: url(#Stripe);
+}
+
+.Pattern-crosshatch {
+  stroke: #000;
+  stroke-width: 0.5;
+}
+
 .Labels text {
   opacity: 0.2; 
-  opacity: 0; 
+  opacity: 0;
+  color: #FFFFFF;
 }
 
 .Labels .Labels-context {
@@ -75,5 +93,18 @@ text {
 .label-context .Labels-context,
 .label-character .Labels-character,
 .label-all .Labels text {
+  opacity: 1;
+}
+
+.Lines line {
+  opacity: 0;
+  stroke-width: 1.5;
+}
+
+.line-core .Lines-core {
+  opacity: 1;
+}
+
+.line-context .Lines-context {
   opacity: 1;
 }

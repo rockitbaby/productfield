@@ -45,6 +45,8 @@ export class Stage extends Component {
       skin: this.props.isPresentationModeEnabled ? darkSkin : lightSkin,
       visibility: {
         forces: true,
+        grid: true,
+        labels: true,
       }
     }
   }

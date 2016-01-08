@@ -15,9 +15,9 @@ export default {
       ],
     core: [
         'problem',
-        'competitors',
         'solution',
-        'uniqueness'
+        'uniqueness',
+        'competition'
       ]
   },
   QUADRANTS: [
@@ -32,7 +32,7 @@ export default {
     },
     {
       name: 'market',
-      labels: ['distribution', 'customers', 'competitors'],
+      labels: ['distribution', 'customers', 'competition'],
       coefficient: {
         x: 1,
         y: -1

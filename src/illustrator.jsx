@@ -45,6 +45,9 @@ function getProperties(params) {
   let labels = params.labels || '';
   labels = labels.split(',');
 
+  let lines = params.lines || '';
+  lines = lines.split(',');
+
   if(params.describe) {
     let allLabels = ForceFieldAnatomy.LABELS.context.concat(ForceFieldAnatomy.LABELS.core);
     labels = allLabels.slice(0, describe);
@@ -65,21 +68,25 @@ function getProperties(params) {
     height: height,
     gridUnit: gridUnit,
     skin: {
-      dots:   "#304FFE",
-      marker: "#304FFE",
-      arrows: "#F2F2F2",
+      dots:   "#000000",
+      marker: "#000000",
+      arrows: "#000000",
       background: '#FFFFFF',
-      triangleSize: 2.5,
-      minLengthForArrowsToDisplay: 2
+      areaFill: 'pattern',
+      areas: '#FFFF00',
+      arrows: '#000000'
     },
     visibility: {
       forces: false,
       grid: true,
-      marker: true
+      marker: true,
+      lines: true,
+      labels: true
     },
     highlights: highlights,
     labels: labels,
     dots: dots,
+    lines: lines,
     fieldSize: fieldSize,
     normalizeCoordinates: function(x, y) {
 

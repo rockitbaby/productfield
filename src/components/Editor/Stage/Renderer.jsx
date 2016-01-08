@@ -2,9 +2,9 @@ import React, {Component, PropTypes} from 'react';
 
 import {Marker} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';
-import {Labels} from './Renderer/Labels';
+import {Labels, getDefs as getLabelDefs} from './Renderer/Labels';
 import {Grid} from './Renderer/Grid';
-import {Areas} from './Renderer/Areas';
+import {Areas, getDefs as getAreaDefs} from './Renderer/Areas';
 import {Forces} from './Renderer/Forces';
 
 export class Renderer extends Component {
@@ -34,6 +34,8 @@ export class Renderer extends Component {
     });
     let className = classNames.join(' ');
 
+    let defs = getAreaDefs().concat(getLabelDefs());
+
     return (
       <svg
         className={className}
@@ -41,13 +43,16 @@ export class Renderer extends Component {
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`} >
-        <Grid
-          stageWidth={width}
-          stageHeight={height}
-          gridUnit={gridUnit}
-          skin={skin}
-          dots={this.props.dots}
-          highlights={highlights} />
+        <defs>{defs}</defs>
+        { this.props.visibility.grid ?
+          <Grid
+            stageWidth={width}
+            stageHeight={height}
+            gridUnit={gridUnit}
+            skin={skin}
+            dots={this.props.dots}
+            highlights={highlights} />
+          : null }
         <Marker
           stageWidth={width}
           stageHeight={height}
@@ -59,11 +64,17 @@ export class Renderer extends Component {
           stageHeight={this.props.height}
           gridUnit={this.props.gridUnit}
           skin={this.props.skin} />
-        <Labels
+        <Areas
           stageWidth={this.props.width}
           stageHeight={this.props.height}
-          gridUnit={this.props.gridUnit}
-          skin={this.props.skin} />
+          gridUnit={this.props.gridUnit} />
+        { this.props.visibility.labels ?
+          <Labels
+            stageWidth={this.props.width}
+            stageHeight={this.props.height}
+            gridUnit={this.props.gridUnit}
+            skin={this.props.skin} />
+          : null }
         { this.props.visibility.forces ?
           <Forces
             energies={energies}
@@ -94,6 +105,8 @@ Renderer.propTypes = {
   lables: React.PropTypes.arrayOf(PropTypes.string),
   visibility: PropTypes.shape({
     forces: PropTypes.bool.isRequired,
+    grid: PropTypes.bool.isRequired,
+    labels: PropTypes.bool.isRequired,
   }),
   highlights: PropTypes.arrayOf(PropTypes.string),
   skin: PropTypes.shape({
@@ -107,7 +120,7 @@ Renderer.propTypes = {
 
 Renderer.defaultProps = {
   energies: Forces.defaultProps.energies,
-  visibility: {forces: true},
+  visibility: {forces: true, labels: true, grid: true},
   highlights: [],
   labels: [],
   dots: [],

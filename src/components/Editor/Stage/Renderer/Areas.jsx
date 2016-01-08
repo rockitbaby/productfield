@@ -1,17 +1,28 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 
-export const Areas = React.createClass({
+export function getDefs() {
+  return [
+    <pattern key="areas-defs-stripe" id="Stripe"
+             width="10" height="10"
+             patternUnits="userSpaceOnUse">
+      <path d='M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2'
+        stroke='#000000'
+        stroke-width='0.5'/>
+    </pattern>,
+    <pattern key="areas-defs-crosshatch" id="Crosshatch"
+             width="8" height="8"
+             patternUnits="userSpaceOnUse">
+      <path className="Pattern-crosshatch" d='M0 0L8 8ZM8 0L0 8Z' stroke-width='1' />
+    </pattern>
+  ];
+}
 
-  statics: {
-    getDefs: function() {
-      return <mask id="cut-off-bottom"><rect x="0" y="0" width="200" height="100" fill="#000000" /></mask>
-    }
-  },
+export class Areas extends Component {
 
   render() {
-    const {fieldSize, stageWidth, stageHeight, gridUnit, skin: {dots}} = this.props;
+    const {stageWidth, stageHeight, gridUnit} = this.props;
     const origin = {x: stageWidth / 2, y: stageHeight / 2};
 
     let groups = [];
@@ -19,7 +30,7 @@ export const Areas = React.createClass({
     let w = 5;
     let h = 5;
      groups.push(
-        <g className={'Areas-core'}>
+        <g key={'core'} className={'Areas-core'}>
           <rect className={'Areas-core Areas-problem'} x={0} y={-5 * gridUnit} width={w * gridUnit} height={w * gridUnit} />
           <rect className={'Areas-core Areas-competitor'} x={0} y={0} width={w * gridUnit} height={w * gridUnit} />
           <rect className={'Areas-core Areas-solution'} x={-5 * gridUnit} y={0} width={w * gridUnit} height={w * gridUnit} />
@@ -27,14 +38,14 @@ export const Areas = React.createClass({
         </g>
       );
 
-    let contextPoints1 = [[0,5], [0,8], [8,8], [5,5]];
+    let contextPoints1 = [[0,5], [0,8.5], [8,8.5], [8,8], [5,5]];
     let gridContextPoints1 = contextPoints1.map(function(point) {
       return [point[0] * gridUnit, -point[1] * gridUnit]
     }).reduce(function(a, b) {
       return a.concat(b);
     }, []).join(',');
 
-    let contextPoints2 = [[5,5], [8,8], [8,0], [5,0]];
+    let contextPoints2 = [[5,5], [8,8], [8.5,8], [8.5,0], [5,0]];
     let gridContextPoints2 = contextPoints2.map(function(point) {
         return [point[0] * gridUnit, -point[1] * gridUnit]
       }).reduce(function(a, b) {
@@ -66,6 +77,12 @@ export const Areas = React.createClass({
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
     return <g className="Areas" transform={transform}>{groups}</g>;
-  },
+  }
 
-});
+}
+
+Areas.propTypes = {
+  stageWidth: PropTypes.number.isRequired,
+  stageHeight: PropTypes.number.isRequired,
+  gridUnit: PropTypes.number.isRequired,
+};
