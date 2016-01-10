@@ -13,7 +13,7 @@ text {
 .highlight-production .Areas-production,
 .highlight-enablers .Areas-enablers,
 .highlight-drivers .Areas-drivers,
-.highlight-competitors .Areas-competitors,
+.highlight-competition .Areas-competition,
 .highlight-uniqueness .Areas-uniqueness,
 .highlight-solution .Areas-solution,
 .highlight-problem .Areas-problem,
@@ -23,15 +23,13 @@ text {
 .highlight-all .Areas polygon,
 .highlight-all .Areas rect
 {
-  opacity: 0.8;
+  fill: url(#Crosshatch);
+  display: block;
 }
 
 .Areas polygon,
 .Areas rect {
-  fill: #FFFF00;
-  fill: url(#Crosshatch);
-  opacity: 0.4;
-  opacity: 0;
+  display: none;
 }
 
 .highlight-_single .Areas polygon,
@@ -79,7 +77,7 @@ text {
 .label-production .Labels-production,
 .label-enablers .Labels-enablers,
 .label-drivers .Labels-drivers,
-.label-competitors .Labels-competitors,
+.label-competition .Labels-competition,
 .label-uniqueness .Labels-uniqueness,
 .label-solution .Labels-solution,
 .label-problem .Labels-problem,
@@ -101,10 +99,9 @@ text {
   stroke-width: 1.5;
 }
 
-.line-core .Lines-core {
-  opacity: 1;
-}
-
-.line-context .Lines-context {
+.line-core .Lines-core,
+.line-context .Lines-context,
+.line-all .Lines-core,
+.line-all .Lines-context {
   opacity: 1;
 }
