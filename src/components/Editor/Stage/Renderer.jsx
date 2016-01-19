@@ -62,8 +62,7 @@ export class Renderer extends Component {
         <Lines
           stageWidth={this.props.width}
           stageHeight={this.props.height}
-          gridUnit={this.props.gridUnit}
-          skin={this.props.skin} />
+          gridUnit={this.props.gridUnit}/>
         <Areas
           stageWidth={this.props.width}
           stageHeight={this.props.height}

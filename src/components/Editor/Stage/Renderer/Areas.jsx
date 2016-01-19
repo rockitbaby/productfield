@@ -23,7 +23,7 @@ export class Areas extends Component {
 
   render() {
     const {stageWidth, stageHeight, gridUnit} = this.props;
-    const origin = {x: stageWidth / 2, y: stageHeight / 2};
+    const origin = {x: Math.floor(stageWidth / 2), y: Math.floor(stageHeight / 2)};
 
     let groups = [];
 

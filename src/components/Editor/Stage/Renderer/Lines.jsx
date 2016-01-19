@@ -31,7 +31,6 @@ class Line extends Component {
     } else {
       return <line className={className} stroke={'black'} strokeWidth={2} x1={from.x * gridUnit} y1={-from.y * gridUnit} x2={to.x * gridUnit} y2={-to.y * gridUnit} />
     }
-
   }
 }
 
@@ -46,8 +45,8 @@ Line.propTypes = {
 export class Lines extends Component {
 
   render() {
-    const {stageWidth, stageHeight, gridUnit, skin: {dots}} = this.props;
-    const origin = {x: stageWidth / 2, y: stageHeight / 2};
+    const {stageWidth, stageHeight, gridUnit} = this.props;
+    const origin = {x: Math.floor(stageWidth / 2), y: Math.floor(stageHeight / 2)};
 
     let lines = [];
     lines.push(<Line key={'core-1'} className='Lines-core' from={P(-5, 5)} to={P(5, 5)} gridUnit={gridUnit} />);
@@ -112,7 +111,4 @@ Lines.propTypes = {
   stageWidth: PropTypes.number.isRequired,
   stageHeight: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
-  skin: PropTypes.shape({
-    dots: PropTypes.string.isRequired,
-  }).isRequired,
 };
