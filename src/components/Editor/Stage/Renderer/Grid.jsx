@@ -41,7 +41,7 @@ export class Grid extends Component {
     });
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g id="Grid-dots" transform={transform}>{circles}</g>;
+    return <g id="Grid" className="Grid" transform={transform}>{circles}</g>;
   }
 }
 

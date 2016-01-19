@@ -28,19 +28,19 @@ export class Marker extends Component {
 
       groups.push(
         <g key={deg} transform={transform}>
-          <polyline points={characterMarkerCoordinates} strokeWidth='2' fill='none' stroke={marker} />
-          <circle r={4} cx={gu5} cy={-gu5} fill={marker} />
+          <polyline points={characterMarkerCoordinates} strokeWidth='3' fill='none' stroke={marker} />
+          <circle r={6} cx={gu5} cy={-gu5} fill={marker} />
         </g>
       );
 
     });
 
     groups.push(
-      <circle key={'circle'} cx={0} cy={0} r={circleRadius * gridUnit} fill='none' strokeWidth='2' stroke={marker} />
+      <circle key={'circle'} cx={0} cy={0} r={circleRadius * gridUnit} fill='none' strokeWidth='3' stroke={marker} />
     )
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g className="Marker" transform={transform}>{groups}</g>;
+    return <g id="Marker" className="Marker" transform={transform}>{groups}</g>;
   }
 }
 

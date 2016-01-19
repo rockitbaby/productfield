@@ -103,7 +103,7 @@ export class Lines extends Component {
     });
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g id="Lines" transform={transform}>{lines}</g>;
+    return <g id="Lines" className="Lines" transform={transform}>{lines}</g>;
   }
 
 }
