@@ -64,8 +64,8 @@ function getProperties(params) {
   const fieldSize = gridUnit * DOTS_IN_FIELD
 
   return {
-    width: width,
-    height: height,
+    width: parseInt(width, 10),
+    height: parseInt(height, 10),
     gridUnit: gridUnit,
     skin: {
       dots:   "#000000",
