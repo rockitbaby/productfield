@@ -15,6 +15,7 @@
     "start": "node server",
     "serve": "webpack && node server",
     "build": "webpack",
+    "deploy": "git push heroku precious-illustration-server:master",
     "postinstall": "npm run build"
   },
   "author": "",
