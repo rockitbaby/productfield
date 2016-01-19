@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import {Renderer} from './components/Editor/Stage/Renderer';
+import {Renderer, visibility as rendererVisibility} from './components/Editor/Stage/Renderer';
 import ForceFieldAnatomy from './ForceFieldAnatomy';
 
 /*
@@ -56,6 +56,8 @@ function getProperties(params) {
     console.log(highlights);
   }
 
+  let visibility = params.visibility || rendererVisibility;
+
   let dots = params.dots || '';
   dots = dots.split(',');
 
@@ -76,13 +78,7 @@ function getProperties(params) {
       areas: '#FFFF00',
       arrows: '#000000'
     },
-    visibility: {
-      forces: false,
-      grid: true,
-      marker: true,
-      lines: true,
-      labels: true
-    },
+    visibility: visibility,
     highlights: highlights,
     labels: labels,
     dots: dots,

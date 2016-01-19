@@ -7,6 +7,8 @@ import {Grid, getDefs as getGridDefs} from './Renderer/Grid';
 import {Areas, getDefs as getAreaDefs} from './Renderer/Areas';
 import {Forces} from './Renderer/Forces';
 
+export const visibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Lables', 'Forces'];
+
 export class Renderer extends Component {
 
   rendererStyles() {
@@ -15,6 +17,10 @@ export class Renderer extends Component {
       width: '100%',
       backgroundColor: this.props.skin.background
     }
+  }
+
+  isVisible(name) {
+    return (this.props.visibility.indexOf(name) != -1);
   }
 
   render() {
@@ -52,7 +58,7 @@ export class Renderer extends Component {
         height={height}
         viewBox={`0 0 ${width} ${height}`} >
         <defs>{defs}</defs>
-        { this.props.visibility.grid ?
+        { this.isVisible('Grid') ?
           <g>
             <rect width={this.props.width} height={this.props.height} fill="url(#dots)" />
               <Grid
@@ -63,28 +69,34 @@ export class Renderer extends Component {
                 dots={this.props.dots}/>
           </g>
           : null }
-        <Marker
-          stageWidth={width}
-          stageHeight={height}
-          fieldSize={fieldSize}
-          gridUnit={gridUnit}
-          skin={skin} />
-        <Lines
-          stageWidth={this.props.width}
-          stageHeight={this.props.height}
-          gridUnit={this.props.gridUnit}/>
-        <Areas
-          stageWidth={this.props.width}
-          stageHeight={this.props.height}
-          gridUnit={this.props.gridUnit} />
-        { this.props.visibility.labels ?
+        { this.isVisible('Marker') ?
+          <Marker
+            stageWidth={width}
+            stageHeight={height}
+            fieldSize={fieldSize}
+            gridUnit={gridUnit}
+            skin={skin} />
+        : null }
+        { this.isVisible('Marker') ?
+          <Lines
+            stageWidth={this.props.width}
+            stageHeight={this.props.height}
+            gridUnit={this.props.gridUnit}/>
+        : null }
+        { this.isVisible('Marker') ?
+          <Areas
+            stageWidth={this.props.width}
+            stageHeight={this.props.height}
+            gridUnit={this.props.gridUnit} />
+          : null }
+        { this.isVisible('Labels') ?
           <Labels
             stageWidth={this.props.width}
             stageHeight={this.props.height}
             gridUnit={this.props.gridUnit}
             skin={this.props.skin} />
           : null }
-        { this.props.visibility.forces ?
+        { this.isVisible('Forces') ?
           <Forces
             energies={energies}
             stageWidth={width}
@@ -132,8 +144,9 @@ Renderer.defaultProps = {
   width: 600,
   height: 600,
   energies: Forces.defaultProps.energies,
-  visibility: {forces: true, labels: true, grid: true},
-  highlights: [],
-  labels: [],
   dots: [],
+  highlights: ['all'],
+  lables: ['all'],
+  lables: ['all'],
+  visibility: visibility
 };
