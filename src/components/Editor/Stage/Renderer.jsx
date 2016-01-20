@@ -4,7 +4,8 @@ import {Marker, getDefs as getMarkerDefs} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';
 import {Labels, getDefs as getLabelDefs} from './Renderer/Labels';
 import {Grid, getDefs as getGridDefs} from './Renderer/Grid';
-import {Areas, getDefs as getAreaDefs} from './Renderer/Areas';
+import {Areas} from './Renderer/Areas';
+import {AreasDefsCrosshatch, AreasDefsStripe} from './Renderer/AreasDefs';
 import {Forces} from './Renderer/Forces';
 import DOMProperty from 'react/lib/DOMProperty';
 
@@ -56,7 +57,7 @@ export class Renderer extends Component {
     const offsetX = Math.floor(width / 2 - fieldSize / 2) % gridUnit
     const offsetY = Math.floor(height / 2 - fieldSize / 2) % gridUnit
 
-    const defs = getAreaDefs()
+    const defs = Array()
       .concat(getLabelDefs())
       .concat(getGridDefs(gridUnit, offsetX, offsetY))
       .concat(getMarkerDefs(gridUnit, origin, width, height));
@@ -68,10 +69,14 @@ export class Renderer extends Component {
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`} >
-        <defs>{defs}</defs>
+        <defs>
+          {defs}
+          <AreasDefsCrosshatch gridUnit={gridUnit} />
+          <AreasDefsStripe gridUnit={gridUnit} />
+        </defs>
         { this.isVisible('Grid') ?
           <g>
-            <rect width={width} height={height} fill="url(#dots)" />
+            <rect mask={"url(#circle)"} width={width} height={height} fill="url(#dots)" />
               <Grid
                 stageWidth={width}
                 stageHeight={height}

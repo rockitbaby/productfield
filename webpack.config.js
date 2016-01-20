@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 
 const useCSSSourceMaps = (process.env.CSS_SOURCEMAPS === 'true');
+const path = require('path');
 
 module.exports = [
   {
@@ -14,6 +15,15 @@ module.exports = [
         'webpack/hot/only-dev-server',
         './src/illustrator.jsx'
       ]
+    },
+    resolve: {
+      root: [path.resolve(__dirname, 'src')],
+      extensions: ['', '.js', '.jsx']
+    },
+    output: {
+      path: __dirname + '/dist',
+      publicPath: '/',
+      filename: '[name].bundle.js'
     },
     module: {
       loaders: [{
@@ -35,14 +45,6 @@ module.exports = [
           useCSSSourceMaps ? 'css?modules&sourceMap' : 'css?modules'
         ]
       }]
-    },
-    resolve: {
-      extensions: ['', '.js', '.jsx']
-    },
-    output: {
-      path: __dirname + '/dist',
-      publicPath: '/',
-      filename: '[name].js'
     },
     devServer: {
       contentBase: './dist',
@@ -71,6 +73,7 @@ module.exports = [
       }]
     },
     resolve: {
+      root: [path.resolve(__dirname, 'src')],
       extensions: ['', '.js', '.jsx']
     },
     output: {

@@ -133,8 +133,6 @@ if(typeof document !== "undefined") {
 
   let props = getProperties(params);
 
-  console.log(props);
-
   // 2) and inject them inside a style element
   ReactDOM.render(
     <div>
