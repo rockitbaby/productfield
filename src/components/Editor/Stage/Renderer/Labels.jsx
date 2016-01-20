@@ -4,9 +4,11 @@ import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 import DOMProperty from 'react/lib/DOMProperty';
 
+const customAttributes = ['filter', 'flood-color'];
+
 DOMProperty.injection.injectDOMPropertyConfig({
   isCustomAttribute: function (attributeName) {
-    return (attributeName === 'filter' || 'flood-color');
+    return (customAttributes.indexOf(attributeName) !== -1);
   }
 });
 
