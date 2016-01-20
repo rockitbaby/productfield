@@ -1,13 +1,22 @@
 import React, {Component, PropTypes} from 'react';
 
-import {Marker} from './Renderer/Marker';
+import {Marker, getDefs as getMarkerDefs} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';
 import {Labels, getDefs as getLabelDefs} from './Renderer/Labels';
 import {Grid, getDefs as getGridDefs} from './Renderer/Grid';
 import {Areas, getDefs as getAreaDefs} from './Renderer/Areas';
 import {Forces} from './Renderer/Forces';
+import DOMProperty from 'react/lib/DOMProperty';
 
-export const visibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Lables', 'Forces'];
+const customAttributes = ['mask', 'maskUnits'];
+
+DOMProperty.injection.injectDOMPropertyConfig({
+  isCustomAttribute: function (attributeName) {
+    return (customAttributes.indexOf(attributeName) !== -1);
+  }
+});
+
+export const defaultVisibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Labels', 'Forces'];
 
 export class Renderer extends Component {
 
@@ -27,7 +36,7 @@ export class Renderer extends Component {
     const {
       width, height, fieldSize, gridUnit, skin, normalizeCoordinates,
       minLengthForArrowsToDisplay, triangleSize, energies,
-      highlights, labels, lines,
+      highlights, labels, lines, dots,
     } = this.props;
 
     let classNames = [];
@@ -43,12 +52,14 @@ export class Renderer extends Component {
     });
     let className = classNames.join(' ');
 
+    const origin = {x: Math.floor(width / 2), y: Math.floor(height / 2)};
     const offsetX = Math.floor(width / 2 - fieldSize / 2) % gridUnit
     const offsetY = Math.floor(height / 2 - fieldSize / 2) % gridUnit
 
-    let defs = getAreaDefs()
+    const defs = getAreaDefs()
       .concat(getLabelDefs())
-      .concat(getGridDefs(gridUnit, offsetX, offsetY));
+      .concat(getGridDefs(gridUnit, offsetX, offsetY))
+      .concat(getMarkerDefs(gridUnit, origin, width, height));
 
     return (
       <svg
@@ -60,13 +71,13 @@ export class Renderer extends Component {
         <defs>{defs}</defs>
         { this.isVisible('Grid') ?
           <g>
-            <rect width={this.props.width} height={this.props.height} fill="url(#dots)" />
+            <rect width={width} height={height} fill="url(#dots)" />
               <Grid
                 stageWidth={width}
                 stageHeight={height}
                 gridUnit={gridUnit}
                 skin={skin}
-                dots={this.props.dots}/>
+                dots={dots}/>
           </g>
           : null }
         { this.isVisible('Marker') ?
@@ -77,24 +88,24 @@ export class Renderer extends Component {
             gridUnit={gridUnit}
             skin={skin} />
         : null }
-        { this.isVisible('Marker') ?
+        { this.isVisible('Lines') ?
           <Lines
-            stageWidth={this.props.width}
-            stageHeight={this.props.height}
-            gridUnit={this.props.gridUnit}/>
+            stageWidth={width}
+            stageHeight={height}
+            gridUnit={gridUnit}/>
         : null }
-        { this.isVisible('Marker') ?
+        { this.isVisible('Areas') ?
           <Areas
-            stageWidth={this.props.width}
-            stageHeight={this.props.height}
-            gridUnit={this.props.gridUnit} />
+            stageWidth={width}
+            stageHeight={height}
+            gridUnit={gridUnit} />
           : null }
         { this.isVisible('Labels') ?
           <Labels
-            stageWidth={this.props.width}
-            stageHeight={this.props.height}
-            gridUnit={this.props.gridUnit}
-            skin={this.props.skin} />
+            stageWidth={width}
+            stageHeight={height}
+            gridUnit={gridUnit}
+            skin={skin} />
           : null }
         { this.isVisible('Forces') ?
           <Forces
@@ -123,13 +134,9 @@ Renderer.propTypes = {
   normalizeCoordinates: PropTypes.func.isRequired,
   triangleSize: PropTypes.number.isRequired,
   minLengthForArrowsToDisplay: PropTypes.number.isRequired,
-  lables: React.PropTypes.arrayOf(PropTypes.string),
+  labels: React.PropTypes.arrayOf(PropTypes.string),
   lines: React.PropTypes.arrayOf(PropTypes.string),
-  visibility: PropTypes.shape({
-    forces: PropTypes.bool.isRequired,
-    grid: PropTypes.bool.isRequired,
-    labels: PropTypes.bool.isRequired,
-  }),
+  visibility: React.PropTypes.arrayOf(PropTypes.string),
   highlights: PropTypes.arrayOf(PropTypes.string),
   skin: PropTypes.shape({
     background: PropTypes.string.isRequired,
@@ -146,7 +153,7 @@ Renderer.defaultProps = {
   energies: Forces.defaultProps.energies,
   dots: [],
   highlights: ['all'],
-  lables: ['all'],
-  lables: ['all'],
-  visibility: visibility
+  labels: ['all'],
+  lines: ['all'],
+  visibility: defaultVisibility,
 };
