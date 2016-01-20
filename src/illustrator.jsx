@@ -28,14 +28,18 @@ please see inline comments 1) and 2)
 // 1) we are importing additional styles as text
 import styles from 'raw!./styles/illustrator.css.txt';
 
-const DOTS_IN_FIELD = 20;
+const DOTS_IN_FIELD = 21;
 
 
 function getProperties(params) {
 
   // @todo url params
-  let width = params.width || 800;
-  let height = params.height || 800;
+  let width = parseInt(params.width, 10) || 800;
+  let height = parseInt(params.height, 10) || 800;
+
+  let padding = parseFloat(params.padding) || 0;
+
+  let gridUnitBase = parseInt(params.gridUnitBase, 10) || false;
 
   let describe = params.describe || false;
 
@@ -58,16 +62,35 @@ function getProperties(params) {
 
   let visibility = params.visibility || rendererVisibility;
 
+  if(typeof visibility == 'array') {
+    visibility = visibility.split(',');
+  }
+
   let dots = params.dots || '';
   dots = dots.split(',');
 
-  const maximumFieldSize = Math.floor(Math.min(width, height));
-  const gridUnit = Math.floor(maximumFieldSize / DOTS_IN_FIELD);
-  const fieldSize = gridUnit * DOTS_IN_FIELD
+
+  let gridUnit = 0;
+  let fieldSize = 0;
+
+  if(gridUnitBase) {
+    gridUnit = gridUnitBase
+    width = gridUnitBase * DOTS_IN_FIELD + padding * 2
+    height = gridUnitBase * DOTS_IN_FIELD + padding * 2
+    fieldSize = gridUnit * DOTS_IN_FIELD
+  } else {
+    let horizontalPadding = padding || 0
+    let verticalPadding = padding || 0
+    let availableWidth = width - horizontalPadding * 2
+    let availableHeight = height - verticalPadding * 2
+    const maximumFieldSize = Math.floor(Math.min(availableWidth, availableHeight))
+    gridUnit = Math.floor(maximumFieldSize / DOTS_IN_FIELD)
+    fieldSize = gridUnit * DOTS_IN_FIELD
+  }
 
   return {
-    width: parseInt(width, 10),
-    height: parseInt(height, 10),
+    width: width,
+    height: height,
     gridUnit: gridUnit,
     skin: {
       dots:   "#000000",
@@ -109,6 +132,8 @@ if(typeof document !== "undefined") {
   });
 
   let props = getProperties(params);
+
+  console.log(props);
 
   // 2) and inject them inside a style element
   ReactDOM.render(

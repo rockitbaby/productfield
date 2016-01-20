@@ -9,10 +9,9 @@ export function getDefs(gridUnit, offsetX, offsetY) {
   const radius = 1;
   return [
     <pattern key="Grid-defs-dots" id="dots"
-      patternTransform={`translate(${gridUnit / 2}, ${gridUnit / 2})`}
-      x={gridUnit / 2} y={gridUnit / 2} width={gridUnit} height={gridUnit}
-      patternUnits="userSpaceOnUse">
-      <circle className="off" cx={offsetX} cy={offsetY} r={radius} fill="#000000" stroke="none" />
+           x={offsetX} y={offsetY} width={gridUnit} height={gridUnit}
+           patternUnits="userSpaceOnUse">
+      <circle className="off" cx={gridUnit / 2} cy={gridUnit / 2} r={radius} fill="#000000" stroke="none" />
     </pattern>
   ];
 }
