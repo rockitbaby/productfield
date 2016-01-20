@@ -62,7 +62,7 @@ function getProperties(params) {
 
   let visibility = params.visibility || rendererVisibility;
 
-  if(typeof visibility == 'array') {
+  if(!Array.isArray(visibility)) {
     visibility = visibility.split(',');
   }
 
