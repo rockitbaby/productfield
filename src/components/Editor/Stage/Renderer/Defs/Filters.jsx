@@ -1,18 +1,9 @@
 import React from 'react';
+import {allowCustomAttributes} from 'utils';
 import DefsComponent from './DefsComponent';
 import DOMProperty from 'react/lib/DOMProperty';
 
-function buildAllowedCustomAttribute(DOMProperty, customAttributes) {
-
-  DOMProperty.injection.injectDOMPropertyConfig({
-    isCustomAttribute(attributeName) {
-      return (customAttributes.indexOf(attributeName) !== -1);
-    },
-  });
-
-}
-
-buildAllowedCustomAttribute(DOMProperty, ['filter', 'flood-color']);
+allowCustomAttributes(DOMProperty, ['filter', 'flood-color']);
 
 export class Solid extends DefsComponent {
 
