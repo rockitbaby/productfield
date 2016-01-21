@@ -1,9 +1,37 @@
 const abs = Math.abs;
 
+/*
+
+  T               |_*
+3               +-   
+  |           +-    
+  +--------+-+      
+  |        |        
+5 |  CORE  | CONTEXT
+  |        |        
+  °--------+- - -|- -   
+       5      3    2
+
+---
+
+LEGEND:
+
+°: CENTER
+*: CHARACTER
+
+the product field is based on a central symmetry
+around the center
+
+*/
 export default {
 
+  DOTS_IN_GRID: 21,
+  DOTS_PER_SIDE: 10,
+  CORE_WIDTH: 5,
+  CONTEXT_WIDTH: 8,
+  CENTER_RADIUS: Math.sqrt(2),
   LABELS: {
-    context: [
+    context: [ // starting top-left, clockwise
         'goals',
         'motivations',
         'users',
@@ -13,7 +41,7 @@ export default {
         'enablers',
         'drivers'
       ],
-    core: [
+    core: [ // starting top-right, crosshatch
         'problem',
         'solution',
         'uniqueness',
@@ -58,7 +86,4 @@ export default {
       deg: 270
     }
   ],
-  CENTER_RADIUS: Math.sqrt(2),
-  DOTS_IN_GRID: 21,
-  DOTS_PER_SIDE: 10,
 }

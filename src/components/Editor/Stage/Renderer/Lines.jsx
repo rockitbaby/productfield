@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import uuid from 'node-uuid';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
-import PropTypes from 'PropTypes';
+import PropTypes from '../../../../PropTypes';
 
 import {allowCustomAttributes} from 'utils';
 import DOMProperty from 'react/lib/DOMProperty';
@@ -39,8 +39,7 @@ Line.propTypes = {
 export class Lines extends Component {
 
   render() {
-    const {stageWidth, stageHeight, gridUnit} = this.props;
-    const origin = {x: Math.floor(stageWidth / 2), y: Math.floor(stageHeight / 2)};
+    const {origin, gridUnit} = this.props;
 
     let lines = [];
     lines.push(<Line key={'core-1'} className='Lines-core' from={P(-5, 5)} to={P(5, 5)} gridUnit={gridUnit} />);
@@ -99,7 +98,6 @@ export class Lines extends Component {
 }
 
 Lines.propTypes = {
-  stageWidth: PropTypes.number.isRequired,
-  stageHeight: PropTypes.number.isRequired,
+  origin: PropTypes.point.isRequired,
   gridUnit: PropTypes.number.isRequired,
 };

@@ -1,11 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from '../../../../PropTypes';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 
 export class Marker extends Component {
 
   render() {
-    const {stageWidth, stageHeight, gridUnit, skin: {marker}} = this.props;
-    const origin = {x: Math.floor(stageWidth / 2), y: Math.floor(stageHeight / 2)};
+    const {origin, gridUnit, skin: {marker}} = this.props;
     const circleRadius = ForceFieldAnatomy.CENTER_RADIUS;
 
     const characterMarkerCoordinates = [
@@ -45,8 +45,7 @@ export class Marker extends Component {
 }
 
 Marker.propTypes = {
-  stageWidth: PropTypes.number.isRequired,
-  stageHeight: PropTypes.number.isRequired,
+  origin: PropTypes.point.isRequired,
   gridUnit: PropTypes.number.isRequired,
   skin: PropTypes.shape({
     marker: PropTypes.string.isRequired,

@@ -20,22 +20,13 @@ function convertPointsToScaledSvgPath(points, gridUnit) {
 export class Areas extends Component {
 
   render() {
-    const {stageWidth, stageHeight, gridUnit} = this.props;
-    const origin = {x: Math.floor(stageWidth / 2), y: Math.floor(stageHeight / 2)};
+    const {origin, gridUnit} = this.props;
 
     let groups = [];
 
-<<<<<<< 486d2386670a66c4d2e9d916d48837404b786afd:src/components/Editor/Stage/Renderer/Areas.jsx
     let w = 5;
     let h = 5;
-=======
-    const GU = this.props.gridUnit;
-    const origin = this.props.origin;
 
-    const groups = [];
-
-    const s = 5;
->>>>>>> refactoring Labels:src/components/Editor/ForceField/Renderer/Areas.jsx
      groups.push(
         <g key={'core'} className={'Areas-core'}>
           <rect className={'Areas-core Areas-problem'} x={0} y={-h * gridUnit} width={w * gridUnit} height={w * gridUnit} />
@@ -80,8 +71,6 @@ export class Areas extends Component {
 }
 
 Areas.propTypes = {
-  stageWidth: PropTypes.number.isRequired,
-  stageHeight: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
   origin: PropTypes.point.isRequired,
 };

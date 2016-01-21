@@ -86,8 +86,7 @@ export class Renderer extends Component {
           <g>
             <rect mask={"url(#circle)"} width={width} height={height} fill="url(#dots)" />
               <Grid
-                stageWidth={width}
-                stageHeight={height}
+                origin={origin}
                 gridUnit={gridUnit}
                 skin={skin}
                 dots={dots}/>
@@ -95,33 +94,29 @@ export class Renderer extends Component {
           : null }
         { this.isVisible('Marker') ?
           <Marker
-            stageWidth={width}
-            stageHeight={height}
-            fieldSize={fieldSize}
+            origin={origin}
             gridUnit={gridUnit}
             skin={skin} />
         : null }
         { this.isVisible('Lines') ?
           <Lines
-            stageWidth={width}
-            stageHeight={height}
+            origin={origin}
             gridUnit={gridUnit}/>
         : null }
         { this.isVisible('Areas') ?
           <Areas
-            stageWidth={width}
-            stageHeight={height}
+            origin={origin}
             gridUnit={gridUnit} />
           : null }
         { this.isVisible('Labels') ?
           <Labels
-            stageWidth={width}
-            stageHeight={height}
+            origin={origin}
             gridUnit={gridUnit}
             skin={skin} />
           : null }
         { this.isVisible('Forces') ?
           <Forces
+            origin={origin}
             energies={energies}
             stageWidth={width}
             stageHeight={height}

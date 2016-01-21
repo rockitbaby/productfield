@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from '../../../../PropTypes';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 
@@ -6,14 +7,13 @@ const INTERSECTION_CIRCLE_RADIUS = 4;
 const DEFAULT_CIRCLE_RADIUS = 1;
 
 function hasIntersection(a, b) {
-  return Set([...a].filter((x) => b.has(x))).size;
+  return new Set([...a].filter((x) => b.has(x))).size;
 }
 
 export class Grid extends Component {
 
   render() {
-    const {stageWidth, stageHeight, gridUnit, skin: {dots}} = this.props;
-    const origin = {x: stageWidth / 2, y: stageHeight / 2};
+    const {origin, gridUnit, skin: {dots}} = this.props;
     const dotHighlights = new Set(this.props.dots);
 
     let circles = []
@@ -55,7 +55,7 @@ export class Grid extends Component {
 }
 
 Grid.propTypes = {
-  stageWidth: PropTypes.number.isRequired,
+  origin: PropTypes.point.isRequired,
   stageHeight: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
   skin: PropTypes.shape({

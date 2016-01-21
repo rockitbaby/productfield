@@ -2,14 +2,14 @@ import React, {Component, PropTypes} from 'react';
 import uuid from 'node-uuid';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import PropTypes from '../../../../PropTypes';
 
 const LABEL_HEIGHT = 18;
 
 export class Labels extends Component {
 
   render() {
-    const {stageWidth, stageHeight, gridUnit, skin: {dots}} = this.props;
-    const origin = {x: stageWidth / 2, y: stageHeight / 2};
+    const {origin, gridUnit, skin: {dots}} = this.props;
 
     let labels = [];
 
@@ -49,8 +49,7 @@ export class Labels extends Component {
 }
 
 Labels.propTypes = {
-  stageWidth: PropTypes.number.isRequired,
-  stageHeight: PropTypes.number.isRequired,
+  origin: PropTypes.point.isRequired,
   gridUnit: PropTypes.number.isRequired,
   skin: PropTypes.shape({
     dots: PropTypes.string.isRequired,

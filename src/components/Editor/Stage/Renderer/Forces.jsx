@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import Vector from 'victor';
 import {ForceFieldCalculator} from './ForceFieldCalculator';
 import {ForceArrow} from './ForceArrow';
+import PropTypes from '../../../../PropTypes';
 
 const ARROW_GRID_CORRECTION_FACTOR = 0.8;
 
@@ -45,6 +46,7 @@ export class Forces extends Component {
 }
 
 Forces.propTypes = {
+  origin: PropTypes.point.isRequired,
   energies: PropTypes.arrayOf(PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
