@@ -2,12 +2,15 @@ import React, {Component, PropTypes} from 'react';
 
 import {Marker} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';
-import {Labels, getDefs as getLabelDefs} from './Renderer/Labels';
+import {Labels} from './Renderer/Labels';
 import {Grid} from './Renderer/Grid';
 import {Areas} from './Renderer/Areas';
+import {Forces} from './Renderer/Forces';
+
 import {Crosshatch, Stripe, Dots} from './Renderer/Defs/Patterns';
 import {Circle} from './Renderer/Defs/Masks';
-import {Forces} from './Renderer/Forces';
+import {Solid} from './Renderer/Defs/Filters';
+
 import DOMProperty from 'react/lib/DOMProperty';
 
 const customAttributes = ['mask', 'maskUnits'];
@@ -58,8 +61,6 @@ export class Renderer extends Component {
     const offsetX = Math.floor(width / 2 - fieldSize / 2) % gridUnit
     const offsetY = Math.floor(height / 2 - fieldSize / 2) % gridUnit
 
-    const defs = getLabelDefs();
-
     const defsProps = {
       gridUnit,
       offset: {x: offsetX, y: offsetY},
@@ -75,7 +76,7 @@ export class Renderer extends Component {
         height={height}
         viewBox={`0 0 ${width} ${height}`} >
         <defs>
-          {defs}
+          <Solid {...defsProps} />
           <Circle {...defsProps} />
           <Crosshatch {...defsProps} />
           <Stripe {...defsProps} />

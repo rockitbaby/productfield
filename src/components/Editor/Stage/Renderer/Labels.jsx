@@ -2,26 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import uuid from 'node-uuid';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
-import DOMProperty from 'react/lib/DOMProperty';
-
-const customAttributes = ['filter', 'flood-color'];
-
-DOMProperty.injection.injectDOMPropertyConfig({
-  isCustomAttribute: function (attributeName) {
-    return (customAttributes.indexOf(attributeName) !== -1);
-  }
-});
 
 const LABEL_HEIGHT = 18;
-
-export function getDefs() {
-  return [
-    <filter key="lables-defs-filter" x="-0.1" y="-0.1" width="1.2" height="1.2" id="solid">
-      <feFlood flood-color="white"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
-  ];
-}
 
 export class Labels extends Component {
 

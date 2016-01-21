@@ -25,8 +25,17 @@ export class Areas extends Component {
 
     let groups = [];
 
+<<<<<<< 486d2386670a66c4d2e9d916d48837404b786afd:src/components/Editor/Stage/Renderer/Areas.jsx
     let w = 5;
     let h = 5;
+=======
+    const GU = this.props.gridUnit;
+    const origin = this.props.origin;
+
+    const groups = [];
+
+    const s = 5;
+>>>>>>> refactoring Labels:src/components/Editor/ForceField/Renderer/Areas.jsx
      groups.push(
         <g key={'core'} className={'Areas-core'}>
           <rect className={'Areas-core Areas-problem'} x={0} y={-h * gridUnit} width={w * gridUnit} height={w * gridUnit} />
