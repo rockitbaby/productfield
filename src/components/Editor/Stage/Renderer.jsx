@@ -61,7 +61,7 @@ export class Renderer extends Component {
       .concat(getLabelDefs())
       .concat(getMarkerDefs(gridUnit, origin, width, height));
 
-    let defsProps = {
+    const defsProps = {
       gridUnit,
       offset: {x: offsetX, y: offsetY},
       origin,

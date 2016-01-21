@@ -5,15 +5,8 @@ import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 const INTERSECTION_CIRCLE_RADIUS = 4;
 const DEFAULT_CIRCLE_RADIUS = 1;
 
-export function getDefs(gridUnit, offsetX, offsetY) {
-  const radius = 1;
-  return [
-    <pattern key="Grid-defs-dots" id="dots"
-           x={offsetX} y={offsetY} width={gridUnit} height={gridUnit}
-           patternUnits="userSpaceOnUse">
-      <circle className="off" cx={gridUnit / 2} cy={gridUnit / 2} r={radius} fill="#000000" stroke="none" />
-    </pattern>
-  ];
+function hasIntersection(a, b) {
+  return Set([...a].filter((x) => b.has(x))).size;
 }
 
 export class Grid extends Component {
