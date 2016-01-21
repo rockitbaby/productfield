@@ -16,17 +16,30 @@ function isPoint(isRequired, props, propName, componentName = 'ANONYMOUS') {
   return (value.x && value.y) ? null : new Error(propName + ' in ' + componentName + " must be a point");
 }
 
-var chained_isPoint = isPoint.bind(null, false);
-chained_isPoint.isRequired = isPoint.bind(null, true);
+function isSize(isRequired, props, propName, componentName = 'ANONYMOUS') {
+  if (props[propName] == null) {
+
+    if(isRequired) {
+      return new Error(
+          ("Required `" + propName + "` was not specified in ") +
+          ("`" + componentName + "`.")
+        );
+    }
+    return null;
+  }
+  let value = props[propName];
+  return (value.width && value.height) ? null : new Error(propName + ' in ' + componentName + " must be a size");
+}
 
 function buildChainPropTypeValidation(func) {
   let chained = func.bind(null, false);
-  chained.isRequired = isPoint.bind(null, true);
+  chained.isRequired = func.bind(null, true);
   return chained;
 }
 
 var AppPropTypes = Object.assign(PropTypes, {
-  point: buildChainPropTypeValidation(isPoint)
+  point: buildChainPropTypeValidation(isPoint),
+  size: buildChainPropTypeValidation(isSize),
 })
 
 export default AppPropTypes;

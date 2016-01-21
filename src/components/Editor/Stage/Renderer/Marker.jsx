@@ -1,20 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 
-export function getDefs(gridUnit, origin, width, height) {
-  const radius = ForceFieldAnatomy.CENTER_RADIUS * gridUnit
-  return [
-    <mask maskUnits="userSpaceOnUse" key="Marker-defs-circle" id="circle">
-      <rect width={width} height={height} fill="#FFFFFF" />
-      <circle cx={origin.x} cy={origin.y} r={radius} fill="#000000"></circle>
-    </mask>
-  ];
-};
-
 export class Marker extends Component {
 
   render() {
-    const {stageWidth, stageHeight, fieldSize, gridUnit, skin: {marker}} = this.props;
+    const {stageWidth, stageHeight, gridUnit, skin: {marker}} = this.props;
     const origin = {x: Math.floor(stageWidth / 2), y: Math.floor(stageHeight / 2)};
     const circleRadius = ForceFieldAnatomy.CENTER_RADIUS;
 
@@ -57,7 +47,6 @@ export class Marker extends Component {
 Marker.propTypes = {
   stageWidth: PropTypes.number.isRequired,
   stageHeight: PropTypes.number.isRequired,
-  fieldSize: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
   skin: PropTypes.shape({
     marker: PropTypes.string.isRequired,
