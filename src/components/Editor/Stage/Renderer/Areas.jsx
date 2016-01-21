@@ -1,6 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import PropTypes from '../../../../PropTypes';
 
 function convertPointsToScaledSvgPath(points, gridUnit) {
   points.map(
@@ -73,4 +74,5 @@ Areas.propTypes = {
   stageWidth: PropTypes.number.isRequired,
   stageHeight: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
+  origin: PropTypes.point.isRequired,
 };
