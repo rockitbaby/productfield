@@ -58,8 +58,7 @@ export default {
       deg: 270
     }
   ],
-  CENTER_RADIUS: Math.sqrt(2).
+  CENTER_RADIUS: Math.sqrt(2),
   DOTS_IN_GRID: 21,
-  DOTS_PER_SIDE: 10
-  
+  DOTS_PER_SIDE: 10,
 }
