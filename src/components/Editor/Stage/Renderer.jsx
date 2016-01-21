@@ -3,9 +3,9 @@ import React, {Component, PropTypes} from 'react';
 import {Marker, getDefs as getMarkerDefs} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';
 import {Labels, getDefs as getLabelDefs} from './Renderer/Labels';
-import {Grid, getDefs as getGridDefs} from './Renderer/Grid';
+import {Grid} from './Renderer/Grid';
 import {Areas} from './Renderer/Areas';
-import {AreasDefsCrosshatch, AreasDefsStripe} from './Renderer/AreasDefs';
+import {Crosshatch, Stripe, Dots} from './Renderer/Defs/Patterns';
 import {Forces} from './Renderer/Forces';
 import DOMProperty from 'react/lib/DOMProperty';
 
@@ -59,8 +59,13 @@ export class Renderer extends Component {
 
     const defs = Array()
       .concat(getLabelDefs())
-      .concat(getGridDefs(gridUnit, offsetX, offsetY))
       .concat(getMarkerDefs(gridUnit, origin, width, height));
+
+    let defsProps = {
+      gridUnit,
+      offset: {x: offsetX, y: offsetY},
+      origin,
+    }
 
     return (
       <svg
@@ -71,8 +76,9 @@ export class Renderer extends Component {
         viewBox={`0 0 ${width} ${height}`} >
         <defs>
           {defs}
-          <AreasDefsCrosshatch gridUnit={gridUnit} />
-          <AreasDefsStripe gridUnit={gridUnit} />
+          <Crosshatch {...defsProps} />
+          <Stripe {...defsProps} />
+          <Dots {...defsProps} />
         </defs>
         { this.isVisible('Grid') ?
           <g>
