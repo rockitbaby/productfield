@@ -13,7 +13,7 @@ function isPoint(isRequired, props, propName, componentName = 'ANONYMOUS') {
     return null;
   }
   let value = props[propName];
-  return (value.x && value.y) ? null : new Error(propName + ' in ' + componentName + " must be a point");
+  return (Number.isFinite(value.x) && Number.isFinite(value.y)) ? null : new Error(propName + ' in ' + componentName + " must be a point");
 }
 
 function isSize(isRequired, props, propName, componentName = 'ANONYMOUS') {
@@ -28,7 +28,7 @@ function isSize(isRequired, props, propName, componentName = 'ANONYMOUS') {
     return null;
   }
   let value = props[propName];
-  return (value.width && value.height) ? null : new Error(propName + ' in ' + componentName + " must be a size");
+  return (Number.isFinite(value.width) && Number.isFinite(value.height)) ? null : new Error(propName + ' in ' + componentName + " must be a size");
 }
 
 function buildChainPropTypeValidation(func) {
