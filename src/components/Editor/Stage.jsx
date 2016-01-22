@@ -59,7 +59,6 @@ export class Stage extends Component {
       deTranslatedVal = deTranslatedVal + properties.width / 2;
     }
 
-    // return deTranslatedVal;
     return deTranslatedVal;
   }
 
@@ -173,6 +172,7 @@ export class Stage extends Component {
       energies: this.props.energies.filter((energy) => !energy.isMuted).map((energy) => ({
         x: energy.x, y: energy.y, strength: energy.strength,
       })),
+      isPresentationModeEnabled: this.props.isPresentationModeEnabled,
     })
 
     let className = 'ForceFieldStage';

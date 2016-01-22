@@ -1,47 +1,42 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import Vector from 'victor';
 import {ForceFieldCalculator} from './ForceFieldCalculator';
 import {ForceArrow} from './ForceArrow';
 import PropTypes from '../../../../PropTypes';
-
-const ARROW_GRID_CORRECTION_FACTOR = 0.8;
+import ForceFieldDescriptor from 'ForceFieldDescriptor';
 
 export class Forces extends Component {
 
   render() {
-    const {stageWidth, stageHeight, fieldSize, gridUnit, minArrowLength, arrowTriangleSize} = this.props;
-    const offsetX = Math.floor(stageWidth - fieldSize) / 2 % gridUnit;
-    const offsetY = Math.floor(stageHeight / 2 - fieldSize / 2) % gridUnit
+    const {origin, gridUnit, energies} = this.props;
 
-    const forceCalculator = new ForceFieldCalculator(this.props.energies);
+    const arrows = [];
+    const forceCalculator = new ForceFieldCalculator(energies);
 
-    let arrows = []
-    for (let x = offsetX; x < stageWidth; x += gridUnit) {
-      for (let y = offsetY; y < stageHeight; y += gridUnit) {
-        const [normalizedX, normalizedY] = this.props.normalizeCoordinates(x, y);
-        const result = forceCalculator.forceVectorAtPoint(normalizedX, normalizedY);
-        const arrowLength = result.length() * gridUnit * ARROW_GRID_CORRECTION_FACTOR;
+    Anatomy.QUADRANTS.forEach((quadrant) => {
+      for(let ix = 0; ix <= Anatomy.DOTS_PER_SIDE; ix++) {
+        for(let iy = 0; iy <= Anatomy.DOTS_PER_SIDE; iy++) {
 
-        if (arrowLength < minArrowLength) {
-          continue;
+          const x = quadrant.coefficient.x * ix;
+          const y = quadrant.coefficient.y * iy;
+          const TEN = 10;
+          const forceFieldDescriptor = new ForceFieldDescriptor(x / TEN, y / TEN);
+
+          let radius = 0.5;
+          const classNames = forceFieldDescriptor.getClassNames();
+          const names = new Set(forceFieldDescriptor.getNames());
+
+          const force = forceCalculator.forceVectorAtPoint(x / TEN, y / TEN);
+
+          arrows.push(<use xlinkHref={"#arrow"} key={`${quadrant.deg}:${x},${y}`} x={x * gridUnit} y={-y * gridUnit} />);
+
         }
-
-        const props = {
-          deg: result.clone().invert().verticalAngleDeg(),
-          x: x,
-          x2: x,
-          y: y,
-          y2: y + arrowLength,
-          triangleSize: arrowTriangleSize,
-        }
-
-        arrows.push(<ForceArrow key={`${x},${y}`} {...props} skin={this.props.skin} />)
       }
-    }
+    })
 
-    return (
-      <g>{arrows}</g>
-    );
+    const transform = `translate(${origin.x},${origin.y})`;
+    return <g id="Forces" className="Forces" transform={transform}>{arrows}</g>;
+
   }
 }
 
@@ -52,9 +47,6 @@ Forces.propTypes = {
     y: PropTypes.number.isRequired,
     strength: PropTypes.number.isRequired,
   })),
-  stageWidth: PropTypes.number.isRequired,
-  stageHeight: PropTypes.number.isRequired,
-  fieldSize: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
   arrowTriangleSize: PropTypes.number,
   minArrowLength: PropTypes.number,

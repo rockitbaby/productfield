@@ -10,6 +10,7 @@ import {Forces} from './Renderer/Forces';
 import {Crosshatch, Stripe, Dots} from './Renderer/Defs/Patterns';
 import {Circle} from './Renderer/Defs/Masks';
 import {Solid} from './Renderer/Defs/Filters';
+import {Arrow} from './Renderer/Defs/Symbols';
 
 import DOMProperty from 'react/lib/DOMProperty';
 
@@ -81,6 +82,7 @@ export class Renderer extends Component {
           <Crosshatch {...defsProps} />
           <Stripe {...defsProps} />
           <Dots {...defsProps} />
+          <Arrow {...defsProps} />
         </defs>
         { this.isVisible('Grid') ?
           <g>
@@ -134,6 +136,7 @@ export class Renderer extends Component {
 }
 
 Renderer.propTypes = {
+  isPresentationModeEnabled: PropTypes.bool,
   energies: Forces.propTypes.energies,
   width: PropTypes.number,
   height: PropTypes.number,
@@ -156,6 +159,7 @@ Renderer.propTypes = {
 };
 
 Renderer.defaultProps = {
+  isPresentationModeEnabled: false,
   width: 600,
   height: 600,
   energies: Forces.defaultProps.energies,
