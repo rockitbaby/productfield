@@ -8,6 +8,7 @@
   "description": "App for the product field canvas.",
   "main": "states.js",
   "scripts": {
+    "devserver": "CSS_SOURCEMAPS=true webpack-dev-server --inline",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)' --reporter nyan",
     "test:watch": "npm run test -- --watch"
   },

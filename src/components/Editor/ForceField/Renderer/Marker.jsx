@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import styles from '../../../../styles/main.css';
 
 export class Marker extends Component {
 

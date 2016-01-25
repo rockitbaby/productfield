@@ -1,6 +1,6 @@
 import React from 'react';
-import {ConnectedToolbar} from './Editor/Toolbar';
 import {ConnectedStage} from '../../state/components/connected_stage';
+import {ConnectedToolbar} from '../../state/components/connected_toolbar';
 
 export const Editor = React.createClass({
   getInitialState: function() {
