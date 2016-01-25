@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import Vector from 'victor';
 import {ForceFieldCalculationSingleton} from '../../../../ForceFieldCalculation';
 
 export class ForceArrow extends Component {
@@ -6,6 +7,11 @@ export class ForceArrow extends Component {
   render() {
     const {x, y, x2, y2, triangleSize} = this.props;
     var transform = "rotate(" + this.props.deg + "," + x + "," + y + ")";
+    const point1 = new Vector(x, y);
+    const point2 = new Vector(x2, y2);
+    const line = point2.subtract(point1);
+    const angle = line.angleDeg();
+    const arrowTransform = `rotate(${Math.abs(90 + angle)}, ${x2}, ${y2})`;
     const points = [
       x2,
       y2,
@@ -31,7 +37,7 @@ export class ForceArrow extends Component {
           y2={this.props.y2}
           strokeWidth='1'
           stroke={this.props.skin.arrows} />
-        <polyline points={triangleCoordinates.join(' ')} fill={this.props.skin.arrows} />
+        <polyline points={triangleCoordinates.join(' ')} transform={arrowTransform} fill={this.props.skin.arrows} />
       </g>
     );
   }
@@ -75,8 +81,15 @@ export class Forces extends Component {
         var x2 = x;
         var y2 = y - length;
 
+        let a;
+
+        if (result.x === 0) {
+          a = 1
+        } else {
         //Calculation of degree for direction
-        var a = Math.atan(result.y / result.x);
+          a = Math.atan(result.y / result.x);
+        }
+
         var deg = (180 / Math.PI) * a;
 
         if (yDelta > 0) {
