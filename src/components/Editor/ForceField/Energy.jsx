@@ -1,126 +1,19 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
-import GlobalStyles from '../../../styles/GlobalStyles'
-import {connect} from 'react-redux';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {fromJS, Map} from 'immutable';
-import * as actionCreators from '../../../action_creators'
+import {DraggableCore} from 'react-draggable';
+import GlobalStyles from '../../../styles/GlobalStyles'
 import Slider from './Energy/Slider';
 
+const CIRCLE_SIZE = 30;
+const EDITING_CIRCLE_SIZE = 36;
+const PANE_HEIGHT = 265;
 
-export const Energy = React.createClass({
-  mixins: [PureRenderMixin],
+export class Energy extends Component {
 
-  energyDragEnded: function(event) {
-    event.preventDefault();
-
-    const energy = event.currentTarget;
-    const stage = energy.offsetParent;
-    var [offsetX, offsetY] = this.componentSizeOffset();
-
-    var pXstage = event.clientX - stage.offsetLeft - offsetX;
-    var pYstage = event.clientY - stage.offsetTop + offsetY;
-
-    var [normalizedX, normalizedY] = this.props.normalizeCoordinates(pXstage, pYstage);
-
-    this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY, isMuted: this.props.isMuted}));
-    this.props.stopDragging();
-  },
-
-  energyDragged: function(event) {
-    event.preventDefault();
-
-    const energy = event.currentTarget;
-    const field = energy.offsetParent;
-
-    var newX = event.clientX - field.offsetLeft;
-    var newY = event.clientY - field.offsetTop;
-
-    var [normalizedX, normalizedY] = this.props.normalizeCoordinates(newX,newY);
-
-    this.props.startDragging();
-    this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY, isMuted: this.props.isMuted}))
-  },
-
-  energyClicked: function(event) {
-    var currentEnergy = Map({
-      id:       this.props.id,
-      x:        this.props.x,
-      y:        this.props.y,
-      strength: this.props.strength,
-      isMuted:  this.props.isMuted
-    });
-
-    this.isEditing() ? this.props.editEnergy(null) : this.props.editEnergy(currentEnergy);
-  },
-
-  toggleMuteEnergy: function() {
-    var currentEnergy = Map({
-      id:       this.props.id,
-      x:        this.props.x,
-      y:        this.props.y,
-      strength: this.props.strength,
-      isMuted:  this.props.isMuted ? false : true
-    });
-
-    this.props.setMute(currentEnergy);
-  },
-
-  componentSizeOffset: function() {
-    var translationX = - this.circleSize / 2;
-    var translationY = - this.circleSize / 2;
-
-    if (this.isEditing()) {
-      translationX = - this.circleSizeWhenEditing / 2;
-      translationY = - this.paneHeight / 2
-    }
-
-    return [translationX, translationY];
-  },
-
-  isEditing: function() {
-    return this.props.editingEnergy && this.props.editingEnergy.get('id') == this.props.id;
-  },
-
-  render: function() {
-    return <div className="Energy"
-                draggable='true'
-                onDrag={this.energyDragged}
-                onClick={this.energyClicked}
-                onDragEnd={this.energyDragEnded}
-                style={this.getWrapperStyle()}>
-             <div className="Energy-circle" style={this.getCircleStyle()}>
-                <span>{this.props.strength}</span>
-             </div>
-             { this.isEditing() ?
-               <div className="Energy-pane" style={this.getPaneStyle()}>
-                 <Slider value={this.props.strength}
-                         setStrength={this.props.setStrength}
-                         isPresentation={this.props.isPresentation}/>
-                       <div className={this.props.isPresentation? " sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"}>
-                         <div className="sliderAdditionIconWrapper">
-                           {this.props.isMuted ?
-                            <img src="/img/unmute.svg" onClick={this.toggleMuteEnergy}/>
-                            :
-                            <img src="/img/mute.svg" onClick={this.toggleMuteEnergy}/>
-                            }
-                        </div>
-                        <div className="sliderAdditionIconWrapper">
-                          <img src="/img/delete.svg" onClick={this.props.deleteEnergy}/>
-                        </div>
-                      </div>
-               </div>
-               : null
-             }
-           </div>;
-  },
-
-  circleSize: 30,
-  circleSizeWhenEditing: 36,
-
-  getCircleStyle: function() {
+  getCircleStyle() {
     var backgroundColor = function(strength, isMuted) {
-      if(isMuted) {
+      if (isMuted) {
         return GlobalStyles.neutralGrey;
       } else {
         if (strength > 0) {
@@ -139,39 +32,37 @@ export const Energy = React.createClass({
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor:  backgroundColor(this.props.strength, this.props.isMuted),
-      width: this.circleSize,
-      height: this.circleSize,
+      width: CIRCLE_SIZE,
+      height: CIRCLE_SIZE,
       boxShadow: '0px 1px 1px 0px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12)',
-      borderRadius: this.circleSize / 2,
+      borderRadius: CIRCLE_SIZE / 2,
       position: 'absolute'
     }
 
-    if(this.isEditing()) {
+    if (this.isEditing()) {
       Object.assign(circleStyles, {
-        width: this.circleSizeWhenEditing,
-        height: this.circleSizeWhenEditing,
-        borderRadius: this.circleSizeWhenEditing / 2,
+        width: EDITING_CIRCLE_SIZE,
+        height: EDITING_CIRCLE_SIZE,
+        borderRadius: EDITING_CIRCLE_SIZE / 2,
         border: '3px solid white',
-        top: this.paneHeight / 2 - this.circleSizeWhenEditing / 2
+        top: PANE_HEIGHT / 2 - EDITING_CIRCLE_SIZE / 2
       });
     }
 
     return circleStyles;
-  },
+  }
 
-  paneHeight: 265,
-
-  getPaneStyle: function() {
+  getPaneStyle() {
     if(this.isEditing()) {
       return {
         position: 'absolute',
-        left: 1.5 * this.circleSize,
-        height: this.paneHeight
+        left: 1.5 * CIRCLE_SIZE,
+        height: PANE_HEIGHT
       }
     }
-  },
+  }
 
-  getWrapperStyle: function() {
+  getWrapperStyle() {
     var [pixelatedX, pixelatedY] = this.props.deNormalizeCoordinates(this.props.x, this.props.y);
     var [offsetX, offsetY] = this.componentSizeOffset();
 
@@ -179,27 +70,136 @@ export const Energy = React.createClass({
       position: 'absolute',
       transform: 'translate(' + offsetX + 'px, ' + offsetY + 'px)',
       left: pixelatedX,
-      top: pixelatedY
+      top: pixelatedY,
+      userSelect: 'none',
+      cursor: 'default',
     }
-  },
-});
+  }
 
-function mapStateToProps(state, ownProps) {
-  var energy = state.get('energies').find(function(energy) {
-    return this.id == energy.get('id');
-  }, ownProps);
+  energyClicked(event) {
+    var currentEnergy = Map({
+      id:       this.props.id,
+      x:        this.props.x,
+      y:        this.props.y,
+      strength: this.props.strength,
+      isMuted:  this.props.isMuted
+    });
 
-  return {
-    id: energy.get('id'),
-    x: energy.get('x'),
-    y: energy.get('y'),
-    strength: energy.get('strength'),
-    editingEnergy: state.get('editingEnergy'),
-    startDragging: state.get('startDragging'),
-    stopDragging: state.get('stopDragging'),
-    isPresentation: state.get('isPresentation'),
-    isMuted: energy.get('isMuted')
-  };
+    this.isEditing() ? this.props.editEnergy(null) : this.props.editEnergy(currentEnergy);
+  }
+
+  toggleMuteEnergy() {
+    var currentEnergy = Map({
+      id:       this.props.id,
+      x:        this.props.x,
+      y:        this.props.y,
+      strength: this.props.strength,
+      isMuted:  this.props.isMuted ? false : true
+    });
+
+    this.props.setMute(currentEnergy);
+  }
+
+  componentSizeOffset() {
+    var translationX = - CIRCLE_SIZE / 2;
+    var translationY = - CIRCLE_SIZE / 2;
+
+    if (this.isEditing()) {
+      translationX = - EDITING_CIRCLE_SIZE / 2;
+      translationY = - PANE_HEIGHT / 2
+    }
+
+    return [translationX, translationY];
+  }
+
+  isEditing() {
+    return this.props.editingEnergy && this.props.editingEnergy.get('id') == this.props.id;
+  }
+
+  handleDragStart() {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.startDragging();
+  }
+
+  handleDragStop() {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.stopDragging();
+  }
+
+  handleDrag(event, ui) {
+    event.preventDefault();
+    event.stopPropagation();
+    const {node, position: {clientX, clientY}} = ui;
+
+    const field = node.offsetParent;
+
+    var newX = clientX - field.offsetLeft;
+    var newY = clientY - field.offsetTop;
+
+    const [normalizedX, normalizedY] = this.props.normalizeCoordinates(newX,newY);
+
+    this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY, isMuted: this.props.isMuted}))
+  }
+
+  renderEnergyEditor() {
+    return (
+      <div className="Energy-pane" style={this.getPaneStyle()}>
+        <Slider value={this.props.strength}
+          setStrength={this.props.setStrength}
+          isPresentation={this.props.isPresentation}/>
+        <div className={this.props.isPresentation ? " sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"}>
+          <div className="sliderAdditionIconWrapper">
+            {this.props.isMuted ?
+            <img src="/img/unmute.svg" onClick={this.toggleMuteEnergy.bind(this)}/>
+            :
+            <img src="/img/mute.svg" onClick={this.toggleMuteEnergy.bind(this)}/>
+            }
+          </div>
+          <div className="sliderAdditionIconWrapper">
+            <img src="/img/delete.svg" onClick={this.props.deleteEnergy.bind(this)}/>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <DraggableCore
+        onStart={this.handleDragStart.bind(this)}
+        onDrag={this.handleDrag.bind(this)}
+        onStop={this.handleDragStop.bind(this)} >
+        <div className="Energy"
+          onClick={this.energyClicked.bind(this)}
+          style={this.getWrapperStyle()}>
+          <div className="Energy-circle" style={this.getCircleStyle()}>
+            <span>{this.props.strength}</span>
+          </div>
+          { this.isEditing() ? this.renderEnergyEditor() : null }
+        </div>
+      </DraggableCore>
+    );
+  }
+
 }
 
-export const ConnectedEnergy = connect(mapStateToProps, actionCreators)(Energy);
+Energy.propTypes = {
+  id: PropTypes.number.isRequired,
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  strength: PropTypes.number.isRequired,
+  isPresentation: PropTypes.bool,
+  isMuted: PropTypes.bool,
+  editingEnergy: PropTypes.object,
+  startDragging: PropTypes.func,
+  stopDragging: PropTypes.func
+};
+
+Energy.defaultProps = {
+  isPresentation: false,
+  isMuted: false,
+  startDragging(){},
+  stopDragging(){},
+};

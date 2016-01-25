@@ -1,5 +1,17 @@
 import {Map} from 'immutable';
-import {ForceFieldCalculationSingleton, coordinateSystemTransformation} from './ForceFieldCalculation'
+import {ForceFieldCalculationSingleton, coordinateSystemTransformation} from '../ForceFieldCalculation'
+import {
+  SET_STATE,
+  MOVE_ENERGY,
+  EDIT_ENERGY,
+  START_DRAGGING,
+  STOP_DRAGGING,
+  DELETE_ENERGY,
+  ADD_ENERGY,
+  SET_STRENGTH,
+  SET_PRESENTATION,
+  SET_MUTE,
+} from './action_types';
 
 function setState(state, newState) {
   var newEnergies = coordinateSystemTransformation(newState.get('energies').toJS())
@@ -71,25 +83,25 @@ function setStrength(state, newStrength) {
 
 export default function(state = Map(), action) {
   switch (action.type) {
-  case 'SET_STATE':
+  case SET_STATE:
     return setState(state, action.state);
-  case 'MOVE_ENERGY':
+  case MOVE_ENERGY:
     return setState(state, moveEnergy(state, action.energy));
-  case 'ADD_ENERGY':
+  case ADD_ENERGY:
     return setState(state, addEnergy(state, action.energy));
-  case 'DELETE_ENERGY':
+  case DELETE_ENERGY:
     return setState(state, deleteEnergy(state));
-  case 'EDIT_ENERGY':
+  case EDIT_ENERGY:
     return setState(state, editEnergy(state, action.energy));
-  case 'START_DRAGGING':
+  case START_DRAGGING:
     return setState(state, state.set('dragging', true));
-  case 'STOP_DRAGGING':
+  case STOP_DRAGGING:
     return setState(state, state.set('dragging', false));
-  case 'SET_STRENGTH':
+  case SET_STRENGTH:
     return setState(state, setStrength(state, action.strength));
-  case 'SET_PRESENTATION':
+  case SET_PRESENTATION:
     return setState(state, setPresentation(state, action.presentation));
-  case 'SET_MUTE':
+  case SET_MUTE:
     return setState(state, setMute(state, action.energy));
   }
 

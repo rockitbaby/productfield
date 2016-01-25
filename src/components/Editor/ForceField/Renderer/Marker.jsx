@@ -1,21 +1,25 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 
-export default React.createClass({
+export class Marker extends Component {
 
-  render: function() {
+  render() {
+    const {stageWidth, stageHeight, fieldSize, gridUnit, skin: {marker}} = this.props;
+    const centerX = Math.floor(stageWidth / 2 - fieldSize / 2);
+    const centerY = Math.floor(stageHeight / 2 - fieldSize / 2);
+    const circleRadius = Math.sqrt(2 * gridUnit * gridUnit);
 
-
-    const centerX = Math.floor(this.props.stageWidth / 2 - this.props.fieldSize / 2);
-    const centerY = Math.floor(this.props.stageHeight / 2 - this.props.fieldSize / 2);
-    const circleRadius = Math.sqrt(2 * this.props.gridUnit * this.props.gridUnit);
-
-    const gridUnit = this.props.gridUnit;
-    var characterMarkerCoordinates = [2 * gridUnit - 1/2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit - 1/2 * gridUnit].join()
+    var characterMarkerCoordinates = [
+      2 * gridUnit - 1/2 * gridUnit,
+      2 * gridUnit,
+      2 * gridUnit,
+      2 * gridUnit,
+      2 * gridUnit,
+      2 * gridUnit - 1/2 * gridUnit
+    ].join()
 
     var quadrantMarkers = [];
 
     var gu5 = 5 * gridUnit;
-    var props = this.props;
 
     [0, 90, 180, 270].forEach(function(deg) {
 
@@ -23,20 +27,32 @@ export default React.createClass({
 
       quadrantMarkers.push(
         <g key={deg} transform={transform}>
-        <polyline points={characterMarkerCoordinates} strokeWidth='2' fill='none' stroke={props.skin.marker} />
-        <circle r='4' cx={gu5} cy={gu5} fill={props.skin.marker} />
+        <polyline points={characterMarkerCoordinates} strokeWidth='2' fill='none' stroke={marker} />
+        <circle r={4} cx={gu5} cy={gu5} fill={marker} />
         </g>
       );
 
     });
 
-    return <svg className='Renderer-marker' width={this.props.fieldSize} height={this.props.fieldSize} x={centerX} y={centerY}>
-        <rect className='u-visual-debug' width={this.props.fieldSize} height={this.props.fieldSize} />
-        <circle cx={this.props.fieldSize / 2} cy={this.props.fieldSize / 2} r={circleRadius} fill='none' strokeWidth='2' stroke={this.props.skin.marker} />
+    return (
+      <svg className='Renderer-marker' width={fieldSize} height={fieldSize} x={centerX} y={centerY}>
+        <rect className={styles['u-visual-debug']} width={fieldSize} height={fieldSize} />
+        <circle cx={fieldSize / 2} cy={fieldSize / 2} r={circleRadius} fill='none' strokeWidth='2' stroke={marker} />
         <g>{quadrantMarkers}</g>
       </svg>
+    );
   }
-});
+}
+
+Marker.propTypes = {
+  stageWidth: PropTypes.number.isRequired,
+  stageHeight: PropTypes.number.isRequired,
+  fieldSize: PropTypes.number.isRequired,
+  gridUnit: PropTypes.number.isRequired,
+  skin: PropTypes.shape({
+    marker: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 /*
 var properties = this.getProperties();

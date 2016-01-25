@@ -1,0 +1,10 @@
+export const SET_STATE = 'SET_STATE';
+export const MOVE_ENERGY = 'MOVE_ENERGY';
+export const EDIT_ENERGY = 'EDIT_ENERGY';
+export const START_DRAGGING = 'START_DRAGGING';
+export const STOP_DRAGGING = 'STOP_DRAGGING';
+export const DELETE_ENERGY = 'DELETE_ENERGY';
+export const ADD_ENERGY = 'ADD_ENERGY';
+export const SET_STRENGTH = 'SET_STRENGTH';
+export const SET_PRESENTATION = 'SET_PRESENTATION';
+export const SET_MUTE = 'SET_MUTE';

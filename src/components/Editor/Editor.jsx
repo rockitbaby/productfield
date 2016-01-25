@@ -1,9 +1,8 @@
 import React from 'react';
-import * as actionCreators from '../../action_creators'
-import {ConnectedStage} from './ForceField/Stage';
 import {ConnectedToolbar} from './Editor/Toolbar';
+import {ConnectedStage} from '../../state/components/connected_stage';
 
-export default React.createClass({
+export const Editor = React.createClass({
   getInitialState: function() {
     return this.browserWindowAsState();
   },
@@ -17,13 +16,15 @@ export default React.createClass({
   },
 
   render: function() {
-    return <div className="Editor">
-      <ConnectedToolbar />
-      <ConnectedStage height={this.state.stageHeight} width={this.state.stageWidth} />
-    </div>;
+    return (
+      <div className="Editor">
+        <ConnectedToolbar />
+        <ConnectedStage height={this.state.stageHeight} width={this.state.stageWidth} />
+      </div>
+    );
   },
 
-  onResize: function() {
+  onResize: function(event) {
     this.setState(this.browserWindowAsState());
   },
 

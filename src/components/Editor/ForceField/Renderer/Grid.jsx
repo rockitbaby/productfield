@@ -1,29 +1,44 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 
-export default React.createClass({
+const CONTEXT_CIRCLE_RADIUS = 1.5;
+const DEFAULT_CIRCLE_RADIUS = 1;
 
-  render: function() {
+export class Grid extends Component {
 
-    const offsetX = Math.floor(this.props.stageWidth / 2 - this.props.fieldSize / 2) % this.props.gridUnit;
-    const offsetY = Math.floor(this.props.stageHeight / 2 - this.props.fieldSize / 2) % this.props.gridUnit
+  render() {
+    const {stageWidth, stageHeight, fieldSize, gridUnit, skin: {dots}} = this.props;
+
+    const offsetX = Math.floor(stageWidth / 2 - fieldSize / 2) % gridUnit;
+    const offsetY = Math.floor(stageHeight / 2 - fieldSize / 2) % gridUnit
 
     var circles = []
-    for(var x = offsetX; x < this.props.stageWidth; x = x + this.props.gridUnit) {
-      for(var y = offsetY; y < this.props.stageHeight; y = y + this.props.gridUnit) {
+    for (var x = offsetX; x < stageWidth; x = x + gridUnit) {
+      for (var y = offsetY; y < stageHeight; y = y + gridUnit) {
         const [normalizedX, normalizedY] = this.props.normalizeCoordinates(x, y);
         var forceFieldDescriptor = new ForceFieldDescriptor(normalizedX, normalizedY);
-        var radius = 1;
-        if(forceFieldDescriptor.isCenter()) {
+        var radius = DEFAULT_CIRCLE_RADIUS;
+        if (forceFieldDescriptor.isCenter()) {
           continue;
         }
-        if(forceFieldDescriptor.isContext()) {
-          radius = 1.5;
+        if (forceFieldDescriptor.isContext()) {
+          radius = CONTEXT_CIRCLE_RADIUS;
         }
         const classNames = forceFieldDescriptor.getClassNames();
-        circles.push(<circle key={`${x},${y}`} className={classNames} cx={x} cy={y} r={radius} stroke={this.props.skin.dots} ></circle>)
+        circles.push(<circle key={`${x},${y}`} className={classNames} cx={x} cy={y} r={radius} stroke={dots} />)
       }
     }
     return <g>{circles}</g>;
   }
-});
+}
+
+Grid.propTypes = {
+  stageWidth: PropTypes.number.isRequired,
+  stageHeight: PropTypes.number.isRequired,
+  fieldSize: PropTypes.number.isRequired,
+  gridUnit: PropTypes.number.isRequired,
+  skin: PropTypes.shape({
+    dots: PropTypes.string.isRequired,
+  }).isRequired,
+  normalizeCoordinates: PropTypes.func.isRequired,
+};

@@ -1,9 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {connect} from 'react-redux';
-import {ConnectedEnergy} from './Energy';
-import Renderer from './Renderer';
-import * as actionCreators from '../../../action_creators'
+import {ConnectedEnergy} from '../../../state/components/connected_energy';
+import {Renderer} from './Renderer';
 import '../../../styles/main.css';
 
 
@@ -136,13 +134,3 @@ export const Stage = React.createClass({
     }
   }
 });
-
-function mapStateToProps(state) {
-  return {
-    energies: state.get('energies'),
-    isPresentation: state.get('isPresentation'),
-    dragging: state.get('dragging')
-  };
-}
-
-export const ConnectedStage = connect(mapStateToProps, actionCreators)(Stage);

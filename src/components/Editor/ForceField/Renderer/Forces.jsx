@@ -1,41 +1,76 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import {ForceFieldCalculationSingleton} from '../../../../ForceFieldCalculation';
 
+export class ForceArrow extends Component {
 
-var ForceArrow = React.createClass({
-
-  render: function() {
-    debugger;
-    var transform = "rotate(" + this.props.deg + "," + this.props.x + "," + this.props.y + ")";
-    var triangleCoordinates = [this.props.x2, this.props.y2, this.props.x2 + this.props.triangleSize, this.props.y2, this.props.x2, this.props.y2 - this.props.triangleSize, this.props.x2 - this.props.triangleSize, this.props.y2, this.props.x2, this.props.y2].join();
-    return <g><line x1={this.props.x} y1={this.props.y} x2={this.props.x2} y2={this.props.y2} strokeWidth='1' stroke={this.props.skin.arrows} transform={transform} />
-      <polyline points={triangleCoordinates} transform={transform} fill={this.props.skin.arrows} /></g>;
-
+  render() {
+    const {x, y, x2, y2, triangleSize} = this.props;
+    var transform = "rotate(" + this.props.deg + "," + x + "," + y + ")";
+    const points = [
+      x2,
+      y2,
+      x2 + triangleSize,
+      y2,
+      x2,
+      y2 - triangleSize,
+      x2 - triangleSize,
+      y2,
+      x2,
+      y2,
+    ];
+    const triangleCoordinates = [];
+    for (let i=0; i < points.length; i += 2) {
+      triangleCoordinates.push(`${points[i]},${points[i+1]}`);
+    }
+    return (
+      <g transform={transform}>
+        <line
+          x1={this.props.x}
+          y1={this.props.y}
+          x2={this.props.x2}
+          y2={this.props.y2}
+          strokeWidth='1'
+          stroke={this.props.skin.arrows} />
+        <polyline points={triangleCoordinates.join(' ')} fill={this.props.skin.arrows} />
+      </g>
+    );
   }
-});
+}
 
-export default React.createClass({
+ForceArrow.propTypes = {
+  deg: PropTypes.number.isRequired,
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  x2: PropTypes.number.isRequired,
+  y2: PropTypes.number.isRequired,
+  triangleSize: PropTypes.number.isRequired,
+  skin: PropTypes.shape({
+    arrows: PropTypes.string.isRequired
+  }).isRequired,
+}
 
-  render: function() {
+export class Forces extends Component {
 
-    const offsetX = Math.floor(this.props.stageWidth - this.props.fieldSize) / 2 % this.props.gridUnit;
-    const offsetY = Math.floor(this.props.stageHeight / 2 - this.props.fieldSize / 2) % this.props.gridUnit
+  render() {
+    const {stageWidth, stageHeight, fieldSize, gridUnit} = this.props;
+    const offsetX = Math.floor(stageWidth - fieldSize) / 2 % gridUnit;
+    const offsetY = Math.floor(stageHeight / 2 - fieldSize / 2) % gridUnit
 
     var ForceFieldCalculator = ForceFieldCalculationSingleton.getInstance();
 
     var arrows = []
-    for(var x = offsetX; x < this.props.stageWidth; x = x + this.props.gridUnit) {
-      for(var y = offsetY; y < this.props.stageHeight; y = y + this.props.gridUnit) {
+    for (var x = offsetX; x < stageWidth; x += gridUnit) {
+      for (var y = offsetY; y < stageHeight; y += gridUnit) {
 
         // normalize coordinates
         var [normaliedX, normalizedY] = this.props.normalizeCoordinates(x, y);
         var result = ForceFieldCalculator.forceVectorAtPoint(normaliedX, normalizedY);
 
-        var length = Math.sqrt(Math.pow(result.x / this.props.gridUnit, 2) + Math.pow(result.y / this.props.gridUnit, 2));
+        var length = Math.sqrt(Math.pow(result.x / gridUnit, 2) + Math.pow(result.y / gridUnit, 2));
 
         //Show Arrows and lines only if they're long enough
-        var xDelta = result.x / this.props.gridUnit;
-        var yDelta = result.y / this.props.gridUnit;
+        var xDelta = result.x / gridUnit;
+        var yDelta = result.y / gridUnit;
 
         var x2 = x;
         var y2 = y - length;
@@ -44,7 +79,7 @@ export default React.createClass({
         var a = Math.atan(result.y / result.x);
         var deg = (180 / Math.PI) * a;
 
-        if(yDelta > 0) {
+        if (yDelta > 0) {
           var deg = 180 / a;
         } else {
           var deg = 180 / a + 180;
@@ -59,10 +94,23 @@ export default React.createClass({
           triangleSize: 4
         }
 
-        arrows.push(<ForceArrow key={`${x},${y}`} {...props} />)
+        arrows.push(<ForceArrow key={`${x},${y}`} {...props} skin={this.props.skin} />)
       }
     }
 
-    return <g>{arrows}</g>;
+    return (
+      <g>{arrows}</g>
+    );
   }
-});
+};
+
+Forces.propTypes = {
+  stageWidth: PropTypes.number.isRequired,
+  stageHeight: PropTypes.number.isRequired,
+  fieldSize: PropTypes.number.isRequired,
+  gridUnit: PropTypes.number.isRequired,
+  skin: PropTypes.shape({
+    arrows: PropTypes.string.isRequired,
+  }).isRequired,
+  normalizeCoordinates: PropTypes.func.isRequired,
+};
