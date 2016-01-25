@@ -1,11 +1,12 @@
-var webpack = require('webpack');
+'use strict';
+const webpack = require('webpack');
 
 module.exports = {
-  entry: [
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    './src/index.jsx'
-  ],
+  entry: {
+    client: 'webpack-dev-server/client?http://localhost:8080',
+    index: ['./src/index.jsx', 'webpack/hot/only-dev-server'],
+    component_library: './src/component_library.jsx'
+  },
   module: {
     loaders: [{
       test: /\.jsx?$/,
@@ -22,7 +23,7 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   devServer: {
     contentBase: './dist',
@@ -36,5 +37,6 @@ module.exports = {
          "root.jQuery" : "jquery"
      }),
     new webpack.HotModuleReplacementPlugin()
-  ]
+  ],
+  devtool: 'source-map'
 };
