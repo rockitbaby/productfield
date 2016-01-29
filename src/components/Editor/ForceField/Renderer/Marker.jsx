@@ -24,12 +24,12 @@ export class Marker extends Component {
 
     [0, 90, 180, 270].forEach(function(deg) {
 
-      var transform = "rotate(" + deg + ", " + 10 * gridUnit + ", " + 10 * gridUnit + ")";
+      var transform = `rotate(${deg}, ${10 * gridUnit}, ${10 * gridUnit})`;
 
       quadrantMarkers.push(
         <g key={deg} transform={transform}>
-        <polyline points={characterMarkerCoordinates} strokeWidth='2' fill='none' stroke={marker} />
-        <circle r={4} cx={gu5} cy={gu5} fill={marker} />
+          <polyline points={characterMarkerCoordinates} strokeWidth='2' fill='none' stroke={marker} />
+          <circle r={4} cx={gu5} cy={gu5} fill={marker} />
         </g>
       );
 
@@ -53,8 +53,12 @@ Marker.propTypes = {
   skin: PropTypes.shape({
     marker: PropTypes.string.isRequired,
   }).isRequired,
+  style: PropTypes.object,
 };
 
+Marker.defaultProps = {
+  style: {},
+};
 /*
 var properties = this.getProperties();
 

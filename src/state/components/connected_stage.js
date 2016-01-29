@@ -6,7 +6,7 @@ import * as actionCreators from '../action_creators';
 
 function mapStateToProps(state) {
   return {
-    energies: state.get('energies'),
+    energies: state.get('energies').toJS(),
     isPresentation: state.get('isPresentation'),
     dragging: state.get('dragging')
   };

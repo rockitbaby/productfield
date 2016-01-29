@@ -5,9 +5,9 @@ const useCSSSourceMaps = (process.env.CSS_SOURCEMAPS === 'true');
 
 module.exports = {
   entry: {
-    client: 'webpack-dev-server/client?http://localhost:8080',
+    client: ['webpack-dev-server/client?http://localhost:8080'],
     index: ['./src/index.jsx', 'webpack/hot/only-dev-server'],
-    component_library: './src/component_library.jsx'
+    component_library: ['webpack/hot/only-dev-server', './src/component_library.jsx']
   },
   module: {
     loaders: [{

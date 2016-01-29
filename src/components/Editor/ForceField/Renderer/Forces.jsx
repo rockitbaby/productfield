@@ -58,7 +58,7 @@ ForceArrow.propTypes = {
 export class Forces extends Component {
 
   render() {
-    const {stageWidth, stageHeight, fieldSize, gridUnit} = this.props;
+    const {stageWidth, stageHeight, fieldSize, gridUnit, minArrowLength, arrowTriangleSize} = this.props;
     const offsetX = Math.floor(stageWidth - fieldSize) / 2 % gridUnit;
     const offsetY = Math.floor(stageHeight / 2 - fieldSize / 2) % gridUnit
 
@@ -104,7 +104,7 @@ export class Forces extends Component {
           x2: x2,
           y: y,
           y2: y2,
-          triangleSize: 4
+          triangleSize: arrowTriangleSize,
         }
 
         arrows.push(<ForceArrow key={`${x},${y}`} {...props} skin={this.props.skin} />)
@@ -122,8 +122,15 @@ Forces.propTypes = {
   stageHeight: PropTypes.number.isRequired,
   fieldSize: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
+  arrowTriangleSize: PropTypes.number,
+  minArrowLength: PropTypes.number,
   skin: PropTypes.shape({
     arrows: PropTypes.string.isRequired,
   }).isRequired,
   normalizeCoordinates: PropTypes.func.isRequired,
+};
+
+Forces.defaultProps = {
+  arrowTriangleSize: 4,
+  minArrowLength: 0,
 };

@@ -192,6 +192,8 @@ Energy.propTypes = {
   strength: PropTypes.number.isRequired,
   isPresentation: PropTypes.bool,
   isMuted: PropTypes.bool,
+  deNormalizeCoordinates: PropTypes.func,
+  normalizeCoordinates: PropTypes.func,
   editingEnergy: PropTypes.object,
   startDragging: PropTypes.func,
   stopDragging: PropTypes.func

@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import Immutable, {Map} from 'immutable';
 import {ForceFieldCalculationSingleton, coordinateSystemTransformation} from '../ForceFieldCalculation'
 import {
   SET_STATE,
@@ -14,9 +14,6 @@ import {
 } from './action_types';
 
 function setState(state, newState) {
-  var newEnergies = coordinateSystemTransformation(newState.get('energies').toJS())
-
-  ForceFieldCalculationSingleton.getInstance().setEnergies(newEnergies);
   return state.merge(newState);
 }
 
@@ -103,7 +100,27 @@ export default function(state = Map(), action) {
     return setState(state, setPresentation(state, action.presentation));
   case SET_MUTE:
     return setState(state, setMute(state, action.energy));
+  default:
+    return state;
+  }
+}
+
+export function observeEnergies(store, onChange) {
+  return observeStore(store, (state) => state.get('energies'), onChange);
+}
+
+export function observeStore(store, select, onChange) {
+  let currentState;
+
+  function handleChange() {
+    const nextState = select(store.getState());
+    if (!Immutable.is(nextState, currentState)) {
+      currentState = nextState;
+      onChange(currentState);
+    }
   }
 
-  return state;
+  const unsubscribe = store.subscribe(handleChange);
+  handleChange();
+  return unsubscribe;
 }

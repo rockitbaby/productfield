@@ -20,6 +20,8 @@ export class Renderer extends Component {
           fieldSize={this.props.fieldSize}
           gridUnit={this.props.gridUnit}
           normalizeCoordinates={this.props.normalizeCoordinates}
+          arrowTriangleSize={this.props.triangleSize}
+          minArrowLength={this.props.minLengthForArrowsToDisplay}
           skin={this.props.skin}
         />
       );
@@ -66,6 +68,8 @@ Renderer.propTypes = {
   fieldSize: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
   normalizeCoordinates: PropTypes.func.isRequired,
+  triangleSize: PropTypes.number.isRequired,
+  minLengthForArrowsToDisplay: PropTypes.number.isRequired,
   skin: PropTypes.shape({
     background: PropTypes.string.isRequired,
     dots: PropTypes.string.isRequired,
