@@ -21,10 +21,7 @@ function setState(state, newState) {
 }
 
 function addEnergy(state, energy) {
-  const currentEnergies = state.get('energies');
-  const nextID = (currentEnergies.size > 0) ? (currentEnergies.max().get('id') + 1) : 1;
-  const newEnergies = currentEnergies.push(Map({id: nextID, x: energy.x, y: energy.y, strength: energy.strength || 0}));
-  return state.set('energies', newEnergies);
+  return state.update('energies', (energies) => energies.push(Map(energy)));
 }
 
 function setPresentation(state, presentation = false) {

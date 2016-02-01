@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "immutable": "^3.7.5",
+    "node-uuid": "^1.4.7",
     "radium": "^0.14.1",
     "react": "^0.14.0",
     "react-addons-pure-render-mixin": "^0.14.0",

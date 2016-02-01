@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import uuid from 'node-uuid';
 import {Energy} from './Energy';
 import {Renderer} from './Renderer';
 import '../../../styles/main.css';
@@ -89,7 +90,7 @@ export class Stage extends Component {
 
     var [normalizedX, normalizedY] = this.normalizeCoordinates(pXstage, pYstage);
 
-    this.props.onEnergyAdd({x: normalizedX, y: normalizedY, strength: 1});
+    this.props.onEnergyAdd({id: uuid.v1(), x: normalizedX, y: normalizedY, strength: 1, isMuted: false});
   }
 
   handleEnergyEdit(id, event) {
@@ -156,7 +157,7 @@ export class Stage extends Component {
 
 Stage.propTypes = {
   energies: PropTypes.arrayOf(PropTypes.shape({
-    id: Energy.propTypes.id,
+    id: PropTypes.string.isRequired,
     x: Energy.propTypes.x,
     y: Energy.propTypes.y,
     strength: Energy.propTypes.strength,

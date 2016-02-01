@@ -7,6 +7,7 @@ import {
   setEnergyIsMuted,
   moveEnergy,
   deleteEnergy,
+  addEnergy,
 } from '../src/state/action_creators';
 
 import reducer from '../src/state/reducer';
@@ -149,6 +150,34 @@ suite('reducer', () => {
     });
 
     const nextState = reducer(startState, deleteEnergy(2));
+
+    expect(nextState).to.equal(endState);
+  });
+
+  test('ADD_ENERGY action', () => {
+    const startState = Map({
+      energies: List([]),
+    });
+
+    const endState = Map({
+      energies: List([
+        Map({
+          id: '17',
+          x: 0.1,
+          y: 0.3,
+          strength: 5,
+          isMuted: false,
+        }),
+      ]),
+    });
+
+    const nextState = reducer(startState, addEnergy({
+      id: '17',
+      x: 0.1,
+      y: 0.3,
+      strength: 5,
+      isMuted: false,
+    }));
 
     expect(nextState).to.equal(endState);
   });
