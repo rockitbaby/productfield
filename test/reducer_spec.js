@@ -3,6 +3,10 @@ import {expect} from 'chai';
 
 import {
   setEnergyStrength,
+  setEditingEnergyId,
+  setEnergyIsMuted,
+  moveEnergy,
+  deleteEnergy,
 } from '../src/state/action_creators';
 
 import reducer from '../src/state/reducer';
@@ -15,6 +19,7 @@ suite('reducer', () => {
   test('state initialization', () => {
     const endState = Map({
       energies: List(),
+      editingEnergyId: null,
     });
 
     const result = reducer(undefined, {});
@@ -50,6 +55,104 @@ suite('reducer', () => {
     expect(nextState).to.equal(endState);
   });
 
+  test('SET_EDITING_ENERGY_ID action', () => {
+    const startState = Map({
+      energies: List([
+        Map({
+          id: 2,
+          x: 0.1,
+          y: 0.3,
+          strength: 5,
+          isMuted: false,
+        }),
+      ]),
+    });
+
+    const endState = Map({
+      energies: List([
+        Map({
+          id: 2,
+          x: 0.1,
+          y: 0.3,
+          strength: 5,
+          isMuted: true,
+        }),
+      ]),
+    });
+
+    const nextState = reducer(startState, setEnergyIsMuted(2, true));
+
+    expect(nextState).to.equal(endState);
+  });
+
+  test('SET_ENERGY_MUTE action', () => {
+    const startState = Map({
+      editingEnergyId: null,
+    });
+
+    const endState = Map({
+      editingEnergyId: 2,
+    });
+
+    const nextState = reducer(startState, setEditingEnergyId(2));
+
+    expect(nextState).to.equal(endState);
+  });
+
+  test('MOVE_ENERGY action', () => {
+    const startState = Map({
+      energies: List([
+        Map({
+          id: 2,
+          x: 0.1,
+          y: 0.3,
+          strength: 5,
+          isMuted: true,
+        }),
+      ]),
+    });
+
+    const endState = Map({
+      energies: List([
+        Map({
+          id: 2,
+          x: 0.8,
+          y: 0.9,
+          strength: 5,
+          isMuted: true,
+        }),
+      ]),
+    });
+
+    const nextState = reducer(startState, moveEnergy(2, 0.8, 0.9));
+
+    expect(nextState).to.equal(endState);
+  });
+
+  test('DELETE_ENERGY action', () => {
+    const startState = Map({
+      energies: List([
+        Map({
+          id: 2,
+          x: 0.1,
+          y: 0.3,
+          strength: 5,
+          isMuted: true,
+        }),
+      ]),
+      editingEnergyId: 2,
+    });
+
+    const endState = Map({
+      energies: List([]),
+      editingEnergyId: null,
+    });
+
+    const nextState = reducer(startState, deleteEnergy(2));
+
+    expect(nextState).to.equal(endState);
+  });
+
   it('handles SET_STATE', () => {
     const initialState = Map();
     const action = {
@@ -79,7 +182,7 @@ suite('reducer', () => {
     };
     const nextState = reducer(undefined, action);
 
-    expect(nextState).to.equal(fromJS({ energies: [], points: [{id:1}, {id: 2}] }));
+    expect(nextState).to.equal(fromJS({ energies: [], editingEnergyId: null, points: [{id:1}, {id: 2}] }));
   });
 
   xit('handles DRAG_POINT by setting new coordinates for the point', () => {

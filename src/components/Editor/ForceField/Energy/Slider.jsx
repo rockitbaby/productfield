@@ -16,9 +16,9 @@ export class Slider extends Component {
         withBars={true}
         min={-10}
         max={10}
-        className={this.props.isPresentation? " slider slider-dark" : "slider slider-light"}
-        handleClassName={this.props.isPresentation? " handle handle-dark" : "handle handle-light"}
-        barClassName={this.props.isPresentation? " bar bar-dark" : "bar bar-light"}
+        className={this.props.isPresentation ? " slider slider-dark" : "slider slider-light"}
+        handleClassName={this.props.isPresentation ? " handle handle-dark" : "handle handle-light"}
+        barClassName={this.props.isPresentation ? " bar bar-dark" : "bar bar-light"}
         onChange={this.onSlide.bind(this)}
         value={this.props.value} />
     );

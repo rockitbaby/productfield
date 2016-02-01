@@ -5,6 +5,7 @@ import {Grid} from './components/Editor/ForceField/Renderer/Grid';
 import {Marker} from './components/Editor/ForceField/Renderer/Marker';
 import {Renderer} from './components/Editor/ForceField/Renderer';
 import {Slider} from './components/Editor/ForceField/Energy/Slider';
+import {Energy} from './components/Editor/ForceField/Energy';
 import {ForceFieldCalculationSingleton} from './ForceFieldCalculation';
 import {StateProxy} from './components/state_proxy';
 
@@ -19,6 +20,10 @@ class SvgComponent extends Component {
 }
 
 function normalizeCoordinates(x,y) {
+  return [x,y];
+}
+
+function deNormalizeCoordinates(x,y) {
   return [x,y];
 }
 
@@ -112,6 +117,55 @@ ReactDOM.render(
     {StateProxy(
       <Slider value={3} isPresentation={false} setStrength={(strength) => console.log(`Slider.setStrength(${strength})`)} />
     )}
+    <h2>Energy</h2>
+    <div style={{position: 'relative', width: 100, height: 100, backgroundColor: 'lightgray'}}>
+      {StateProxy(
+        <Energy
+          id={1}
+          x={0}
+          y={0}
+          isMuted={true}
+          strength={2}
+          isPresentation={false}
+          normalizeCoordinates={normalizeCoordinates}
+          deNormalizeCoordinates={deNormalizeCoordinates}
+          onEdit={(e) => console.log(`Energy.onEdit()`)}
+          onMute={() => console.log(`Energy.onEdit()`)}
+          onUnmute={() => console.log(`Energy.onEdit()`)}
+          setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
+      )}
+      {StateProxy(
+        <Energy
+          id={2}
+          x={33}
+          y={44}
+          isMuted={false}
+          isEditing={true}
+          strength={2}
+          isPresentation={false}
+          normalizeCoordinates={normalizeCoordinates}
+          deNormalizeCoordinates={deNormalizeCoordinates}
+          onEdit={(e) => console.log(`Energy.onEdit()`)}
+          onMute={() => console.log(`Energy.onEdit()`)}
+          onUnmute={() => console.log(`Energy.onEdit()`)}
+          setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
+      )}
+      {StateProxy(
+        <Energy
+          id={3}
+          x={77}
+          y={80}
+          isMuted={false}
+          strength={-3}
+          isPresentation={false}
+          normalizeCoordinates={normalizeCoordinates}
+          deNormalizeCoordinates={deNormalizeCoordinates}
+          onEdit={(e) => console.log(`Energy.onEdit()`)}
+          onMute={() => console.log(`Energy.onEdit()`)}
+          onUnmute={() => console.log(`Energy.onEdit()`)}
+          setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
+      )}
+    </div>
   </div>,
   document.getElementById('component-library')
 );

@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import ReactDOM from 'react-dom';
 import {fromJS, Map} from 'immutable';
 import {DraggableCore} from 'react-draggable';
 import GlobalStyles from '../../../styles/GlobalStyles'
@@ -39,7 +38,7 @@ export class Energy extends Component {
       position: 'absolute'
     }
 
-    if (this.isEditing()) {
+    if (this.props.isEditing) {
       Object.assign(circleStyles, {
         width: EDITING_CIRCLE_SIZE,
         height: EDITING_CIRCLE_SIZE,
@@ -53,7 +52,7 @@ export class Energy extends Component {
   }
 
   getPaneStyle() {
-    if(this.isEditing()) {
+    if(this.props.isEditing) {
       return {
         position: 'absolute',
         left: 1.5 * CIRCLE_SIZE,
@@ -76,56 +75,16 @@ export class Energy extends Component {
     }
   }
 
-  energyClicked(event) {
-    var currentEnergy = Map({
-      id:       this.props.id,
-      x:        this.props.x,
-      y:        this.props.y,
-      strength: this.props.strength,
-      isMuted:  this.props.isMuted
-    });
-
-    this.isEditing() ? this.props.editEnergy(null) : this.props.editEnergy(currentEnergy);
-  }
-
-  toggleMuteEnergy() {
-    var currentEnergy = Map({
-      id:       this.props.id,
-      x:        this.props.x,
-      y:        this.props.y,
-      strength: this.props.strength,
-      isMuted:  this.props.isMuted ? false : true
-    });
-
-    this.props.setMute(currentEnergy);
-  }
-
   componentSizeOffset() {
     var translationX = - CIRCLE_SIZE / 2;
     var translationY = - CIRCLE_SIZE / 2;
 
-    if (this.isEditing()) {
+    if (this.props.isEditing) {
       translationX = - EDITING_CIRCLE_SIZE / 2;
       translationY = - PANE_HEIGHT / 2
     }
 
     return [translationX, translationY];
-  }
-
-  isEditing() {
-    return this.props.editingEnergy && this.props.editingEnergy.get('id') == this.props.id;
-  }
-
-  handleDragStart() {
-    event.preventDefault();
-    event.stopPropagation();
-    this.props.startDragging();
-  }
-
-  handleDragStop() {
-    event.preventDefault();
-    event.stopPropagation();
-    this.props.stopDragging();
   }
 
   handleDrag(event, ui) {
@@ -140,25 +99,25 @@ export class Energy extends Component {
 
     const [normalizedX, normalizedY] = this.props.normalizeCoordinates(newX,newY);
 
-    this.props.moveEnergy(fromJS({id: this.props.id, x: normalizedX, y: normalizedY, isMuted: this.props.isMuted}))
+    this.props.onMove(normalizedX, normalizedY);
   }
 
   renderEnergyEditor() {
     return (
       <div className="Energy-pane" style={this.getPaneStyle()}>
         <Slider value={this.props.strength}
-          setStrength={this.props.setStrength}
+          setStrength={this.props.onStrengthChange}
           isPresentation={this.props.isPresentation}/>
         <div className={this.props.isPresentation ? " sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"}>
           <div className="sliderAdditionIconWrapper">
             {this.props.isMuted ?
-            <img src="/img/unmute.svg" onClick={this.toggleMuteEnergy.bind(this)}/>
+            <img src="/img/unmute.svg" onClick={this.props.onUnmute}/>
             :
-            <img src="/img/mute.svg" onClick={this.toggleMuteEnergy.bind(this)}/>
+            <img src="/img/mute.svg" onClick={this.props.onMute}/>
             }
           </div>
           <div className="sliderAdditionIconWrapper">
-            <img src="/img/delete.svg" onClick={this.props.deleteEnergy.bind(this)}/>
+            <img src="/img/delete.svg" onClick={this.props.onDelete}/>
           </div>
         </div>
       </div>
@@ -168,16 +127,16 @@ export class Energy extends Component {
   render() {
     return (
       <DraggableCore
-        onStart={this.handleDragStart.bind(this)}
+        onStart={this.props.onStartMove}
         onDrag={this.handleDrag.bind(this)}
-        onStop={this.handleDragStop.bind(this)} >
+        onStop={this.props.onStopMove} >
         <div className="Energy"
-          onClick={this.energyClicked.bind(this)}
+          onClick={this.props.onEdit}
           style={this.getWrapperStyle()}>
           <div className="Energy-circle" style={this.getCircleStyle()}>
             <span>{this.props.strength}</span>
           </div>
-          { this.isEditing() ? this.renderEnergyEditor() : null }
+          { this.props.isEditing ? this.renderEnergyEditor() : null }
         </div>
       </DraggableCore>
     );
@@ -186,22 +145,34 @@ export class Energy extends Component {
 }
 
 Energy.propTypes = {
-  id: PropTypes.number.isRequired,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
   strength: PropTypes.number.isRequired,
   isPresentation: PropTypes.bool,
   isMuted: PropTypes.bool,
-  deNormalizeCoordinates: PropTypes.func,
-  normalizeCoordinates: PropTypes.func,
-  editingEnergy: PropTypes.object,
-  startDragging: PropTypes.func,
-  stopDragging: PropTypes.func
+  isEditing: PropTypes.bool,
+  deNormalizeCoordinates: PropTypes.func.isRequired,
+  normalizeCoordinates: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
+  onMute: PropTypes.func,
+  onUnmute: PropTypes.func,
+  onStartMove: PropTypes.func,
+  onStopMove: PropTypes.func,
+  onMove: PropTypes.func,
+  onStrengthChange: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 Energy.defaultProps = {
   isPresentation: false,
   isMuted: false,
-  startDragging(){},
-  stopDragging(){},
+  isEditing: false,
+  onEdit(event){},
+  onMute(){},
+  onUnmute(){},
+  onStartMove(){},
+  onStopMove(){},
+  onMove(x, y){},
+  onStrengthChange(strength){},
+  onDelete(){},
 };
