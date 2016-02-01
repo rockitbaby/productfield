@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Energy} from './Energy';
-import {ConnectedEnergy} from '../../../state/components/connected_energy';
+import {ConnectedEnergy} from '../../../state/components/ConnectedEnergy';
 import {Renderer} from './Renderer';
 import '../../../styles/main.css';
 
