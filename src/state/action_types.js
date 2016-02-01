@@ -1,3 +1,5 @@
+export const SET_ENERGY_STRENGTH = 'SET_ENERGY_STRENGTH';
+
 export const SET_STATE = 'SET_STATE';
 export const MOVE_ENERGY = 'MOVE_ENERGY';
 export const EDIT_ENERGY = 'EDIT_ENERGY';

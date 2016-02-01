@@ -1,4 +1,5 @@
 import {
+  SET_ENERGY_STRENGTH,
   SET_STATE,
   MOVE_ENERGY,
   EDIT_ENERGY,
@@ -10,6 +11,14 @@ import {
   SET_PRESENTATION,
   SET_MUTE,
 } from './action_types';
+
+export function setEnergyStrength(energyId, strength) {
+  return {
+    type: SET_ENERGY_STRENGTH,
+    id: energyId,
+    strength,
+  }
+}
 
 export function setState(state) {
   return {

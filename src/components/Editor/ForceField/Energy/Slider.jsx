@@ -3,7 +3,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ReactSlider from 'react-slider';
 import sliderStyles from '../../../../styles/Slider.css';
 
-
 export default React.createClass({
   mixins: [PureRenderMixin],
 

@@ -1,6 +1,7 @@
-import Immutable, {Map} from 'immutable';
+import Immutable, {Map, List} from 'immutable';
 import {ForceFieldCalculationSingleton, coordinateSystemTransformation} from '../ForceFieldCalculation'
 import {
+  SET_ENERGY_STRENGTH,
   SET_STATE,
   MOVE_ENERGY,
   EDIT_ENERGY,
@@ -65,20 +66,29 @@ function deleteEnergy(state) {
 }
 
 function setStrength(state, newStrength) {
-  var energyId = state.getIn(['editingEnergy', 'id'])
+  const energyId = state.getIn(['editingEnergy', 'id'])
 
-  var newEnergies = state.get('energies').map(function(energy) {
-    if (energy.get('id') == energyId) {
-      return energy.set('strength', newStrength);
-    } else {
-      return energy
-    }
-  });
-
-  return state.setIn(['editingEnergy', 'strength'], newStrength).set('energies', newEnergies);
+  return setEnergyStrength(
+    state.setIn(['editingEnergy', 'strength'], newStrength),
+    energyId,
+    newStrength,
+  );
 }
 
-export default function(state = Map(), action) {
+function setEnergyStrength(state, energyId, newStrength) {
+  const energyIndex = state.get('energies', List()).findIndex((energy) => energy.get('id') === energyId);
+  if (energyIndex !== -1) {
+    return state.setIn(['energies', energyIndex, 'strength'], newStrength);
+  } else {
+    return state;
+  }
+}
+
+const appState = Map({
+  energies: List(),
+})
+
+export default function(state = appState, action) {
   switch (action.type) {
   case SET_STATE:
     return setState(state, action.state);
@@ -100,6 +110,8 @@ export default function(state = Map(), action) {
     return setState(state, setPresentation(state, action.presentation));
   case SET_MUTE:
     return setState(state, setMute(state, action.energy));
+  case SET_ENERGY_STRENGTH:
+    return setEnergyStrength(state, action.id, action.strength);
   default:
     return state;
   }
