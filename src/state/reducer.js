@@ -20,18 +20,6 @@ function setState(state, newState) {
   return state.merge(newState);
 }
 
-function setMute(state, mutedEnergy) {
-  var mutedEnergies = state.get('energies').map(function(energy) {
-    if (energy.get('id') == mutedEnergy.get('id')) {
-      return energy.merge(mutedEnergy);
-    } else {
-      return energy;
-    }
-  });
-
-  return state.set('energies', mutedEnergies);
-}
-
 function addEnergy(state, energy) {
   const currentEnergies = state.get('energies');
   const nextID = (currentEnergies.size > 0) ? (currentEnergies.max().get('id') + 1) : 1;
@@ -39,22 +27,8 @@ function addEnergy(state, energy) {
   return state.set('energies', newEnergies);
 }
 
-function editEnergy(state, energy) {
-  return state.set('editingEnergy', energy);
-}
-
 function setPresentation(state, presentation = false) {
   return state.set('isPresentation', presentation)
-}
-
-function setStrength(state, newStrength) {
-  const energyId = state.getIn(['editingEnergy', 'id'])
-
-  return setEnergyStrength(
-    state.setIn(['editingEnergy', 'strength'], newStrength),
-    energyId,
-    newStrength,
-  );
 }
 
 function setEnergyStrength(state, energyId, newStrength) {
@@ -112,18 +86,12 @@ export default function(state = appState, action) {
     return setState(state, addEnergy(state, action.energy));
   case DELETE_ENERGY:
     return deleteEnergy(state, action.id);
-  case EDIT_ENERGY:
-    return setState(state, editEnergy(state, action.energy));
   case START_DRAGGING:
     return setState(state, state.set('dragging', true));
   case STOP_DRAGGING:
     return setState(state, state.set('dragging', false));
-  case SET_STRENGTH:
-    return setState(state, setStrength(state, action.strength));
   case SET_PRESENTATION:
     return setState(state, setPresentation(state, action.presentation));
-  case SET_MUTE:
-    return setState(state, setMute(state, action.energy));
   case SET_ENERGY_STRENGTH:
     return setEnergyStrength(state, action.id, action.strength);
   case SET_EDITING_ENERGY_ID:

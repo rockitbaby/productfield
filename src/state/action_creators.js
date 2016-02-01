@@ -5,13 +5,11 @@ import {
   SET_STATE,
   MOVE_ENERGY,
   EDIT_ENERGY,
-  START_DRAGGING,
-  STOP_DRAGGING,
   DELETE_ENERGY,
   ADD_ENERGY,
-  SET_STRENGTH,
+  START_DRAGGING,
+  STOP_DRAGGING,
   SET_PRESENTATION,
-  SET_MUTE,
 } from './action_types';
 
 export function setEnergyStrength(energyId, strength) {
@@ -60,13 +58,6 @@ export function setState(state) {
   };
 }
 
-export function editEnergy(energy) {
-  return {
-    type: EDIT_ENERGY,
-    energy
-  };
-}
-
 export function startDragging() {
   return {
     type: START_DRAGGING
@@ -86,23 +77,9 @@ export function addEnergy(energy) {
   };
 }
 
-export function setStrength(strength) {
-  return {
-    type: SET_STRENGTH,
-    strength
-  };
-}
-
 export function setPresentation(presentation) {
   return {
     type: SET_PRESENTATION,
     presentation
   };
-}
-
-export function setMute(energy) {
-  return {
-    type: SET_MUTE,
-    energy
-  }
 }
