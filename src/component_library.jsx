@@ -4,6 +4,7 @@ import {ForceArrow, Forces} from './components/Editor/ForceField/Renderer/Forces
 import {Grid} from './components/Editor/ForceField/Renderer/Grid';
 import {Marker} from './components/Editor/ForceField/Renderer/Marker';
 import {Renderer} from './components/Editor/ForceField/Renderer';
+import {Slider} from './components/Editor/ForceField/Energy/Slider';
 import {ForceFieldCalculationSingleton} from './ForceFieldCalculation';
 import {StateProxy} from './components/state_proxy';
 
@@ -106,6 +107,10 @@ ReactDOM.render(
         normalizeCoordinates={normalizeCoordinates}
         skin={{background: 'rgba(150,150,0,0.4)', dots: '#ff0000', marker: '#00ff00', arrows: '#0000ff'}}
       />
+    )}
+    <h2>Slider</h2>
+    {StateProxy(
+      <Slider value={3} isPresentation={false} setStrength={(strength) => console.log(`Slider.setStrength(${strength})`)} />
     )}
   </div>,
   document.getElementById('component-library')

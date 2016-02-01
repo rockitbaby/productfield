@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {fromJS, Map} from 'immutable';
 import {DraggableCore} from 'react-draggable';
 import GlobalStyles from '../../../styles/GlobalStyles'
-import Slider from './Energy/Slider';
+import {Slider} from './Energy/Slider';
 
 const CIRCLE_SIZE = 30;
 const EDITING_CIRCLE_SIZE = 36;
