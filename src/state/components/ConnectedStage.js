@@ -15,9 +15,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addEnergy(energy) {
-      dispatch(actionCreators.addEnergy(energy));
-    },
     onEnergyEdit(energyId) {
       dispatch(actionCreators.setEditingEnergyId(energyId));
     },
@@ -41,6 +38,9 @@ function mapDispatchToProps(dispatch) {
     },
     onEnergyDelete(energyId) {
       dispatch(actionCreators.deleteEnergy(energyId));
+    },
+    onEnergyAdd(energy) {
+      dispatch(actionCreators.addEnergy(energy));
     }
   };
 }

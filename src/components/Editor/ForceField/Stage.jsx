@@ -71,17 +71,6 @@ export class Stage extends Component {
     return [normalizedX, normalizedY];
   }
 
-  addEnergy(event) {
-    event.preventDefault();
-    const stage = event.currentTarget;
-    var pXstage = event.pageX - stage.offsetLeft;
-    var pYstage = event.pageY - stage.offsetTop;
-
-    var [normalizedX, normalizedY] = this.normalizeCoordinates(pXstage, pYstage);
-
-    this.props.addEnergy({x: normalizedX, y: normalizedY, strength: 1});
-  }
-
   getForceFieldStyle() {
     return {
       position: 'relative',
@@ -90,6 +79,17 @@ export class Stage extends Component {
       height: '100%',
       transition: 'width 0.2s, height 0.2s',
     }
+  }
+
+  handleDoubleClick(event) {
+    event.preventDefault();
+    const stage = event.currentTarget;
+    var pXstage = event.pageX - stage.offsetLeft;
+    var pYstage = event.pageY - stage.offsetTop;
+
+    var [normalizedX, normalizedY] = this.normalizeCoordinates(pXstage, pYstage);
+
+    this.props.onEnergyAdd({x: normalizedX, y: normalizedY, strength: 1});
   }
 
   handleEnergyEdit(id, event) {
@@ -125,7 +125,7 @@ export class Stage extends Component {
       <div
         className={className}
         onClick={this.handleClick.bind(this)}
-        onDoubleClick={this.addEnergy.bind(this)}
+        onDoubleClick={this.handleDoubleClick.bind(this)}
         style={{position: 'relative'}}>
         <Renderer {...rendererProps} />
         {this.props.energies.map(energy =>
@@ -165,7 +165,7 @@ Stage.propTypes = {
   isPresentation: PropTypes.bool,
   isEnergyMoving: PropTypes.bool,
   editingEnergyId: PropTypes.number,
-  addEnergy: PropTypes.func,
+  onEnergyAdd: PropTypes.func,
   onEnergyEdit: PropTypes.func,
   onEnergyMute: PropTypes.func,
   onEnergyUnmute: PropTypes.func,
@@ -181,7 +181,7 @@ Stage.defaultProps = {
   isPresentation: false,
   isEnergyMoving: false,
   editingEnergyId: null,
-  addEnergy(energy){},
+  onEnergyAdd(energy){},
   onEnergyEdit(energyId){},
   onEnergyMute(energyId){},
   onEnergyUnmute(energyId){},
