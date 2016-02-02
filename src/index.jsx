@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {createStore, compose} from 'redux';
 import {Provider} from 'react-redux';
 import {fromJS} from 'immutable';
-import {Editor} from './components/Editor';
+import {ConnectedEditor} from './state/components/ConnectedEditor';
 import reducer, {observeEnergies} from './state/reducer';
 import {setState} from './state/action_creators'
 import * as actionCreators from './state/action_creators'
@@ -31,7 +31,7 @@ store.dispatch(setState(initialState));
 
 ReactDOM.render(
   <Provider store={store}>
-    <Editor />
+    <ConnectedEditor />
   </Provider>,
   document.getElementById('app')
 );

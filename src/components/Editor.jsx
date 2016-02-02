@@ -1,34 +1,49 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import {ConnectedStage} from '../state/components/ConnectedStage';
-import {ConnectedToolbar} from '../state/components/ConnectedToolbar';
+import {Toolbar} from './Editor/Toolbar';
 
-export const Editor = React.createClass({
-  getInitialState: function() {
-    return this.browserWindowAsState();
-  },
+export class Editor extends Component {
 
-  browserWindowAsState: function() {
+  constructor(props) {
+    super(props);
+    this.state = this.browserWindowAsState();
+  }
+
+  browserWindowAsState() {
     const toolbarHeight = 100;
     return {
       stageHeight: window.innerHeight - toolbarHeight,
       stageWidth: window.innerWidth
     }
-  },
+  }
 
-  render: function() {
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize.bind(this));
+  }
+
+  handleResize(event) {
+    this.setState(this.browserWindowAsState());
+  }
+
+  render() {
     return (
       <div className="Editor">
-        <ConnectedToolbar />
+        <Toolbar
+          isPresentationModeEnabled={this.props.isPresentationModeEnabled}
+          onPresentationModeChange={this.props.onPresentationModeChange} />
         <ConnectedStage height={this.state.stageHeight} width={this.state.stageWidth} />
       </div>
     );
-  },
-
-  onResize: function(event) {
-    this.setState(this.browserWindowAsState());
-  },
-
-  componentDidMount: function() {
-    window.addEventListener('resize', this.onResize);
   }
-});
+
+}
+
+Editor.propTypes = {
+  isPresentationModeEnabled: Toolbar.propTypes.isPresentationModeEnabled,
+  onPresentationModeChange: PropTypes.func,
+};
+
+Editor.defaultProps = {
+  isPresentationModeEnabled: false,
+  onPresentationModeChange(presentationMode){},
+};

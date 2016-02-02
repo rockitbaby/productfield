@@ -1,13 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import GlobalStyles from '../../styles/GlobalStyles';
-import {connect} from 'react-redux';
-import * as actionCreators from '../../state/action_creators';
 import styles from './Toolbar/toolbar.css';
 
 export class Toolbar extends Component {
 
   getBackgroundColor() {
-    if (this.props.isPresentation)
+    if (this.props.isPresentationModeEnabled)
       return GlobalStyles.backgroundDark;
     else
       return GlobalStyles.backgroundLight;
@@ -33,13 +31,11 @@ export class Toolbar extends Component {
   }
 
   presentationButtonClick() {
-    const {isPresentation, setPresentation} = this.props;
-    if (isPresentation == false) {
-      console.log("StartPresentationMode");
-      setPresentation(true);
+    const {isPresentationModeEnabled, onPresentationModeChange} = this.props;
+    if (isPresentationModeEnabled === false) {
+      onPresentationModeChange(true);
     } else {
-      console.log("EndPresentationMode");
-      setPresentation(false);
+      onPresentationModeChange(false);
     }
   }
 
@@ -66,11 +62,13 @@ export class Toolbar extends Component {
 }
 
 Toolbar.propTypes = {
-  isPresentation: PropTypes.bool,
+  isPresentationModeEnabled: PropTypes.bool,
   setPresentation: PropTypes.func,
+  onPresentationModeChange: PropTypes.func,
 };
 
 Toolbar.defaultProps = {
-  isPresentation: false,
+  isPresentationModeEnabled: false,
   setPresentation(presentationMode){},
-}
+  onPresentationModeChange(presentationMode){},
+};
