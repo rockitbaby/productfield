@@ -5,10 +5,6 @@ import GlobalStyles from '../../../styles/GlobalStyles'
 import {Slider} from './Energy/Slider';
 import styles from './Energy/energy.css';
 
-const CIRCLE_SIZE = 30;
-const EDITING_CIRCLE_SIZE = 36;
-const PANE_HEIGHT = 265;
-
 export class Energy extends Component {
 
   getCircleStyle() {
@@ -28,78 +24,13 @@ export class Energy extends Component {
 
     const circleStyles = {
       backgroundColor:  backgroundColor(this.props.strength, this.props.isMuted),
-      width: CIRCLE_SIZE,
-      height: CIRCLE_SIZE,
-      borderRadius: CIRCLE_SIZE / 2,
     }
-
-    if (this.props.isEditing) {
-      Object.assign(circleStyles, {
-        width: EDITING_CIRCLE_SIZE,
-        height: EDITING_CIRCLE_SIZE,
-        borderRadius: EDITING_CIRCLE_SIZE / 2,
-        border: '3px solid white',
-        top: PANE_HEIGHT / 2 - EDITING_CIRCLE_SIZE / 2
-      });
-    }
-
     return circleStyles;
-  }
-
-  getPaneStyle() {
-    if (this.props.isEditing) {
-      return {
-        position: 'absolute',
-        left: 1.5 * CIRCLE_SIZE,
-        height: PANE_HEIGHT
-      }
-    }
-  }
-
-  getWrapperStyle() {
-    var [pixelatedX, pixelatedY] = this.props.deNormalizeCoordinates(this.props.x, this.props.y);
-    var [offsetX, offsetY] = this.componentSizeOffset();
-
-    return {
-      position: 'absolute',
-      transform: 'translate(' + offsetX + 'px, ' + offsetY + 'px)',
-      left: pixelatedX,
-      top: pixelatedY,
-      userSelect: 'none',
-      cursor: 'default',
-    }
-  }
-
-  componentSizeOffset() {
-    var translationX = - CIRCLE_SIZE / 2;
-    var translationY = - CIRCLE_SIZE / 2;
-
-    if (this.props.isEditing) {
-      translationX = - EDITING_CIRCLE_SIZE / 2;
-      translationY = - PANE_HEIGHT / 2
-    }
-
-    return [translationX, translationY];
-  }
-
-  handleDrag(event, ui) {
-    event.preventDefault();
-    event.stopPropagation();
-    const {node, position: {clientX, clientY}} = ui;
-
-    const field = node.offsetParent;
-
-    var newX = clientX - field.offsetLeft;
-    var newY = clientY - field.offsetTop;
-
-    const [normalizedX, normalizedY] = this.props.normalizeCoordinates(newX,newY);
-
-    this.props.onMove(normalizedX, normalizedY);
   }
 
   renderEnergyEditor() {
     return (
-      <div className="Energy-pane" style={this.getPaneStyle()}>
+      <div className={["Energy-pane", styles.editingPane].join(' ')} >
         <Slider value={this.props.strength}
           onChange={this.props.onStrengthChange}
           isPresentation={this.props.isPresentation}/>
@@ -121,19 +52,15 @@ export class Energy extends Component {
 
   render() {
     return (
-      <DraggableCore
-        onStart={this.props.onStartMove}
-        onDrag={this.handleDrag.bind(this)}
-        onStop={this.props.onStopMove} >
-        <div className="Energy"
-          onClick={this.props.onEdit}
-          style={this.getWrapperStyle()}>
-          <div className={["Energy-circle", styles.circle].join(' ')} style={this.getCircleStyle()}>
-            <span>{this.props.strength}</span>
-          </div>
-          { this.props.isEditing ? this.renderEnergyEditor() : null }
+      <div className={["Energy", this.props.isEditing ? styles.wrapperEditing : styles.wrapper].join(' ')}>
+        <div
+          className={["Energy-circle", this.props.isEditing ? styles.circleEditing : styles.circle].join(' ')}
+          style={this.getCircleStyle()}
+          onClick={this.props.onEdit} >
+          <span>{this.props.strength}</span>
         </div>
-      </DraggableCore>
+        { this.props.isEditing ? this.renderEnergyEditor() : null }
+      </div>
     );
   }
 
@@ -151,9 +78,6 @@ Energy.propTypes = {
   onEdit: PropTypes.func,
   onMute: PropTypes.func,
   onUnmute: PropTypes.func,
-  onStartMove: PropTypes.func,
-  onStopMove: PropTypes.func,
-  onMove: PropTypes.func,
   onStrengthChange: PropTypes.func,
   onDelete: PropTypes.func,
 };
@@ -165,9 +89,6 @@ Energy.defaultProps = {
   onEdit(event){},
   onMute(){},
   onUnmute(){},
-  onStartMove(){},
-  onStopMove(){},
-  onMove(x, y){},
   onStrengthChange(strength){},
   onDelete(){},
 };

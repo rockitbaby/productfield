@@ -118,54 +118,52 @@ ReactDOM.render(
       <Slider value={3} isPresentation={false} onChange={(value) => console.log(`Slider.onChange(${value})`)} />
     )}
     <h2>Energy</h2>
-    <div style={{position: 'relative', width: 100, height: 100, backgroundColor: 'lightgray'}}>
-      {StateProxy(
-        <Energy
-          id={1}
-          x={0}
-          y={0}
-          isMuted={true}
-          strength={2}
-          isPresentation={false}
-          normalizeCoordinates={normalizeCoordinates}
-          deNormalizeCoordinates={deNormalizeCoordinates}
-          onEdit={(e) => console.log(`Energy.onEdit()`)}
-          onMute={() => console.log(`Energy.onEdit()`)}
-          onUnmute={() => console.log(`Energy.onEdit()`)}
-          setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
-      )}
-      {StateProxy(
-        <Energy
-          id={2}
-          x={33}
-          y={44}
-          isMuted={false}
-          isEditing={true}
-          strength={2}
-          isPresentation={false}
-          normalizeCoordinates={normalizeCoordinates}
-          deNormalizeCoordinates={deNormalizeCoordinates}
-          onEdit={(e) => console.log(`Energy.onEdit()`)}
-          onMute={() => console.log(`Energy.onEdit()`)}
-          onUnmute={() => console.log(`Energy.onEdit()`)}
-          setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
-      )}
-      {StateProxy(
-        <Energy
-          id={3}
-          x={77}
-          y={80}
-          isMuted={false}
-          strength={-3}
-          isPresentation={false}
-          normalizeCoordinates={normalizeCoordinates}
-          deNormalizeCoordinates={deNormalizeCoordinates}
-          onEdit={(e) => console.log(`Energy.onEdit()`)}
-          onMute={() => console.log(`Energy.onEdit()`)}
-          onUnmute={() => console.log(`Energy.onEdit()`)}
-          setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
-      )}
-    </div>
+    {StateProxy(
+      <Energy
+        id={1}
+        x={0}
+        y={0}
+        isMuted={true}
+        strength={2}
+        isPresentation={false}
+        normalizeCoordinates={normalizeCoordinates}
+        deNormalizeCoordinates={deNormalizeCoordinates}
+        onEdit={(e) => console.log(`Energy.onEdit()`)}
+        onMute={() => console.log(`Energy.onEdit()`)}
+        onUnmute={() => console.log(`Energy.onEdit()`)}
+        setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
+    )}
+    {StateProxy(
+      <Energy
+        id={2}
+        x={33}
+        y={44}
+        isMuted={false}
+        isEditing={true}
+        strength={2}
+        isPresentation={false}
+        normalizeCoordinates={normalizeCoordinates}
+        deNormalizeCoordinates={deNormalizeCoordinates}
+        onEdit={(e) => console.log(`Energy.onEdit()`)}
+        onMute={() => console.log(`Energy.onEdit()`)}
+        onUnmute={() => console.log(`Energy.onEdit()`)}
+        setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
+    )}
+    {StateProxy(
+      <Energy
+        id={3}
+        x={77}
+        y={80}
+        isMuted={false}
+        strength={-3}
+        isPresentation={false}
+        normalizeCoordinates={normalizeCoordinates}
+        deNormalizeCoordinates={deNormalizeCoordinates}
+        onEdit={(e) => console.log(`Energy.onEdit()`)}
+        onMute={() => console.log(`Energy.onEdit()`)}
+        onUnmute={() => console.log(`Energy.onEdit()`)}
+        setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
+    )}
   </div>,
   document.getElementById('component-library')
 );

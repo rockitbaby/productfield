@@ -1,11 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import uuid from 'node-uuid';
+import {DraggableCore} from 'react-draggable';
 import {Energy} from './Stage/Energy';
 import {Renderer} from './Stage/Renderer';
 import '../../styles/main.css';
 
 const FORCE_ARROW_HEAD_SIZE = 2.5;
 const MIN_FORCE_ARROW_LENGTH = 2;
+const CIRCLE_SIZE = 30;
+const EDITING_CIRCLE_SIZE = 36;
+const PANE_HEIGHT = 265;
 
 export class Stage extends Component {
 
@@ -82,6 +86,38 @@ export class Stage extends Component {
     }
   }
 
+  energyStyles(x, y) {
+    var [pixelatedX, pixelatedY] = this.deNormalizeCoordinates(x, y);
+    var [offsetX, offsetY] = this.energyOffset();
+
+    return {
+      position: 'absolute',
+      transform: 'translate(' + offsetX + 'px, ' + offsetY + 'px)',
+      left: pixelatedX,
+      top: pixelatedY,
+    }
+  }
+
+  energyOffset() {
+    var translationX = - CIRCLE_SIZE / 2;
+    var translationY = - CIRCLE_SIZE / 2;
+
+    return [translationX, translationY];
+  }
+
+  handleDrag(energyId, event, ui) {
+    const {node, position: {clientX, clientY}} = ui;
+
+    const field = node.offsetParent;
+
+    var newX = clientX - field.offsetLeft;
+    var newY = clientY - field.offsetTop;
+
+    const [normalizedX, normalizedY] = this.normalizeCoordinates(newX,newY);
+
+    this.props.onEnergyMove(energyId, normalizedX, normalizedY);
+  }
+
   handleDoubleClick(event) {
     event.preventDefault();
     const stage = event.currentTarget;
@@ -129,26 +165,33 @@ export class Stage extends Component {
         onDoubleClick={this.handleDoubleClick.bind(this)} >
         <div style={{position: 'relative'}}>
           {this.props.energies.map((energy) =>
-            <Energy key={energy.id}
-              x={energy.x}
-              y={energy.y}
-              isMuted={energy.isMuted}
-              strength={energy.strength}
-              isPresentation={this.props.isPresentation}
-              isEditing={this.props.editingEnergyId === energy.id}
-              stageWidth={this.props.width}
-              stageHeight={this.props.height}
-              onEdit={this.handleEnergyEdit.bind(this, energy.id)}
-              onMute={this.props.onEnergyMute.bind({}, energy.id)}
-              onUnmute={this.props.onEnergyUnmute.bind({}, energy.id)}
-              onStartMove={this.props.onEnergyStartMove}
-              onStopMove={this.props.onEnergyStopMove}
-              onMove={this.props.onEnergyMove.bind({}, energy.id)}
-              onStrengthChange={this.props.onEnergyStrengthChange.bind({}, energy.id)}
-              onDelete={this.props.onEnergyDelete.bind({}, energy.id)}
-              normalizeCoordinates={this.normalizeCoordinates.bind(this)}
-              deNormalizeCoordinates={this.deNormalizeCoordinates.bind(this)}
-            />
+            <DraggableCore key={energy.id}
+              onStart={this.props.onEnergyStartMove}
+              onDrag={this.handleDrag.bind(this, energy.id)}
+              onStop={this.props.onEnergyStopMove} >
+              <div style={this.energyStyles(energy.x, energy.y)} >
+                <Energy
+                  x={energy.x}
+                  y={energy.y}
+                  isMuted={energy.isMuted}
+                  strength={energy.strength}
+                  isPresentation={this.props.isPresentation}
+                  isEditing={this.props.editingEnergyId === energy.id}
+                  stageWidth={this.props.width}
+                  stageHeight={this.props.height}
+                  onEdit={this.handleEnergyEdit.bind(this, energy.id)}
+                  onMute={this.props.onEnergyMute.bind({}, energy.id)}
+                  onUnmute={this.props.onEnergyUnmute.bind({}, energy.id)}
+                  onStartMove={this.props.onEnergyStartMove}
+                  onStopMove={this.props.onEnergyStopMove}
+                  onMove={this.props.onEnergyMove.bind({}, energy.id)}
+                  onStrengthChange={this.props.onEnergyStrengthChange.bind({}, energy.id)}
+                  onDelete={this.props.onEnergyDelete.bind({}, energy.id)}
+                  normalizeCoordinates={this.normalizeCoordinates.bind(this)}
+                  deNormalizeCoordinates={this.deNormalizeCoordinates.bind(this)}
+                />
+              </div>
+            </DraggableCore>
           )}
         </div>
         <Renderer {...rendererProps} />

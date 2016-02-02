@@ -1,0 +1,72 @@
+.wrapper {
+  width: 30px;
+  height: 30px;
+}
+
+.wrapperEditing {
+  width: 36px;
+  height: 36px;
+}
+
+.circle {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12);
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: calc(30px / 2);
+  user-select: none;
+  cursor: default;
+}
+
+.circleEditing {
+  composes: circle;
+  width: 36px;
+  height: 36px;
+  border-radius: calc(36px / 2);
+  border: 3px solid white;
+  margin: -3px 0px 0px -3px;
+}
+
+.editingPane {
+  position: absolute;
+  top: calc(100% * -2.75);
+  left: calc(100% * 1.25);
+  height: 100%;
+}
+
+.sliderAddition {
+  width: 35px;
+  height: 25px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-shadow: 0px 3px 6px -2px rgba(128,128,128,1);
+  border-top: 1px lightgrey solid;
+  text-align: center;
+}
+
+.sliderAdditionDark {
+  composes: sliderAddition;
+  background-color: #515151;
+  border-top: 1px #494949 solid;
+}
+
+.sliderAdditionLight {
+  composes: sliderAddition;
+  background-color: #DDDDDD;
+}
+
+.sliderAdditionIconWrapper {
+  float: right;
+  width: 17.5px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.sliderAdditionIcon {
+  width: 14px;
+  cursor: pointer;
+}
