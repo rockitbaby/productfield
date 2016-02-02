@@ -1,6 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import {fromJS, Map} from 'immutable';
-import {DraggableCore} from 'react-draggable';
 import GlobalStyles from '../../../styles/GlobalStyles'
 import {Slider} from './Energy/Slider';
 import styles from './Energy/energy.css';
@@ -67,14 +65,10 @@ export class Energy extends Component {
 }
 
 Energy.propTypes = {
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
-  strength: PropTypes.number.isRequired,
   isPresentation: PropTypes.bool,
+  strength: PropTypes.number.isRequired,
   isMuted: PropTypes.bool,
   isEditing: PropTypes.bool,
-  deNormalizeCoordinates: PropTypes.func.isRequired,
-  normalizeCoordinates: PropTypes.func.isRequired,
   onEdit: PropTypes.func,
   onMute: PropTypes.func,
   onUnmute: PropTypes.func,

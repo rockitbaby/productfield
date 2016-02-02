@@ -7,14 +7,14 @@ import '../../styles/main.css';
 
 const FORCE_ARROW_HEAD_SIZE = 2.5;
 const MIN_FORCE_ARROW_LENGTH = 2;
+const DOTS_IN_FIELD = 20;
 
 export class Stage extends Component {
 
   getProperties() {
-    const dotsInField = 20;
     const maximumFieldSize = Math.floor(Math.min(this.props.width, this.props.height)) - 50;
-    const gridUnit = Math.floor(maximumFieldSize / dotsInField);
-    const fieldSize = gridUnit * dotsInField
+    const gridUnit = Math.floor(maximumFieldSize / DOTS_IN_FIELD);
+    const fieldSize = gridUnit * DOTS_IN_FIELD;
 
     const lightSkin =  {
                      dots:   "#304FFE",
@@ -73,7 +73,7 @@ export class Stage extends Component {
     return [normalizedX, normalizedY];
   }
 
-  energyStyles(x, y) {
+  energyPositioningStyles(x, y) {
     const [pixelatedX, pixelatedY] = this.deNormalizeCoordinates(x, y);
     return {
       position: 'absolute',
@@ -145,22 +145,15 @@ export class Stage extends Component {
               onStart={this.props.onEnergyStartMove}
               onDrag={this.handleDrag.bind(this, energy.id)}
               onStop={this.props.onEnergyStopMove} >
-              <div style={this.energyStyles(energy.x, energy.y)} >
+              <div style={this.energyPositioningStyles(energy.x, energy.y)} >
                 <Energy
-                  x={energy.x}
-                  y={energy.y}
+                  isPresentation={this.props.isPresentation}
                   isMuted={energy.isMuted}
                   strength={energy.strength}
-                  isPresentation={this.props.isPresentation}
                   isEditing={this.props.editingEnergyId === energy.id}
-                  stageWidth={this.props.width}
-                  stageHeight={this.props.height}
                   onEdit={this.handleEnergyEdit.bind(this, energy.id)}
                   onMute={this.props.onEnergyMute.bind({}, energy.id)}
                   onUnmute={this.props.onEnergyUnmute.bind({}, energy.id)}
-                  onStartMove={this.props.onEnergyStartMove}
-                  onStopMove={this.props.onEnergyStopMove}
-                  onMove={this.props.onEnergyMove.bind({}, energy.id)}
                   onStrengthChange={this.props.onEnergyStrengthChange.bind({}, energy.id)}
                   onDelete={this.props.onEnergyDelete.bind({}, energy.id)}
                   normalizeCoordinates={this.normalizeCoordinates.bind(this)}
