@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import {createStore, compose} from 'redux';
 import {Provider} from 'react-redux';
 import {fromJS} from 'immutable';
-import {Editor} from './components/Editor/Editor';
+import {Editor} from './components/Editor';
 import reducer, {observeEnergies} from './state/reducer';
 import {setState} from './state/action_creators'
 import * as actionCreators from './state/action_creators'
 import {ForceFieldCalculationSingleton, coordinateSystemTransformation} from './ForceFieldCalculation'
 
 const finalCreateStore = compose(
-  window.devToolsExtension ? window.devToolsExtension() : f => f
+  window.devToolsExtension ? window.devToolsExtension() : (f) => f
 )(createStore);
 const store = finalCreateStore(reducer);
 

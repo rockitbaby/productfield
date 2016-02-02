@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import GlobalStyles from '../../../styles/GlobalStyles';
+import GlobalStyles from '../../styles/GlobalStyles';
 import {connect} from 'react-redux';
-import * as actionCreators from '../../../state/action_creators';
-import styles from './toolbar.css';
+import * as actionCreators from '../../state/action_creators';
+import styles from './Toolbar/toolbar.css';
 
 export class Toolbar extends Component {
 

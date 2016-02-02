@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {ForceArrow, Forces} from './components/Editor/ForceField/Renderer/Forces';
-import {Grid} from './components/Editor/ForceField/Renderer/Grid';
-import {Marker} from './components/Editor/ForceField/Renderer/Marker';
-import {Renderer} from './components/Editor/ForceField/Renderer';
-import {Slider} from './components/Editor/ForceField/Energy/Slider';
-import {Energy} from './components/Editor/ForceField/Energy';
+import {ForceArrow, Forces} from './components/Editor/Stage/Renderer/Forces';
+import {Grid} from './components/Editor/Stage/Renderer/Grid';
+import {Marker} from './components/Editor/Stage/Renderer/Marker';
+import {Renderer} from './components/Editor/Stage/Renderer';
+import {Slider} from './components/Editor/Stage/Energy/Slider';
+import {Energy} from './components/Editor/Stage/Energy';
 import {ForceFieldCalculationSingleton} from './ForceFieldCalculation';
 import {StateProxy} from './components/state_proxy';
 
@@ -32,13 +32,13 @@ function deNormalizeCoordinates(x,y) {
 // const gridUnit = Math.floor(maximumFieldSize / dotsInField);
 // const fieldSize = gridUnit * dotsInField
 const energies = [
-  {id: 2, x: 4, y: 2, strength: 1, isMuted: false},
-  {id: 3, x: -2, y: -4, strength: 1, isMuted: false},
-  {id: 4, x: 2, y: -2, strength: 1, isMuted: false},
-  {id: 5, x: -2, y: 2, strength: 1, isMuted: false},
-  {id: 6, x: -8, y: -6, strength: 1, isMuted: false},
-  {id: 6, x: 10, y: 10, strength: 1, isMuted: false},
-  {id: 1, x: 0, y: 0, strength: 1, isMuted: true},
+  {id: '2', x: 4, y: 2, strength: 1, isMuted: false},
+  {id: '3', x: -2, y: -4, strength: 1, isMuted: false},
+  {id: '4', x: 2, y: -2, strength: 1, isMuted: false},
+  {id: '5', x: -2, y: 2, strength: 1, isMuted: false},
+  {id: '6', x: -8, y: -6, strength: 1, isMuted: false},
+  {id: '6', x: 10, y: 10, strength: 1, isMuted: false},
+  {id: '1', x: 0, y: 0, strength: 1, isMuted: true},
 ];
 ForceFieldCalculationSingleton.getInstance().setEnergies(energies);
 
@@ -115,7 +115,7 @@ ReactDOM.render(
     )}
     <h2>Slider</h2>
     {StateProxy(
-      <Slider value={3} isPresentation={false} setStrength={(strength) => console.log(`Slider.setStrength(${strength})`)} />
+      <Slider value={3} isPresentation={false} onChange={(value) => console.log(`Slider.onChange(${value})`)} />
     )}
     <h2>Energy</h2>
     <div style={{position: 'relative', width: 100, height: 100, backgroundColor: 'lightgray'}}>

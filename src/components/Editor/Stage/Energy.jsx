@@ -52,7 +52,7 @@ export class Energy extends Component {
   }
 
   getPaneStyle() {
-    if(this.props.isEditing) {
+    if (this.props.isEditing) {
       return {
         position: 'absolute',
         left: 1.5 * CIRCLE_SIZE,
@@ -106,7 +106,7 @@ export class Energy extends Component {
     return (
       <div className="Energy-pane" style={this.getPaneStyle()}>
         <Slider value={this.props.strength}
-          setStrength={this.props.onStrengthChange}
+          onChange={this.props.onStrengthChange}
           isPresentation={this.props.isPresentation}/>
         <div className={this.props.isPresentation ? " sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"}>
           <div className="sliderAdditionIconWrapper">

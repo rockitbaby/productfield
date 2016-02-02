@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import uuid from 'node-uuid';
-import {Energy} from './Energy';
-import {Renderer} from './Renderer';
-import '../../../styles/main.css';
+import {Energy} from './Stage/Energy';
+import {Renderer} from './Stage/Renderer';
+import '../../styles/main.css';
 
 const FORCE_ARROW_HEAD_SIZE = 2.5;
 const MIN_FORCE_ARROW_LENGTH = 2;
@@ -126,30 +126,32 @@ export class Stage extends Component {
       <div
         className={className}
         onClick={this.handleClick.bind(this)}
-        onDoubleClick={this.handleDoubleClick.bind(this)}
-        style={{position: 'relative'}}>
+        onDoubleClick={this.handleDoubleClick.bind(this)} >
+        <div style={{position: 'relative'}}>
+          {this.props.energies.map((energy) =>
+            <Energy key={energy.id}
+              x={energy.x}
+              y={energy.y}
+              isMuted={energy.isMuted}
+              strength={energy.strength}
+              isPresentation={this.props.isPresentation}
+              isEditing={this.props.editingEnergyId === energy.id}
+              stageWidth={this.props.width}
+              stageHeight={this.props.height}
+              onEdit={this.handleEnergyEdit.bind(this, energy.id)}
+              onMute={this.props.onEnergyMute.bind({}, energy.id)}
+              onUnmute={this.props.onEnergyUnmute.bind({}, energy.id)}
+              onStartMove={this.props.onEnergyStartMove}
+              onStopMove={this.props.onEnergyStopMove}
+              onMove={this.props.onEnergyMove.bind({}, energy.id)}
+              onStrengthChange={this.props.onEnergyStrengthChange.bind({}, energy.id)}
+              onDelete={this.props.onEnergyDelete.bind({}, energy.id)}
+              normalizeCoordinates={this.normalizeCoordinates.bind(this)}
+              deNormalizeCoordinates={this.deNormalizeCoordinates.bind(this)}
+            />
+          )}
+        </div>
         <Renderer {...rendererProps} />
-        {this.props.energies.map(energy =>
-        <Energy key={energy.id}
-          x={energy.x}
-          y={energy.y}
-          isMuted={energy.isMuted}
-          strength={energy.strength}
-          isPresentation={this.props.isPresentation}
-          isEditing={this.props.editingEnergyId === energy.id}
-          stageWidth={this.props.width}
-          stageHeight={this.props.height}
-          onEdit={this.handleEnergyEdit.bind(this, energy.id)}
-          onMute={this.props.onEnergyMute.bind({}, energy.id)}
-          onUnmute={this.props.onEnergyUnmute.bind({}, energy.id)}
-          onStartMove={this.props.onEnergyStartMove}
-          onStopMove={this.props.onEnergyStopMove}
-          onMove={this.props.onEnergyMove.bind({}, energy.id)}
-          onStrengthChange={this.props.onEnergyStrengthChange.bind({}, energy.id)}
-          onDelete={this.props.onEnergyDelete.bind({}, energy.id)}
-          normalizeCoordinates={this.normalizeCoordinates.bind(this)}
-          deNormalizeCoordinates={this.deNormalizeCoordinates.bind(this)} />
-        )}
       </div>
     );
   }
@@ -165,7 +167,7 @@ Stage.propTypes = {
   })),
   isPresentation: PropTypes.bool,
   isEnergyMoving: PropTypes.bool,
-  editingEnergyId: PropTypes.number,
+  editingEnergyId: PropTypes.string,
   onEnergyAdd: PropTypes.func,
   onEnergyEdit: PropTypes.func,
   onEnergyMute: PropTypes.func,

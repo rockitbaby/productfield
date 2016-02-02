@@ -1,7 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
-import {Stage} from '../../components/Editor/ForceField/Stage';
+import {Stage} from '../../components/Editor/Stage';
 import * as actionCreators from '../action_creators';
 
 function mapStateToProps(state) {
