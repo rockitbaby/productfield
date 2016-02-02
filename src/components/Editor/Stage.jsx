@@ -5,7 +5,7 @@ import {Energy} from './Stage/Energy';
 import {Renderer} from './Stage/Renderer';
 import '../../styles/main.css';
 
-const FORCE_ARROW_HEAD_SIZE = 2.5;
+const FORCE_ARROW_HEAD_SIZE = 4;
 const MIN_FORCE_ARROW_LENGTH = 2;
 const DOTS_IN_FIELD = 20;
 

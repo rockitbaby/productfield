@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
 
-const CONTEXT_CIRCLE_RADIUS = 1.5;
-const DEFAULT_CIRCLE_RADIUS = 1;
+const CONTEXT_CIRCLE_RADIUS = 1;
+const DEFAULT_CIRCLE_RADIUS = 0.75;
 
 export class Grid extends Component {
 

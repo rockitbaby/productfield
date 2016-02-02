@@ -32,13 +32,8 @@ function deNormalizeCoordinates(x,y) {
 // const gridUnit = Math.floor(maximumFieldSize / dotsInField);
 // const fieldSize = gridUnit * dotsInField
 const energies = [
-  {id: '2', x: 4, y: 2, strength: 1, isMuted: false},
-  {id: '3', x: -2, y: -4, strength: 1, isMuted: false},
-  {id: '4', x: 2, y: -2, strength: 1, isMuted: false},
-  {id: '5', x: -2, y: 2, strength: 1, isMuted: false},
-  {id: '6', x: -8, y: -6, strength: 1, isMuted: false},
-  {id: '6', x: 10, y: 10, strength: 1, isMuted: false},
-  {id: '1', x: 0, y: 0, strength: 1, isMuted: true},
+  {id: '1', x: 0, y: 0, strength: 1, isMuted: false},
+  {id: '2', x: 1, y: 1, strength: 1, isMuted: false},
 ];
 ForceFieldCalculationSingleton.getInstance().setEnergies(energies);
 

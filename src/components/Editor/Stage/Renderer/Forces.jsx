@@ -6,12 +6,13 @@ export class ForceArrow extends Component {
 
   render() {
     const {x, y, x2, y2, triangleSize} = this.props;
-    var transform = "rotate(" + this.props.deg + "," + x + "," + y + ")";
     const point1 = new Vector(x, y);
     const point2 = new Vector(x2, y2);
-    const line = point2.subtract(point1);
+    const line = point2.clone().subtract(point1);
+    const lineLength = line.length();
     const angle = line.angleDeg();
     const arrowTransform = `rotate(${Math.abs(90 + angle)}, ${x2}, ${y2})`;
+    const transform = `rotate(${this.props.deg}, ${x}, ${y}) translate(0, ${-lineLength / 3})`;
     const points = [
       x2,
       y2,
@@ -65,38 +66,23 @@ export class Forces extends Component {
     var ForceFieldCalculator = ForceFieldCalculationSingleton.getInstance();
 
     var arrows = []
-    for (var x = offsetX; x < stageWidth; x += gridUnit) {
-      for (var y = offsetY; y < stageHeight; y += gridUnit) {
+    for (let x = offsetX; x < stageWidth; x += gridUnit) {
+      for (let y = offsetY; y < stageHeight; y += gridUnit) {
 
         // normalize coordinates
-        var [normaliedX, normalizedY] = this.props.normalizeCoordinates(x, y);
-        var result = ForceFieldCalculator.forceVectorAtPoint(normaliedX, normalizedY);
+        const [normalizedX, normalizedY] = this.props.normalizeCoordinates(x, y);
+        const result = ForceFieldCalculator.forceVectorAtPoint(normalizedX, normalizedY);
 
-        var length = Math.sqrt(Math.pow(result.x / gridUnit, 2) + Math.pow(result.y / gridUnit, 2));
+        const length = result.length();
 
         //Show Arrows and lines only if they're long enough
         var xDelta = result.x / gridUnit;
         var yDelta = result.y / gridUnit;
 
         var x2 = x;
-        var y2 = y - length;
+        var y2 = y + length * gridUnit;
 
-        let a;
-
-        if (result.x === 0) {
-          a = 1
-        } else {
-        //Calculation of degree for direction
-          a = Math.atan(result.y / result.x);
-        }
-
-        var deg = (180 / Math.PI) * a;
-
-        if (yDelta > 0) {
-          var deg = 180 / a;
-        } else {
-          var deg = 180 / a + 180;
-        }
+        const deg = result.clone().invert().verticalAngleDeg();
 
         var props = {
           deg: deg,

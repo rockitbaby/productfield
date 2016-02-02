@@ -14,17 +14,12 @@ const finalCreateStore = compose(
 const store = finalCreateStore(reducer);
 
 const unsubscribeEnergiesObserver = observeEnergies(store, (energies) => {
-  ForceFieldCalculationSingleton.getInstance().setEnergies(coordinateSystemTransformation(energies.toJS()));
+  ForceFieldCalculationSingleton.getInstance().setEnergies(energies.toJS());
 });
 
 var initialState = fromJS({energies: [
-  {id: '1', x: 0, y: 0, strength: 1, isMuted: true},
-  {id: '2', x: 0.4, y: 0.1, strength: 1, isMuted: false},
-  {id: '3', x: -0.2, y: -0.4, strength: 1, isMuted: false},
-  {id: '4', x: 0.2, y: -0.2, strength: 1, isMuted: false},
-  {id: '5', x: -0.2, y: 0.2, strength: 1, isMuted: false},
-  {id: '6', x: -0.8, y: -0.6, strength: 1, isMuted: false},
-  {id: '7', x: 0.10, y: 0.10, strength: 1, isMuted: false},
+  {id: '1', x: -1, y: -1, strength: 10, isMuted: false},
+  {id: '2', x: 1, y: 1, strength: -10, isMuted: false},
 ]});
 store.dispatch(setState(initialState));
 
