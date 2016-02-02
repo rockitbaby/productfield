@@ -36,7 +36,7 @@ export class Stage extends Component {
       minLengthForArrowsToDisplay: MIN_FORCE_ARROW_LENGTH,
       width:  this.props.width,
       height: this.props.height,
-      skin: this.props.isPresentation ? darkSkin : lightSkin
+      skin: this.props.isPresentationModeEnabled ? darkSkin : lightSkin
     }
   }
 
@@ -125,8 +125,6 @@ export class Stage extends Component {
 
     var rendererProps = Object.assign(this.getProperties(), {
       normalizeCoordinates: this.normalizeCoordinates.bind(this),
-      deNormalizeCoordinates: this.deNormalizeCoordinates.bind(this),
-      isPresentation: this.props.isPresentation
     })
 
     var className = 'ForceFieldStage';
@@ -147,7 +145,7 @@ export class Stage extends Component {
               onStop={this.props.onEnergyStopMove} >
               <div style={this.energyPositioningStyles(energy.x, energy.y)} >
                 <Energy
-                  isPresentation={this.props.isPresentation}
+                  isPresentationModeEnabled={this.props.isPresentationModeEnabled}
                   isMuted={energy.isMuted}
                   strength={energy.strength}
                   isEditing={this.props.editingEnergyId === energy.id}
@@ -177,7 +175,7 @@ Stage.propTypes = {
     strength: Energy.propTypes.strength,
     isMuted: Energy.propTypes.isMuted,
   })),
-  isPresentation: PropTypes.bool,
+  isPresentationModeEnabled: PropTypes.bool,
   isEnergyMoving: PropTypes.bool,
   editingEnergyId: PropTypes.string,
   onEnergyAdd: PropTypes.func,
@@ -193,7 +191,7 @@ Stage.propTypes = {
 
 Stage.defaultProps = {
   energies: [],
-  isPresentation: false,
+  isPresentationModeEnabled: false,
   isEnergyMoving: false,
   editingEnergyId: null,
   onEnergyAdd(energy){},

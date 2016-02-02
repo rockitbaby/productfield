@@ -31,8 +31,8 @@ export class Energy extends Component {
       <div className={["Energy-pane", styles.editingPane].join(' ')} >
         <Slider value={this.props.strength}
           onChange={this.props.onStrengthChange}
-          isPresentation={this.props.isPresentation}/>
-        <div className={this.props.isPresentation ? styles.sliderAdditionDark : styles.sliderAdditionLight}>
+          isPresentationModeEnabled={this.props.isPresentationModeEnabled}/>
+        <div className={this.props.isPresentationModeEnabled ? styles.sliderAdditionDark : styles.sliderAdditionLight}>
           <div className={styles.sliderAdditionIconWrapper}>
             <img className={styles.sliderAdditionIcon} src="/img/delete.svg" onClick={this.props.onDelete}/>
           </div>
@@ -65,7 +65,7 @@ export class Energy extends Component {
 }
 
 Energy.propTypes = {
-  isPresentation: PropTypes.bool,
+  isPresentationModeEnabled: PropTypes.bool,
   strength: PropTypes.number.isRequired,
   isMuted: PropTypes.bool,
   isEditing: PropTypes.bool,
@@ -77,7 +77,7 @@ Energy.propTypes = {
 };
 
 Energy.defaultProps = {
-  isPresentation: false,
+  isPresentationModeEnabled: false,
   isMuted: false,
   isEditing: false,
   onEdit(event){},

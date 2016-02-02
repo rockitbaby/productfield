@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore, compose} from 'redux';
-import {Provider} from 'react-redux';
 import {fromJS} from 'immutable';
 import {ConnectedEditor} from './state/components/ConnectedEditor';
 import reducer, {observeEnergies} from './state/reducer';
@@ -30,8 +29,6 @@ var initialState = fromJS({energies: [
 store.dispatch(setState(initialState));
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedEditor />
-  </Provider>,
+  <ConnectedEditor store={store} />,
   document.getElementById('app')
 );
