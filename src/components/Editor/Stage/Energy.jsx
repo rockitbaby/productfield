@@ -36,14 +36,14 @@ export class Energy extends Component {
           isPresentation={this.props.isPresentation}/>
         <div className={this.props.isPresentation ? styles.sliderAdditionDark : styles.sliderAdditionLight}>
           <div className={styles.sliderAdditionIconWrapper}>
+            <img className={styles.sliderAdditionIcon} src="/img/delete.svg" onClick={this.props.onDelete}/>
+          </div>
+          <div className={styles.sliderAdditionIconWrapper}>
             {this.props.isMuted ?
             <img className={styles.sliderAdditionIcon} src="/img/unmute.svg" onClick={this.props.onUnmute}/>
             :
             <img className={styles.sliderAdditionIcon} src="/img/mute.svg" onClick={this.props.onMute}/>
             }
-          </div>
-          <div className={styles.sliderAdditionIconWrapper}>
-            <img className={styles.sliderAdditionIcon} src="/img/delete.svg" onClick={this.props.onDelete}/>
           </div>
         </div>
       </div>

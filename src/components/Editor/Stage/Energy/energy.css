@@ -20,6 +20,7 @@
   border-radius: calc(30px / 2);
   user-select: none;
   cursor: default;
+  margin: calc(30px/-2) 0px 0px calc(30px/-2);
 }
 
 .circleEditing {
@@ -27,24 +28,29 @@
   width: 36px;
   height: 36px;
   border-radius: calc(36px / 2);
-  border: 3px solid white;
-  margin: -3px 0px 0px -3px;
+  border: 3px solid #FFFFFF;
+  margin: calc(36px/-2) 0px 0px calc(36px/-2);
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12);
 }
 
 .editingPane {
   position: absolute;
-  top: calc(100% * -2.75);
-  left: calc(100% * 1.25);
-  height: 100%;
+  top: calc(230px / -2);
+  left: calc(36px / 2);
+  height: calc(230px + 25px);
+  margin-left: 5px;
 }
 
 .sliderAddition {
+  display: flex;
+  align-items: center;
   width: 35px;
   height: 25px;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
   box-shadow: 0px 3px 6px -2px rgba(128,128,128,1);
   border-top: 1px lightgrey solid;
+  box-sizing: border-box;
   text-align: center;
 }
 
@@ -60,7 +66,6 @@
 }
 
 .sliderAdditionIconWrapper {
-  float: right;
   width: 17.5px;
   margin: 0 auto;
   text-align: center;

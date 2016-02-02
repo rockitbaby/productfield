@@ -7,9 +7,6 @@ import '../../styles/main.css';
 
 const FORCE_ARROW_HEAD_SIZE = 2.5;
 const MIN_FORCE_ARROW_LENGTH = 2;
-const CIRCLE_SIZE = 30;
-const EDITING_CIRCLE_SIZE = 36;
-const PANE_HEIGHT = 265;
 
 export class Stage extends Component {
 
@@ -22,7 +19,7 @@ export class Stage extends Component {
     const lightSkin =  {
                      dots:   "#304FFE",
                      marker: "#304FFE",
-                     arrows: "#FF0000",
+                     arrows: "#F2F2F2",
                      background: '#FFFFFF'
                    };
     const darkSkin =  {
@@ -76,33 +73,13 @@ export class Stage extends Component {
     return [normalizedX, normalizedY];
   }
 
-  getForceFieldStyle() {
-    return {
-      position: 'relative',
-      margin: '0 auto',
-      width: '100%',
-      height: '100%',
-      transition: 'width 0.2s, height 0.2s',
-    }
-  }
-
   energyStyles(x, y) {
-    var [pixelatedX, pixelatedY] = this.deNormalizeCoordinates(x, y);
-    var [offsetX, offsetY] = this.energyOffset();
-
+    const [pixelatedX, pixelatedY] = this.deNormalizeCoordinates(x, y);
     return {
       position: 'absolute',
-      transform: 'translate(' + offsetX + 'px, ' + offsetY + 'px)',
       left: pixelatedX,
       top: pixelatedY,
     }
-  }
-
-  energyOffset() {
-    var translationX = - CIRCLE_SIZE / 2;
-    var translationY = - CIRCLE_SIZE / 2;
-
-    return [translationX, translationY];
   }
 
   handleDrag(energyId, event, ui) {
@@ -145,7 +122,6 @@ export class Stage extends Component {
   }
 
   render() {
-    var forceFieldStyle = this.getForceFieldStyle();
 
     var rendererProps = Object.assign(this.getProperties(), {
       normalizeCoordinates: this.normalizeCoordinates.bind(this),
