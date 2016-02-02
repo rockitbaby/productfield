@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import ReactSlider from 'react-slider';
-import sliderStyles from './slider.css';
+import styles from './slider.css';
 
 export class Slider extends Component {
 
@@ -16,9 +16,10 @@ export class Slider extends Component {
         withBars={true}
         min={-10}
         max={10}
-        className={this.props.isPresentation ? " slider slider-dark" : "slider slider-light"}
-        handleClassName={this.props.isPresentation ? " handle handle-dark" : "handle handle-light"}
-        barClassName={this.props.isPresentation ? " bar bar-dark" : "bar bar-light"}
+        className={this.props.isPresentation ? styles.sliderDark : styles.sliderLight}
+        handleClassName={this.props.isPresentation ? styles.handleDark : styles.handleLight}
+        handleActiveClassName={this.props.isPresentation ? styles.handleActiveDark : styles.handleActiveLight}
+        barClassName={this.props.isPresentation ? styles.barDark : styles.barLight}
         onChange={this.onSlide.bind(this)}
         defaultValue={this.props.value}
         value={this.props.value} />
@@ -36,5 +37,5 @@ Slider.propTypes = {
 Slider.defaultProps = {
   isPresentation: false,
   value: 0,
-  onChange(strength){},
+  onChange(value){},
 };

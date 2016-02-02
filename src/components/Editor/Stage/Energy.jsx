@@ -3,6 +3,7 @@ import {fromJS, Map} from 'immutable';
 import {DraggableCore} from 'react-draggable';
 import GlobalStyles from '../../../styles/GlobalStyles'
 import {Slider} from './Energy/Slider';
+import styles from './Energy/energy.css';
 
 const CIRCLE_SIZE = 30;
 const EDITING_CIRCLE_SIZE = 36;
@@ -11,7 +12,7 @@ const PANE_HEIGHT = 265;
 export class Energy extends Component {
 
   getCircleStyle() {
-    var backgroundColor = function(strength, isMuted) {
+    const backgroundColor = (strength, isMuted) => {
       if (isMuted) {
         return GlobalStyles.neutralGrey;
       } else {
@@ -25,17 +26,11 @@ export class Energy extends Component {
       }
     }
 
-    var circleStyles = {
-      display: 'flex',
-      'boxSizing': 'border-box',
-      alignItems: 'center',
-      justifyContent: 'center',
+    const circleStyles = {
       backgroundColor:  backgroundColor(this.props.strength, this.props.isMuted),
       width: CIRCLE_SIZE,
       height: CIRCLE_SIZE,
-      boxShadow: '0px 1px 1px 0px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12)',
       borderRadius: CIRCLE_SIZE / 2,
-      position: 'absolute'
     }
 
     if (this.props.isEditing) {
@@ -108,16 +103,16 @@ export class Energy extends Component {
         <Slider value={this.props.strength}
           onChange={this.props.onStrengthChange}
           isPresentation={this.props.isPresentation}/>
-        <div className={this.props.isPresentation ? " sliderAddition sliderAddition-dark" : "sliderAddition sliderAddition-light"}>
-          <div className="sliderAdditionIconWrapper">
+        <div className={this.props.isPresentation ? styles.sliderAdditionDark : styles.sliderAdditionLight}>
+          <div className={styles.sliderAdditionIconWrapper}>
             {this.props.isMuted ?
-            <img src="/img/unmute.svg" onClick={this.props.onUnmute}/>
+            <img className={styles.sliderAdditionIcon} src="/img/unmute.svg" onClick={this.props.onUnmute}/>
             :
-            <img src="/img/mute.svg" onClick={this.props.onMute}/>
+            <img className={styles.sliderAdditionIcon} src="/img/mute.svg" onClick={this.props.onMute}/>
             }
           </div>
-          <div className="sliderAdditionIconWrapper">
-            <img src="/img/delete.svg" onClick={this.props.onDelete}/>
+          <div className={styles.sliderAdditionIconWrapper}>
+            <img className={styles.sliderAdditionIcon} src="/img/delete.svg" onClick={this.props.onDelete}/>
           </div>
         </div>
       </div>
@@ -133,7 +128,7 @@ export class Energy extends Component {
         <div className="Energy"
           onClick={this.props.onEdit}
           style={this.getWrapperStyle()}>
-          <div className="Energy-circle" style={this.getCircleStyle()}>
+          <div className={["Energy-circle", styles.circle].join(' ')} style={this.getCircleStyle()}>
             <span>{this.props.strength}</span>
           </div>
           { this.props.isEditing ? this.renderEnergyEditor() : null }
