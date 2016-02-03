@@ -58,23 +58,20 @@ export const ForceFieldCalculationSingleton =  (function () {
     }
 
     this.forceVectorAtPoint = function(x, y) {
-      var vectorToPOI = new Victor(x, y);
+      const vectorToPOI = new Victor(x, y);
 
-      var weights = [];
-      var energyDirectionVectors = [];
+      const weights = this.energyVectors().map((energyVector) => {
+        const distance = vectorToPOI.distance(energyVector.originVector)
+        return 1 - (distance / Math.sqrt(8));
+      });
 
-      this.energyVectors().forEach(function(energyVector, index) {
-        var distance = vectorToPOI.distance(energyVector.originVector)
-        weights[index] = 1 - (distance / Math.sqrt(8));
-      })
+      const energyDirectionVectors = this.energyVectors().map((energyVector) => {
+        return new Victor(0, 0).copy(energyVector.directionVector);
+      });
 
-      this.energyVectors().forEach(function(energyVector, index) {
-        energyDirectionVectors[index] = new Victor(0, 0).copy(energyVector.directionVector);
-      })
-
-      var resultVector = energyDirectionVectors.reduce(function(prev, curr, index) {
+      const resultVector = energyDirectionVectors.reduce((prev, curr, index) => {
         return prev.add(curr.multiplyScalar(weights[index]));
-      }, new Victor(0, 0))
+      }, new Victor(0, 0));
 
       return resultVector;
     }

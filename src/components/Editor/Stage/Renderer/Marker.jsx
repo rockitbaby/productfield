@@ -37,7 +37,6 @@ export class Marker extends Component {
 
     return (
       <svg className='Renderer-marker' width={fieldSize} height={fieldSize} x={centerX} y={centerY}>
-        <rect className={styles['u-visual-debug']} width={fieldSize} height={fieldSize} />
         <circle cx={fieldSize / 2} cy={fieldSize / 2} r={circleRadius} fill='none' strokeWidth='2' stroke={marker} />
         <g>{quadrantMarkers}</g>
       </svg>

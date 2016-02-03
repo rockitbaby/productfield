@@ -12,25 +12,21 @@ export class ForceArrow extends Component {
     const lineLength = line.length();
     const angle = line.angleDeg();
     const arrowTransform = `rotate(${Math.abs(90 + angle)}, ${x2}, ${y2})`;
-    const transform = `rotate(${deg}, ${x}, ${y}) translate(0, ${-lineLength / 3})`;
-    const points = [
-      x2,
-      y2,
-      x2 + triangleSize,
-      y2,
-      x2,
-      y2 - triangleSize,
-      x2 - triangleSize,
-      y2,
-      x2,
-      y2,
-    ];
-    const triangleCoordinates = [];
-    for (let i=0; i < points.length; i += 2) {
-      triangleCoordinates.push(`${points[i]},${points[i+1]}`);
-    }
 
-    let color = (deg >= 0 && deg <= 180) ? this.props.skin.negativeArrow : this.props.skin.positiveArrow;
+    const growFactor = Math.log10(lineLength);
+    const points = [
+      new Vector(x2, y2),
+      new Vector(x2 + triangleSize * growFactor, y2),
+      new Vector(x2, y2 - triangleSize * growFactor),
+      new Vector(x2 - triangleSize * growFactor, y2),
+      new Vector(x2, y2),
+    ];
+
+    const triangleCoordinates = points.map((point) => `${point.x},${point.y}`);
+
+    const color = (deg >= 0 && deg <= 180) ? this.props.skin.negativeArrow : this.props.skin.positiveArrow;
+
+    const transform = `rotate(${deg}, ${x}, ${y}) translate(0, ${-(lineLength + triangleSize * growFactor) / 2})`;
 
     return (
       <g transform={transform}>
@@ -41,7 +37,7 @@ export class ForceArrow extends Component {
           y2={this.props.y2}
           strokeWidth='1'
           stroke={color} />
-        <polyline points={triangleCoordinates.join(' ')} transform={arrowTransform} fill={color} />
+        <polygon points={triangleCoordinates.join(' ')} transform={arrowTransform} fill={color} />
       </g>
     );
   }
@@ -71,28 +67,20 @@ export class Forces extends Component {
     var arrows = []
     for (let x = offsetX; x < stageWidth; x += gridUnit) {
       for (let y = offsetY; y < stageHeight; y += gridUnit) {
-
-        // normalize coordinates
         const [normalizedX, normalizedY] = this.props.normalizeCoordinates(x, y);
         const result = ForceFieldCalculator.forceVectorAtPoint(normalizedX, normalizedY);
+        const arrowLength = result.length() * gridUnit * 2;
 
-        const length = result.length();
+        if (arrowLength < minArrowLength) {
+          continue;
+        }
 
-        //Show Arrows and lines only if they're long enough
-        var xDelta = result.x / gridUnit;
-        var yDelta = result.y / gridUnit;
-
-        var x2 = x;
-        var y2 = y + length * gridUnit;
-
-        const deg = result.clone().invert().verticalAngleDeg();
-
-        var props = {
-          deg: deg,
+        const props = {
+          deg: result.clone().invert().verticalAngleDeg(),
           x: x,
-          x2: x2,
+          x2: x,
           y: y,
-          y2: y2,
+          y2: y + arrowLength,
           triangleSize: arrowTriangleSize,
         }
 
