@@ -20,12 +20,16 @@ export class Stage extends Component {
                      dots:   "#304FFE",
                      marker: "#304FFE",
                      arrows: "#F2F2F2",
+                     positiveArrow: "#008000",
+                     negativeArrow: "#800000",
                      background: '#FFFFFF'
                    };
     const darkSkin =  {
                      dots:   "#FFFFFF",
                      marker: "#FFFFFF",
                      arrows: "#F2F2F2",
+                     positiveArrow: "#008000",
+                     negativeArrow: "#800000",
                      background: '#000000'
                    };
 

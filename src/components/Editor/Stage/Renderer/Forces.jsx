@@ -5,14 +5,14 @@ import {ForceFieldCalculationSingleton} from '../../../../ForceFieldCalculation'
 export class ForceArrow extends Component {
 
   render() {
-    const {x, y, x2, y2, triangleSize} = this.props;
+    const {x, y, x2, y2, triangleSize, deg} = this.props;
     const point1 = new Vector(x, y);
     const point2 = new Vector(x2, y2);
     const line = point2.clone().subtract(point1);
     const lineLength = line.length();
     const angle = line.angleDeg();
     const arrowTransform = `rotate(${Math.abs(90 + angle)}, ${x2}, ${y2})`;
-    const transform = `rotate(${this.props.deg}, ${x}, ${y}) translate(0, ${-lineLength / 3})`;
+    const transform = `rotate(${deg}, ${x}, ${y}) translate(0, ${-lineLength / 3})`;
     const points = [
       x2,
       y2,
@@ -29,6 +29,9 @@ export class ForceArrow extends Component {
     for (let i=0; i < points.length; i += 2) {
       triangleCoordinates.push(`${points[i]},${points[i+1]}`);
     }
+
+    let color = (deg >= 0 && deg <= 180) ? this.props.skin.negativeArrow : this.props.skin.positiveArrow;
+
     return (
       <g transform={transform}>
         <line
@@ -37,8 +40,8 @@ export class ForceArrow extends Component {
           x2={this.props.x2}
           y2={this.props.y2}
           strokeWidth='1'
-          stroke={this.props.skin.arrows} />
-        <polyline points={triangleCoordinates.join(' ')} transform={arrowTransform} fill={this.props.skin.arrows} />
+          stroke={color} />
+        <polyline points={triangleCoordinates.join(' ')} transform={arrowTransform} fill={color} />
       </g>
     );
   }
