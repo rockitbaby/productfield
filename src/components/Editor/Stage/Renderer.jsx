@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'PropTypes';
 
 import {Marker} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';
@@ -12,15 +13,10 @@ import {Circle} from './Renderer/Defs/Masks';
 import {Solid} from './Renderer/Defs/Filters';
 import {Arrow} from './Renderer/Defs/Symbols';
 
+import {allowCustomAttributes} from 'utils';
 import DOMProperty from 'react/lib/DOMProperty';
 
-const customAttributes = ['mask', 'maskUnits'];
-
-DOMProperty.injection.injectDOMPropertyConfig({
-  isCustomAttribute: function (attributeName) {
-    return (customAttributes.indexOf(attributeName) !== -1);
-  }
-});
+allowCustomAttributes(DOMProperty, ['mask', 'maskUnits']);
 
 export const defaultVisibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Labels', 'Forces'];
 
@@ -118,11 +114,10 @@ export class Renderer extends Component {
           : null }
         { this.isVisible('Forces') ?
           <Forces
-            origin={origin}
-            energies={energies}
             stageWidth={width}
             stageHeight={height}
             fieldSize={fieldSize}
+            energies={energies}
             gridUnit={gridUnit}
             normalizeCoordinates={normalizeCoordinates}
             arrowTriangleSize={triangleSize}

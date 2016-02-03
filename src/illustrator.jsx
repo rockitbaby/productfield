@@ -1,8 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import {Renderer, defaultVisibility as rendererVisibility} from './components/Editor/Stage/Renderer';
 import ForceFieldAnatomy from './ForceFieldAnatomy';
+
+import {createStore} from 'redux';
+import {fromJS} from 'immutable';
+import reducer from './state/reducer';
+import {setState} from './state/action_creators'
+
+import {Renderer, defaultVisibility as rendererVisibility} from './components/Editor/Stage/Renderer';
+
+const store = createStore(reducer);
+var initialState = fromJS({
+  energies: [
+    {id: 2, x: 0.4, y: 0.1, strength: 2, isMuted: false},
+    {id: 1, x: 0.8, y: -0.8, strength: 1, isMuted: false},
+  ]
+});
+store.dispatch(setState(initialState));
 
 /*
 
@@ -28,7 +43,7 @@ please see inline comments 1) and 2)
 // 1) we are importing additional styles as text
 import styles from 'raw!./styles/illustrator.css.txt';
 
-const DOTS_IN_FIELD = 21;
+const DOTS_IN_FIELD = ForceFieldAnatomy.DOTS_IN_GRID;
 
 
 function getProperties(params) {
@@ -56,8 +71,6 @@ function getProperties(params) {
     let allLabels = ForceFieldAnatomy.LABELS.context.concat(ForceFieldAnatomy.LABELS.core);
     labels = allLabels.slice(0, describe);
     highlights = allLabels.slice(describe - 1, describe);
-
-    console.log(highlights);
   }
 
   let visibility = params.visibility || rendererVisibility;

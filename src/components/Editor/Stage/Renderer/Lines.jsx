@@ -47,17 +47,17 @@ export class Lines extends Component {
     lines.push(<Line key={'core-3'} className='Lines-core' from={P(5, -5)} to={P(-5, -5)} gridUnit={gridUnit} />);
     lines.push(<Line key={'core-4'} className='Lines-core' from={P(-5, -5)} to={P(-5, 5)} gridUnit={gridUnit} />);
 
-    Anatomy.QUADRANTS.forEach((quadrant) => {
+    ForceFieldAnatomy.QUADRANTS.forEach((quadrant) => {
 
       let x1 = 0 * quadrant.coefficient.x;
-      let y1 = Anatomy.CENTER_RADIUS * quadrant.coefficient.y;
+      let y1 = ForceFieldAnatomy.CENTER_RADIUS * quadrant.coefficient.y;
       let x2 = 0 * quadrant.coefficient.x;
       let y2 = 5 * quadrant.coefficient.y;
       let key = `${quadrant.deg}-1`;
 
       lines.push(<Line key={key} className='Lines-core' from={P(x1, y1)} to={P(x2, y2)} gridUnit={gridUnit} />);
 
-      x1 = Anatomy.CENTER_RADIUS * quadrant.coefficient.x;
+      x1 = ForceFieldAnatomy.CENTER_RADIUS * quadrant.coefficient.x;
       y1 = 0 * quadrant.coefficient.y;
       x2 = 5 * quadrant.coefficient.x;
       y2 = 0 * quadrant.coefficient.y;

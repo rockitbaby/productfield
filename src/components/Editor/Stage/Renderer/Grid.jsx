@@ -19,8 +19,8 @@ export class Grid extends Component {
     let circles = []
 
     ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant, index) {
-      for(let ix = 0; ix <= Anatomy.DOTS_PER_SIDE; ix++) {
-        for(let iy = 0; iy <= Anatomy.DOTS_PER_SIDE; iy++) {
+      for(let ix = 0; ix <= ForceFieldAnatomy.DOTS_PER_SIDE; ix++) {
+        for(let iy = 0; iy <= ForceFieldAnatomy.DOTS_PER_SIDE; iy++) {
 
           if (ix + iy === 0) {
             continue;
@@ -56,7 +56,6 @@ export class Grid extends Component {
 
 Grid.propTypes = {
   origin: PropTypes.point.isRequired,
-  stageHeight: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
   skin: PropTypes.shape({
     dots: PropTypes.string.isRequired,

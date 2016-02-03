@@ -4,7 +4,7 @@ import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 import PropTypes from '../../../../PropTypes';
 
 function convertPointsToScaledSvgPath(points, gridUnit) {
-  points.map(
+  return points.map(
       (point) => {
         return Array(point[0] * gridUnit, -point[1] * gridUnit);
       }
@@ -37,7 +37,6 @@ export class Areas extends Component {
       );
 
     const gridContextPoints1 = convertPointsToScaledSvgPath([[0,5], [0,8.5], [8,8.5], [8,8], [5,5]], gridUnit);
-
     const gridContextPoints2 = convertPointsToScaledSvgPath([[5,5], [8,8], [8.5,8], [8.5,0], [5,0]], gridUnit);
 
     ForceFieldAnatomy.QUADRANTS.forEach((quadrant) => {
@@ -65,7 +64,7 @@ export class Areas extends Component {
     });
 
     const transform = `translate(${origin.x},${origin.y})`;
-    return <g id="Areas" className="Areas" transform={transform}>{groups}</g>;
+    return <g id="Areas" className="Areas" fill='none' transform={transform}>{groups}</g>;
   }
 
 }

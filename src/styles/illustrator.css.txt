@@ -51,7 +51,7 @@ text {
 .Labels text {
   opacity: 0.2; 
   opacity: 0;
-  color: #FFFFFF;
+  fill: #000000;
 }
 
 .Labels .Labels-context {

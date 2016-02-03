@@ -9,7 +9,7 @@ export class Crosshatch extends DefsComponent {
     return  <pattern key="defs-crosshatch" id="Crosshatch" 
               width="8" height="8"
               patternUnits="userSpaceOnUse">
-                <path className="Pattern-crosshatch" d='M0 0L8 8ZM8 0L0 8Z' stroke-width='1' />
+                <path className="Pattern-crosshatch" d='M0 0L8 8ZM8 0L0 8Z' stroke='#000000' strokeWidth='0.5' />
             </pattern>;
   }
 
@@ -23,7 +23,7 @@ export class Stripe extends DefsComponent {
               width="10" height="10"
               patternUnits="userSpaceOnUse">
                <path d='M-1,1 l2,-2M0,10 l10,-10M9,11 l2,-2'
-                 stroke='#000000' stroke-width='0.5'/>
+                 stroke='#000000' strokeWidth='0.5'/>
             </pattern>;
   }
 
