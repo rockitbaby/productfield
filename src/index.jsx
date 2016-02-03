@@ -20,6 +20,8 @@ const unsubscribeEnergiesObserver = observeEnergies(store, (energies) => {
 var initialState = fromJS({energies: [
   {id: '1', x: -1, y: -1, strength: 10, isMuted: false},
   {id: '2', x: 1, y: 1, strength: -10, isMuted: false},
+  {id: '3', x: -1, y: 1, strength: -10, isMuted: false},
+  {id: '4', x: 1, y: -1, strength: 10, isMuted: false},
 ]});
 store.dispatch(setState(initialState));
 
