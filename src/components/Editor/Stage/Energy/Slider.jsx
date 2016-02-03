@@ -10,19 +10,21 @@ export class Slider extends Component {
 
   render() {
     return (
-      <ReactSlider
-        orientation='vertical'
-        invert={true}
-        withBars={true}
-        min={-10}
-        max={10}
-        className={this.props.isPresentationModeEnabled ? styles.sliderDark : styles.sliderLight}
-        handleClassName={this.props.isPresentationModeEnabled ? styles.handleDark : styles.handleLight}
-        handleActiveClassName={this.props.isPresentationModeEnabled ? styles.handleActiveDark : styles.handleActiveLight}
-        barClassName={this.props.isPresentationModeEnabled ? styles.barDark : styles.barLight}
-        onChange={this.onSlide.bind(this)}
-        defaultValue={this.props.value}
-        value={this.props.value} />
+      <div className={this.props.isPresentationModeEnabled ? styles.sliderDark : styles.sliderLight}>
+        <ReactSlider
+          orientation='vertical'
+          invert={true}
+          withBars={true}
+          min={-10}
+          max={10}
+          className={styles.wrapper}
+          handleClassName={this.props.isPresentationModeEnabled ? styles.handleDark : styles.handleLight}
+          handleActiveClassName={this.props.isPresentationModeEnabled ? styles.handleActiveDark : styles.handleActiveLight}
+          barClassName={this.props.isPresentationModeEnabled ? styles.barDark : styles.barLight}
+          onChange={this.onSlide.bind(this)}
+          defaultValue={this.props.value}
+          value={this.props.value} />
+      </div>
     );
   }
 

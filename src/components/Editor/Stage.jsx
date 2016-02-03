@@ -4,6 +4,8 @@ import {DraggableCore} from 'react-draggable';
 import {Energy} from './Stage/Energy';
 import {Renderer} from './Stage/Renderer';
 import '../../styles/main.css';
+import sliderStyles from './Stage/Energy/slider.css';
+import energyStyles from './Stage/Energy/energy.css';
 
 const FORCE_ARROW_HEAD_SIZE = 4;
 const MIN_FORCE_ARROW_LENGTH = 2;
@@ -88,11 +90,26 @@ export class Stage extends Component {
 
   handleDrag(energyId, event, ui) {
     const {node, position: {clientX, clientY}} = ui;
+    const offsetX = node.getBoundingClientRect().width / 2;
+    const offsetY = node.getBoundingClientRect().height / 2;
 
     const field = node.offsetParent;
 
     var newX = clientX - field.offsetLeft;
     var newY = clientY - field.offsetTop;
+
+    if (newX <= offsetX) {
+      newX = offsetX;
+    }
+    if (newY <= offsetY) {
+      newY = offsetY;
+    }
+    if (newX >= field.parentElement.offsetWidth - offsetX) {
+      newX = field.width;
+    }
+    if (newY >= field.parentElement.offsetHeight - offsetY) {
+      newY = field.height;
+    }
 
     const [normalizedX, normalizedY] = this.normalizeCoordinates(newX,newY);
 
@@ -120,7 +137,10 @@ export class Stage extends Component {
   handleClick(event) {
     const {target} = event;
     const classList = Array.from(target.classList);
-    if (classList.indexOf('handle') === -1) {
+    if (
+      classList.indexOf(sliderStyles.handle) === -1 &&
+      classList.indexOf(energyStyles.sliderAdditionIcon) === -1
+    ) {
       this.props.onEnergyEdit(null);
     }
   }
@@ -138,10 +158,11 @@ export class Stage extends Component {
 
     return (
       <div
+        style={{height: '100%'}}
         className={className}
         onClick={this.handleClick.bind(this)}
         onDoubleClick={this.handleDoubleClick.bind(this)} >
-        <div style={{position: 'relative'}}>
+        <div style={{position: 'relative', height: '100%'}}>
           {this.props.energies.map((energy) =>
             <DraggableCore key={energy.id}
               onStart={this.props.onEnergyStartMove}
@@ -179,6 +200,8 @@ Stage.propTypes = {
     strength: Energy.propTypes.strength,
     isMuted: Energy.propTypes.isMuted,
   })),
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
   isPresentationModeEnabled: PropTypes.bool,
   isEnergyMoving: PropTypes.bool,
   editingEnergyId: PropTypes.string,

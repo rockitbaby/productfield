@@ -32,8 +32,8 @@ function deNormalizeCoordinates(x,y) {
 // const gridUnit = Math.floor(maximumFieldSize / dotsInField);
 // const fieldSize = gridUnit * dotsInField
 const energies = [
-  {id: '1', x: 0, y: 0, strength: 1, isMuted: false},
-  {id: '2', x: 1, y: 1, strength: 1, isMuted: false},
+  {id: '1', x: 149, y: 149, strength: -1, isMuted: false},
+  {id: '2', x: 151, y: 151, strength: 1, isMuted: false},
 ];
 ForceFieldCalculationSingleton.getInstance().setEnergies(energies);
 
@@ -49,7 +49,7 @@ ReactDOM.render(
           stageHeight={300}
           fieldSize={250}
           gridUnit={250 / 10}
-          skin={{arrows: '#ff0000'}}
+          skin={{negativeArrow: '#ff0000', positiveArrow: '#00ff00'}}
           normalizeCoordinates={normalizeCoordinates}
         />
       )}
@@ -64,7 +64,7 @@ ReactDOM.render(
           y2={60}
           deg={90}
           triangleSize={4}
-          skin={{arrows: '#ff0000'}}
+          skin={{negativeArrow: '#ff0000', positiveArrow: '#00ff00'}}
           normalizeCoordinates={normalizeCoordinates}
         />
       )}
@@ -105,7 +105,13 @@ ReactDOM.render(
         triangleSize={4}
         minLengthForArrowsToDisplay={2}
         normalizeCoordinates={normalizeCoordinates}
-        skin={{background: 'rgba(150,150,0,0.4)', dots: '#ff0000', marker: '#00ff00', arrows: '#0000ff'}}
+        skin={{
+          background: 'rgba(150,150,0,0.4)',
+          dots: '#ff0000',
+          marker: '#00ff00',
+          negativeArrow: '#ff0000',
+          positiveArrow: '#00ff00'
+        }}
       />
     )}
     <h2>Slider</h2>

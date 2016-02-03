@@ -51,7 +51,8 @@ ForceArrow.propTypes = {
   y2: PropTypes.number.isRequired,
   triangleSize: PropTypes.number.isRequired,
   skin: PropTypes.shape({
-    arrows: PropTypes.string.isRequired
+    negativeArrow: PropTypes.string.isRequired,
+    positiveArrow: PropTypes.string.isRequired,
   }).isRequired,
 }
 
@@ -102,7 +103,8 @@ Forces.propTypes = {
   arrowTriangleSize: PropTypes.number,
   minArrowLength: PropTypes.number,
   skin: PropTypes.shape({
-    arrows: PropTypes.string.isRequired,
+    negativeArrow: PropTypes.string.isRequired,
+    positiveArrow: PropTypes.string.isRequired,
   }).isRequired,
   normalizeCoordinates: PropTypes.func.isRequired,
 };
