@@ -10,9 +10,9 @@ export class Editor extends Component {
   }
 
   browserWindowAsState() {
-    const toolbarHeight = 100;
+    const toolbarHeight = 50;
     return {
-      stageHeight: window.innerHeight - toolbarHeight,
+      stageHeight: window.innerHeight - toolbarHeight - 5,
       stageWidth: window.innerWidth
     }
   }
