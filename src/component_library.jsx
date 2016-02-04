@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {ForceArrow, Forces} from './components/Editor/Stage/Renderer/Forces';
+import {ForceArrow} from './components/Editor/Stage/Renderer/ForceArrow';
+import {Forces} from './components/Editor/Stage/Renderer/Forces';
 import {Grid} from './components/Editor/Stage/Renderer/Grid';
 import {Marker} from './components/Editor/Stage/Renderer/Marker';
 import {Renderer} from './components/Editor/Stage/Renderer';
 import {Slider} from './components/Editor/Stage/Energy/Slider';
 import {Energy} from './components/Editor/Stage/Energy';
-import {ForceFieldCalculationSingleton} from './ForceFieldCalculation';
 import {StateProxy} from './components/state_proxy';
 
 class SvgComponent extends Component {
@@ -35,16 +35,14 @@ const energies = [
   {id: '1', x: 149, y: 149, strength: -1, isMuted: false},
   {id: '2', x: 151, y: 151, strength: 1, isMuted: false},
 ];
-ForceFieldCalculationSingleton.getInstance().setEnergies(energies);
 
 ReactDOM.render(
   <div style={{padding: '10px'}}>
     <h2>Forces</h2>
-    <p>Hängt vom ForceFieldCalculationSingleton ab</p>
-    <p>Verwendete Energien: {JSON.stringify(energies)}</p>
     <SvgComponent style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
       {StateProxy(
         <Forces
+          energies={energies}
           stageWidth={300}
           stageHeight={300}
           fieldSize={250}

@@ -2,26 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore, compose} from 'redux';
 import {fromJS} from 'immutable';
+import uuid from 'node-uuid';
 import {ConnectedEditor} from './state/components/ConnectedEditor';
 import reducer, {observeEnergies} from './state/reducer';
-import {setState} from './state/action_creators'
-import * as actionCreators from './state/action_creators'
-import {ForceFieldCalculationSingleton, coordinateSystemTransformation} from './ForceFieldCalculation'
+import {setState} from './state/action_creators';
+import * as actionCreators from './state/action_creators';
 
 const finalCreateStore = compose(
-  window.devToolsExtension ? window.devToolsExtension() : (f) => f
+  window.devToolsExtension ? window.devToolsExtension() : (f) => f,
 )(createStore);
 const store = finalCreateStore(reducer);
 
-const unsubscribeEnergiesObserver = observeEnergies(store, (energies) => {
-  ForceFieldCalculationSingleton.getInstance().setEnergies(energies.toJS());
-});
-
 var initialState = fromJS({energies: [
-  {id: '1', x: -1, y: -1, strength: 10, isMuted: false},
-  {id: '2', x: 1, y: 1, strength: -10, isMuted: false},
-  {id: '3', x: -1, y: 1, strength: -10, isMuted: false},
-  {id: '4', x: 1, y: -1, strength: 10, isMuted: false},
+  {id: uuid.v1(), x: -1, y: -1, strength: 10, isMuted: false},
+  {id: uuid.v1(), x: 1, y: 1, strength: -10, isMuted: false},
+  {id: uuid.v1(), x: -1, y: 1, strength: -10, isMuted: false},
+  {id: uuid.v1(), x: 1, y: -1, strength: 10, isMuted: false},
 ]});
 store.dispatch(setState(initialState));
 

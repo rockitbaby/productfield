@@ -20,6 +20,7 @@
   height: 30px;
   border-radius: calc(30px / 2);
   user-select: none;
+  -webkit-user-select: none;
   cursor: default;
   margin: calc(30px/-2) 0px 0px calc(30px/-2);
 }

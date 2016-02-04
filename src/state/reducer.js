@@ -1,5 +1,4 @@
 import Immutable, {Map, List} from 'immutable';
-import {ForceFieldCalculationSingleton, coordinateSystemTransformation} from '../ForceFieldCalculation'
 import {
   SET_ENERGY_STRENGTH,
   SET_EDITING_ENERGY_ID,

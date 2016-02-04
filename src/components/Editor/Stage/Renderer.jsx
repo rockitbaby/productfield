@@ -17,7 +17,7 @@ export class Renderer extends Component {
   render() {
     const {
       width, height, fieldSize, gridUnit, skin, normalizeCoordinates,
-      minLengthForArrowsToDisplay, triangleSize
+      minLengthForArrowsToDisplay, triangleSize, energies,
     } = this.props;
     return (
       <svg style={this.rendererStyles()} >
@@ -35,6 +35,7 @@ export class Renderer extends Component {
           gridUnit={gridUnit}
           skin={skin} />
         <Forces
+          energies={energies}
           stageWidth={width}
           stageHeight={height}
           fieldSize={fieldSize}
@@ -50,6 +51,7 @@ export class Renderer extends Component {
 }
 
 Renderer.propTypes = {
+  energies: Forces.propTypes.energies,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   fieldSize: PropTypes.number.isRequired,
@@ -63,4 +65,8 @@ Renderer.propTypes = {
     marker: PropTypes.string.isRequired,
     arrows: PropTypes.string.isRequired,
   }).isRequired,
+};
+
+Renderer.defaultProps = {
+  energies: Forces.defaultProps.energies,
 };

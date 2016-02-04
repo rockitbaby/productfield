@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import uuid from 'node-uuid';
 import {DraggableCore} from 'react-draggable';
+import uuid from 'node-uuid';
 import {Energy} from './Stage/Energy';
 import {Renderer} from './Stage/Renderer';
 import '../../styles/main.css';
@@ -147,11 +147,14 @@ export class Stage extends Component {
 
   render() {
 
-    var rendererProps = Object.assign(this.getProperties(), {
+    const rendererProps = Object.assign(this.getProperties(), {
       normalizeCoordinates: this.normalizeCoordinates.bind(this),
+      energies: this.props.energies.filter((energy) => !energy.isMuted).map((energy) => ({
+        x: energy.x, y: energy.y, strength: energy.strength,
+      })),
     })
 
-    var className = 'ForceFieldStage';
+    let className = 'ForceFieldStage';
     if (this.props.isEnergyMoving) {
       className += ' is-Dragging';
     }
@@ -195,10 +198,10 @@ export class Stage extends Component {
 Stage.propTypes = {
   energies: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
-    x: Energy.propTypes.x,
-    y: Energy.propTypes.y,
-    strength: Energy.propTypes.strength,
-    isMuted: Energy.propTypes.isMuted,
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    strength: PropTypes.number.isRequired,
+    isMuted: PropTypes.bool.isRequired,
   })),
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
