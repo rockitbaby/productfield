@@ -54,5 +54,3 @@ ForceArrow.propTypes = {
     positiveArrow: PropTypes.string.isRequired,
   }).isRequired,
 }
-
-

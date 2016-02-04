@@ -19,9 +19,9 @@ export class ForceFieldCalculator {
       (result, energy) => {
         const energyVector = new Vector(energy.x, energy.y);
         const distance = vectorToPOI.distance(energyVector)
+        const weight = (1 / Math.pow(distance + 1, 1.25));
         const length = energy.strength / absStrengthSum;
         const energyDirectionVector = directionVector(energyVector, length);
-        const weight = 1 - (distance / Math.sqrt(8));
         return result.add(energyDirectionVector.multiplyScalar(weight));
       },
       new Vector(0, 0),

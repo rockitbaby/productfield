@@ -3,6 +3,8 @@ import Vector from 'victor';
 import {ForceFieldCalculator} from './ForceFieldCalculator';
 import {ForceArrow} from './ForceArrow';
 
+const ARROW_GRID_CORRECTION_FACTOR = 0.8;
+
 export class Forces extends Component {
 
   render() {
@@ -17,7 +19,7 @@ export class Forces extends Component {
       for (let y = offsetY; y < stageHeight; y += gridUnit) {
         const [normalizedX, normalizedY] = this.props.normalizeCoordinates(x, y);
         const result = forceCalculator.forceVectorAtPoint(normalizedX, normalizedY);
-        const arrowLength = result.length() * gridUnit * 2;
+        const arrowLength = result.length() * gridUnit * ARROW_GRID_CORRECTION_FACTOR;
 
         if (arrowLength < minArrowLength) {
           continue;
@@ -40,7 +42,7 @@ export class Forces extends Component {
       <g>{arrows}</g>
     );
   }
-};
+}
 
 Forces.propTypes = {
   energies: PropTypes.arrayOf(PropTypes.shape({
