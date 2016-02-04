@@ -1,1 +1,0 @@
-The Product Field is a practical and comprehensive tool to evaluate your state of innovation. It sets a well prepared ground to improve your development process and field better products.
