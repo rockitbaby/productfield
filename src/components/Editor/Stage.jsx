@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {DraggableCore} from 'react-draggable';
 import uuid from 'node-uuid';
 import {Energy} from './Stage/Energy';
+import {EnergyEditor} from './Stage/EnergyEditor';
 import {Renderer} from './Stage/Renderer';
 import '../../styles/main.css';
 import sliderStyles from './Stage/Energy/slider.css';
@@ -24,7 +25,7 @@ export class Stage extends Component {
                      arrows: "#F2F2F2",
                      positiveArrow: "#008000",
                      negativeArrow: "#800000",
-                     background: '#FFFFFF'
+                     background: '#FFFFFF',
                    };
     const darkSkin =  {
                      dots:   "#FFFFFF",
@@ -32,7 +33,7 @@ export class Stage extends Component {
                      arrows: "#F2F2F2",
                      positiveArrow: "#008000",
                      negativeArrow: "#800000",
-                     background: '#000000'
+                     background: '#000000',
                    };
 
     return {
@@ -42,7 +43,7 @@ export class Stage extends Component {
       minLengthForArrowsToDisplay: MIN_FORCE_ARROW_LENGTH,
       width:  this.props.width,
       height: this.props.height,
-      skin: this.props.isPresentationModeEnabled ? darkSkin : lightSkin
+      skin: this.props.isPresentationModeEnabled ? darkSkin : lightSkin,
     }
   }
 
@@ -86,6 +87,27 @@ export class Stage extends Component {
       left: pixelatedX,
       top: pixelatedY,
     }
+  }
+
+  energyEditorPositioningStyles(x, y) {
+    const [pixelatedX, pixelatedY] = this.deNormalizeCoordinates(x, y);
+    let leftOffset = 0;
+    let topOffset = 0;
+    // TODO: Get rid of these hard coded pixel values
+    if (pixelatedX + 72 >= this.props.width) {
+      leftOffset = -80;
+    }
+    if (pixelatedY + 230/2+50 >= this.props.height) {
+      topOffset = -230/2-36;
+    }
+    if (pixelatedY - 60 <= 0) {
+      topOffset = 60;
+    }
+    return {
+      position: 'relative',
+      top: topOffset,
+      left: leftOffset,
+    };
   }
 
   handleDrag(energyId, event, ui) {
@@ -173,18 +195,25 @@ export class Stage extends Component {
               onStop={this.props.onEnergyStopMove} >
               <div style={this.energyPositioningStyles(energy.x, energy.y)} >
                 <Energy
-                  isPresentationModeEnabled={this.props.isPresentationModeEnabled}
                   isMuted={energy.isMuted}
                   strength={energy.strength}
                   isEditing={this.props.editingEnergyId === energy.id}
                   onEdit={this.handleEnergyEdit.bind(this, energy.id)}
-                  onMute={this.props.onEnergyMute.bind({}, energy.id)}
-                  onUnmute={this.props.onEnergyUnmute.bind({}, energy.id)}
-                  onStrengthChange={this.props.onEnergyStrengthChange.bind({}, energy.id)}
-                  onDelete={this.props.onEnergyDelete.bind({}, energy.id)}
-                  normalizeCoordinates={this.normalizeCoordinates.bind(this)}
-                  deNormalizeCoordinates={this.deNormalizeCoordinates.bind(this)}
                 />
+                {this.props.editingEnergyId === energy.id ?
+                  <div style={this.energyEditorPositioningStyles(energy.x, energy.y)}>
+                    <EnergyEditor
+                      isPresentationModeEnabled={this.props.isPresentationModeEnabled}
+                      isMuted={energy.isMuted}
+                      strength={energy.strength}
+                      energyId={energy.id}
+                      onMute={this.props.onEnergyMute.bind({}, energy.id)}
+                      onUnmute={this.props.onEnergyUnmute.bind({}, energy.id)}
+                      onStrengthChange={this.props.onEnergyStrengthChange.bind({}, energy.id)}
+                      onDelete={this.props.onEnergyDelete.bind({}, energy.id)}
+                    />
+                  </div> : ''
+                }
               </div>
             </DraggableCore>
           )}
