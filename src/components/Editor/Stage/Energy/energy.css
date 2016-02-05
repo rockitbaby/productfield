@@ -1,0 +1,35 @@
+.wrapper {
+  width: 30px;
+  height: 30px;
+}
+
+.wrapperEditing {
+  width: 36px;
+  height: 36px;
+}
+
+.circle {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12);
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: calc(30px / 2);
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+  margin: calc(30px/-2) 0px 0px calc(30px/-2);
+}
+
+.circleEditing {
+  composes: circle;
+  width: 36px;
+  height: 36px;
+  border-radius: calc(36px / 2);
+  border: 3px solid #FFFFFF;
+  margin: calc(36px/-2) 0px 0px calc(36px/-2);
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.24), 0px 1px 1px 0px rgba(0,0,0,0.12);
+}

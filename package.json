@@ -1,9 +1,14 @@
 {
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/preciousforever/productfield.git"
+  },
   "name": "product-field",
   "version": "0.0.1",
   "description": "App for the product field canvas.",
   "main": "states.js",
   "scripts": {
+    "devserver": "CSS_SOURCEMAPS=true webpack-dev-server --inline",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)' --reporter nyan",
     "test:watch": "npm run test -- --watch"
   },
@@ -25,10 +30,12 @@
   },
   "dependencies": {
     "immutable": "^3.7.5",
+    "node-uuid": "^1.4.7",
     "radium": "^0.14.1",
     "react": "^0.14.0",
     "react-addons-pure-render-mixin": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-draggable": "^1.1.3",
     "react-popover": "^0.4.0",
     "react-redux": "^4.0.0",
     "react-slider": "^0.6.0",

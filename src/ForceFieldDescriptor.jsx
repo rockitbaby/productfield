@@ -1,14 +1,14 @@
 const abs = Math.abs;
 
 export default class ForceFieldDescriptor {
-  
+
   constructor(x, y) {
     this.x = x;
     this.y = y;
   }
 
   isField() {
-    return abs(this.x) - 1 < .05 && abs(this.y) - 1 < .05;
+    return abs(this.x) - 1 < 0.05 && abs(this.y) - 1 < 0.05;
   }
 
   isCenter() {
@@ -120,5 +120,5 @@ export default class ForceFieldDescriptor {
     }
     return d.join(' ');
   }
-  
+
 }
