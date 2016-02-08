@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'PropTypes';
+import ForceFieldAnatomy from '../../../ForceFieldAnatomy';
 
 import {Marker} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';
@@ -24,14 +25,12 @@ export class Renderer extends Component {
 
   rendererStyles() {
     return {
-      height: this.props.height,
-      width: '100%',
-      backgroundColor: this.props.skin.background
-    }
+      backgroundColor: this.props.skin.background,
+    };
   }
 
   isVisible(name) {
-    return (this.props.visibility.indexOf(name) != -1);
+    return (this.props.visibility.indexOf(name) !== -1);
   }
 
   render() {
@@ -41,29 +40,29 @@ export class Renderer extends Component {
       highlights, labels, lines, dots,
     } = this.props;
 
-    let classNames = [];
-    highlights.forEach(function(name) {
-      classNames.push('highlight-' + name);
+    const classNames = [];
+    highlights.forEach((name) => {
+      classNames.push(`highlight-${name}`);
     });
 
-    labels.forEach(function(name) {
-      classNames.push('label-' + name);
+    labels.forEach((name) => {
+      classNames.push(`label-${name}`);
     });
-    lines.forEach(function(name) {
-      classNames.push('line-' + name);
+    lines.forEach((name) => {
+      classNames.push(`line-${name}`);
     });
-    let className = classNames.join(' ');
+    const className = classNames.join(' ');
 
     const origin = {x: Math.floor(width / 2), y: Math.floor(height / 2)};
-    const offsetX = Math.floor(width / 2 - fieldSize / 2) % gridUnit
-    const offsetY = Math.floor(height / 2 - fieldSize / 2) % gridUnit
+    const offsetX = Math.floor(width / 2 - fieldSize / 2) % gridUnit;
+    const offsetY = Math.floor(height / 2 - fieldSize / 2) % gridUnit;
 
     const defsProps = {
       gridUnit,
       offset: {x: offsetX, y: offsetY},
       origin,
       size: {width, height},
-    }
+    };
 
     return (
       <svg
@@ -71,7 +70,7 @@ export class Renderer extends Component {
         style={this.rendererStyles()}
         width={width}
         height={height}
-        viewBox={`0 0 ${width} ${height}`} >
+        viewBox={`-${origin.x} -${origin.y} ${width} ${height}`} >
         <defs>
           <Solid {...defsProps} />
           <Circle {...defsProps} />
@@ -82,33 +81,34 @@ export class Renderer extends Component {
         </defs>
         { this.isVisible('Grid') ?
           <g>
-            <rect mask={"url(#circle)"} width={width} height={height} fill="url(#dots)" />
-              <Grid
-                origin={origin}
-                gridUnit={gridUnit}
-                skin={skin}
-                dots={dots}/>
+            <rect
+              x={-width/2}
+              y={-height/2}
+              width={width}
+              height={height}
+              fill="url(#dots)" />
+            <Grid
+              gridUnit={gridUnit}
+              dotsPerSide={ForceFieldAnatomy.DOTS_PER_SIDE}
+              skin={skin}
+              dots={dots}/>
           </g>
           : null }
         { this.isVisible('Marker') ?
           <Marker
-            origin={origin}
             gridUnit={gridUnit}
             skin={skin} />
         : null }
         { this.isVisible('Lines') ?
           <Lines
-            origin={origin}
             gridUnit={gridUnit}/>
         : null }
         { this.isVisible('Areas') ?
           <Areas
-            origin={origin}
             gridUnit={gridUnit} />
           : null }
         { this.isVisible('Labels') ?
           <Labels
-            origin={origin}
             gridUnit={gridUnit}
             skin={skin} />
           : null }
@@ -117,9 +117,11 @@ export class Renderer extends Component {
             stageWidth={width}
             stageHeight={height}
             fieldSize={fieldSize}
+            origin={origin}
             energies={energies}
             gridUnit={gridUnit}
             normalizeCoordinates={normalizeCoordinates}
+            arrowsPerSide={ForceFieldAnatomy.DOTS_PER_SIDE}
             arrowTriangleSize={triangleSize}
             minArrowLength={minLengthForArrowsToDisplay}
             skin={skin}

@@ -13,14 +13,14 @@ function hasIntersection(a, b) {
 export class Grid extends Component {
 
   render() {
-    const {origin, gridUnit, skin: {dots}} = this.props;
+    const {gridUnit, dotsPerSide, skin: {dots}} = this.props;
     const dotHighlights = new Set(this.props.dots);
 
-    let circles = []
+    const circles = [];
 
-    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant, index) {
-      for(let ix = 0; ix <= ForceFieldAnatomy.DOTS_PER_SIDE; ix++) {
-        for(let iy = 0; iy <= ForceFieldAnatomy.DOTS_PER_SIDE; iy++) {
+    ForceFieldAnatomy.QUADRANTS.forEach((quadrant, index) => {
+      for (let ix = 0; ix <= dotsPerSide; ix++) {
+        for (let iy = 0; iy <= dotsPerSide; iy++) {
 
           if (ix + iy === 0) {
             continue;
@@ -31,14 +31,14 @@ export class Grid extends Component {
           const TEN = 10;
           const forceFieldDescriptor = new ForceFieldDescriptor(x / TEN, y / TEN);
 
-          if(forceFieldDescriptor.isCenter()) {
+          if (forceFieldDescriptor.isCenter()) {
             continue;
           }
           let radius = DEFAULT_CIRCLE_RADIUS;
           const classNames = forceFieldDescriptor.getClassNames();
           const names = new Set(forceFieldDescriptor.getNames());
 
-          if(hasIntersection(names, dotHighlights)) {
+          if (hasIntersection(names, dotHighlights)) {
             radius = INTERSECTION_CIRCLE_RADIUS;
           }
 
@@ -49,14 +49,13 @@ export class Grid extends Component {
 
     });
 
-    let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g id="Grid" className="Grid" transform={transform}>{circles}</g>;
+    return <g id="Grid" className="Grid">{circles}</g>;
   }
 }
 
 Grid.propTypes = {
-  origin: PropTypes.point.isRequired,
   gridUnit: PropTypes.number.isRequired,
+  dotsPerSide: PropTypes.number,
   skin: PropTypes.shape({
     dots: PropTypes.string.isRequired,
   }).isRequired,
@@ -64,5 +63,6 @@ Grid.propTypes = {
 };
 
 Grid.defaultProps = {
+  dotsPerSide: 5,
   dots: [],
 };

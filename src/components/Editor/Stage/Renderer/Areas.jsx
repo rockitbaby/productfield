@@ -20,7 +20,7 @@ function convertPointsToScaledSvgPath(points, gridUnit) {
 export class Areas extends Component {
 
   render() {
-    const {origin, gridUnit} = this.props;
+    const {gridUnit} = this.props;
 
     let groups = [];
 
@@ -63,13 +63,11 @@ export class Areas extends Component {
 
     });
 
-    const transform = `translate(${origin.x},${origin.y})`;
-    return <g id="Areas" className="Areas" fill='none' transform={transform}>{groups}</g>;
+    return <g id="Areas" className="Areas" fill='none'>{groups}</g>;
   }
 
 }
 
 Areas.propTypes = {
   gridUnit: PropTypes.number.isRequired,
-  origin: PropTypes.point.isRequired,
 };

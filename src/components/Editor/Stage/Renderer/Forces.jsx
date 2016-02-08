@@ -10,11 +10,11 @@ export class Forces extends Component {
   render() {
     const {stageWidth, stageHeight, fieldSize, gridUnit, minArrowLength, arrowTriangleSize} = this.props;
     const offsetX = Math.floor(stageWidth - fieldSize) / 2 % gridUnit;
-    const offsetY = Math.floor(stageHeight / 2 - fieldSize / 2) % gridUnit
+    const offsetY = Math.floor(stageHeight / 2 - fieldSize / 2) % gridUnit;
 
     const forceCalculator = new ForceFieldCalculator(this.props.energies);
 
-    let arrows = []
+    const arrows = [];
     for (let x = offsetX; x < stageWidth; x += gridUnit) {
       for (let y = offsetY; y < stageHeight; y += gridUnit) {
         const [normalizedX, normalizedY] = this.props.normalizeCoordinates(x, y);
@@ -27,14 +27,14 @@ export class Forces extends Component {
 
         const props = {
           deg: result.clone().invert().verticalAngleDeg(),
-          x: x,
-          x2: x,
-          y: y,
-          y2: y + arrowLength,
+          x: x - stageWidth/2,
+          x2: x - stageWidth/2,
+          y: y - stageHeight/2,
+          y2: y - stageHeight/2 + arrowLength,
           triangleSize: arrowTriangleSize,
-        }
+        };
 
-        arrows.push(<ForceArrow key={`${x},${y}`} {...props} skin={this.props.skin} />)
+        arrows.push(<ForceArrow key={`${x},${y}`} {...props} skin={this.props.skin} />);
       }
     }
 

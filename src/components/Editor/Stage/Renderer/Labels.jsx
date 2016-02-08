@@ -9,7 +9,7 @@ const LABEL_HEIGHT = 18;
 export class Labels extends Component {
 
   render() {
-    const {origin, gridUnit, skin: {dots}} = this.props;
+    const {gridUnit, skin: {dots}} = this.props;
 
     let labels = [];
 
@@ -42,16 +42,11 @@ export class Labels extends Component {
 
     });
 
-    let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g id="Labels" className="Labels" transform={transform}>{labels}</g>;
+    return <g id="Labels" className="Labels">{labels}</g>;
   }
 
 }
 
 Labels.propTypes = {
-  origin: PropTypes.point.isRequired,
   gridUnit: PropTypes.number.isRequired,
-  skin: PropTypes.shape({
-    dots: PropTypes.string.isRequired,
-  }).isRequired,
 };

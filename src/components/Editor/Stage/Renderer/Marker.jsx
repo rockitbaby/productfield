@@ -5,7 +5,7 @@ import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 export class Marker extends Component {
 
   render() {
-    const {origin, gridUnit, skin: {marker}} = this.props;
+    const {gridUnit, skin: {marker}} = this.props;
     const circleRadius = ForceFieldAnatomy.CENTER_RADIUS;
 
     const characterMarkerCoordinates = [
@@ -15,7 +15,7 @@ export class Marker extends Component {
       -8 * gridUnit,
       8 * gridUnit,
       -8 * gridUnit - 1/2 * gridUnit
-    ].join()
+    ].join();
 
     let groups = [];
 
@@ -37,15 +37,13 @@ export class Marker extends Component {
 
     groups.push(
       <circle key={'circle'} cx={0} cy={0} r={circleRadius * gridUnit} fill='none' strokeWidth='3' stroke={marker} />
-    )
+    );
 
-    let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g id="Marker" className="Marker" transform={transform}>{groups}</g>;
+    return <g id="Marker" className="Marker">{groups}</g>;
   }
 }
 
 Marker.propTypes = {
-  origin: PropTypes.point.isRequired,
   gridUnit: PropTypes.number.isRequired,
   skin: PropTypes.shape({
     marker: PropTypes.string.isRequired,

@@ -39,7 +39,7 @@ Line.propTypes = {
 export class Lines extends Component {
 
   render() {
-    const {origin, gridUnit} = this.props;
+    const {gridUnit} = this.props;
 
     let lines = [];
     lines.push(<Line key={'core-1'} className='Lines-core' from={P(-5, 5)} to={P(5, 5)} gridUnit={gridUnit} />);
@@ -91,13 +91,11 @@ export class Lines extends Component {
       lines.push(<Line key={key} className='Lines-context' from={P(x1, y1)} to={P(x2, y2)} gridUnit={gridUnit} />);
     });
 
-    const transform = `translate(${origin.x},${origin.y})`;
-    return <g id="Lines" className="Lines" transform={transform}>{lines}</g>;
+    return <g id="Lines" className="Lines">{lines}</g>;
   }
 
 }
 
 Lines.propTypes = {
-  origin: PropTypes.point.isRequired,
   gridUnit: PropTypes.number.isRequired,
 };

@@ -11,13 +11,25 @@ import {StateProxy} from './components/state_proxy';
 
 class SvgComponent extends Component {
   render() {
+    const {origin, width, height} = this.props;
     return (
-      <svg style={this.props.style}>
+      <svg
+        style={this.props.style}
+        width={width}
+        height={height}
+        viewBox={`-${origin.x} -${origin.y} ${width} ${height}`}>
         {this.props.children}
       </svg>
     );
   }
 }
+
+SvgComponent.defaultProps = {
+  width: 300,
+  height: 300,
+  origin: {x: 0, y: 0},
+  style: {},
+};
 
 function normalizeCoordinates(x,y) {
   return [x,y];
@@ -32,28 +44,33 @@ function deNormalizeCoordinates(x,y) {
 // const gridUnit = Math.floor(maximumFieldSize / dotsInField);
 // const fieldSize = gridUnit * dotsInField
 const energies = [
-  {id: '1', x: 149, y: 149, strength: -1, isMuted: false},
-  {id: '2', x: 151, y: 151, strength: 1, isMuted: false},
+  {id: '1', x: 1, y: 1, strength: -2, isMuted: false},
+  {id: '2', x: 10, y: 10, strength: 2, isMuted: false},
 ];
 
 ReactDOM.render(
   <div style={{padding: '10px'}}>
     <h2>Forces</h2>
-    <SvgComponent style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
+    <SvgComponent
+      origin={{x: 150, y: 150}}
+      style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
       {StateProxy(
         <Forces
           energies={energies}
           stageWidth={300}
           stageHeight={300}
           fieldSize={250}
-          gridUnit={250 / 10}
+          gridUnit={15}
           skin={{negativeArrow: '#ff0000', positiveArrow: '#00ff00'}}
           normalizeCoordinates={normalizeCoordinates}
         />
       )}
     </SvgComponent>
     <h2>ForceArrow</h2>
-    <SvgComponent style={{width: '100px', height: '100px', backgroundColor: 'lightgray', overflow: 'visible'}}>
+    <SvgComponent
+      width={100}
+      height={100}
+      style={{backgroundColor: 'lightgray', overflow: 'visible'}}>
       {StateProxy(
         <ForceArrow
           x={50}
@@ -68,38 +85,34 @@ ReactDOM.render(
       )}
     </SvgComponent>
     <h2>Grid</h2>
-    <SvgComponent style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
+    <SvgComponent origin={{x: 150, y: 150}} style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
       {StateProxy(
         <Grid
-          stageWidth={300}
-          stageHeight={300}
-          fieldSize={250}
-          gridUnit={250 / 10}
+          gridUnit={15}
+          dotsPerSide={5}
           skin={{dots: '#ff0000'}}
           normalizeCoordinates={normalizeCoordinates}
         />
       )}
     </SvgComponent>
     <h2>Marker</h2>
-    <div style={{width: 'fit-content', height: 'fit-content', padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
+    <SvgComponent
+      origin={{x: 150, y: 150}}
+      style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
       {StateProxy(
         <Marker
-          style={{overflow: 'visible'}}
-          stageWidth={300}
-          stageHeight={300}
-          fieldSize={250}
-          gridUnit={250 / 10}
+          gridUnit={15}
           skin={{marker: '#ff0000'}}
         />
       )}
-    </div>
+    </SvgComponent>
     <h2>Renderer</h2>
     {StateProxy(
       <Renderer
         width={300}
         height={300}
         fieldSize={250}
-        gridUnit={250/10}
+        gridUnit={15}
         triangleSize={4}
         minLengthForArrowsToDisplay={2}
         normalizeCoordinates={normalizeCoordinates}
@@ -127,10 +140,7 @@ ReactDOM.render(
         isPresentation={false}
         normalizeCoordinates={normalizeCoordinates}
         deNormalizeCoordinates={deNormalizeCoordinates}
-        onEdit={(e) => console.log(`Energy.onEdit()`)}
-        onMute={() => console.log(`Energy.onEdit()`)}
-        onUnmute={() => console.log(`Energy.onEdit()`)}
-        setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
+        onEdit={(e) => console.log(`Energy.onEdit()`)} />
     )}
     {StateProxy(
       <Energy
@@ -143,10 +153,7 @@ ReactDOM.render(
         isPresentation={false}
         normalizeCoordinates={normalizeCoordinates}
         deNormalizeCoordinates={deNormalizeCoordinates}
-        onEdit={(e) => console.log(`Energy.onEdit()`)}
-        onMute={() => console.log(`Energy.onEdit()`)}
-        onUnmute={() => console.log(`Energy.onEdit()`)}
-        setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
+        onEdit={(e) => console.log(`Energy.onEdit()`)} />
     )}
     {StateProxy(
       <Energy
@@ -158,10 +165,7 @@ ReactDOM.render(
         isPresentation={false}
         normalizeCoordinates={normalizeCoordinates}
         deNormalizeCoordinates={deNormalizeCoordinates}
-        onEdit={(e) => console.log(`Energy.onEdit()`)}
-        onMute={() => console.log(`Energy.onEdit()`)}
-        onUnmute={() => console.log(`Energy.onEdit()`)}
-        setStrength={(strength) => console.log(`Energy.setStrength(${strength})`)} />
+        onEdit={(e) => console.log(`Energy.onEdit()`)} />
     )}
   </div>,
   document.getElementById('component-library')
