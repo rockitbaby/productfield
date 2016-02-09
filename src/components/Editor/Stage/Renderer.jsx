@@ -14,11 +14,6 @@ import {Circle} from './Renderer/Defs/Masks';
 import {Solid} from './Renderer/Defs/Filters';
 import {Arrow} from './Renderer/Defs/Symbols';
 
-import {allowCustomAttributes} from 'utils';
-import DOMProperty from 'react/lib/DOMProperty';
-
-allowCustomAttributes(DOMProperty, ['mask', 'maskUnits']);
-
 export const defaultVisibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Labels', 'Forces'];
 
 export class Renderer extends Component {
