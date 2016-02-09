@@ -145,7 +145,8 @@ Renderer.propTypes = {
     background: PropTypes.string.isRequired,
     dots: PropTypes.string.isRequired,
     marker: PropTypes.string.isRequired,
-    arrows: PropTypes.string.isRequired,
+    negativeArrow: PropTypes.string.isRequired,
+    positiveArrow: PropTypes.string.isRequired,
   }).isRequired,
   dots: PropTypes.arrayOf(PropTypes.string),
 };
