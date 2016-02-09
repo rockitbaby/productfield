@@ -5,16 +5,10 @@ import PropTypes from '../../../../PropTypes';
 
 function convertPointsToScaledSvgPath(points, gridUnit) {
   return points.map(
-      (point) => {
-        return Array(point[0] * gridUnit, -point[1] * gridUnit);
-      }
-    )
-    .reduce(
-      (a, b) => {
-        return a.concat(b);
-      }
-    , [])
-    .join(',');
+      (point) => Array(point[0] * gridUnit, -point[1] * gridUnit)
+    ).reduce(
+      (a, b) => a.concat(b), []
+    ).join(',');
 }
 
 export class Areas extends Component {
@@ -22,10 +16,10 @@ export class Areas extends Component {
   render() {
     const {gridUnit} = this.props;
 
-    let groups = [];
+    const groups = [];
 
-    let w = 5;
-    let h = 5;
+    const w = 5;
+    const h = 5;
 
      groups.push(
         <g key={'core'} className={'Areas-core'}>
@@ -49,7 +43,7 @@ export class Areas extends Component {
 
       let labelIndex1 = 0;
       let labelIndex2 = 1;
-      if(deg === 90 || deg === 270) {
+      if (deg === 90 || deg === 270) {
         labelIndex1 = 1;
         labelIndex2 = 0;
       }
