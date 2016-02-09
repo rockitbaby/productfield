@@ -7,6 +7,8 @@ import {ForceArrow} from './components/Editor/Stage/Renderer/ForceArrow';
 import {Forces} from './components/Editor/Stage/Renderer/Forces';
 import {Grid} from './components/Editor/Stage/Renderer/Grid';
 import {Marker} from './components/Editor/Stage/Renderer/Marker';
+import {Lines} from './components/Editor/Stage/Renderer/Lines';
+import {Labels} from './components/Editor/Stage/Renderer/Labels';
 import {Renderer} from './components/Editor/Stage/Renderer';
 import {Slider} from './components/Editor/Stage/Energy/Slider';
 import {Energy} from './components/Editor/Stage/Energy';
@@ -147,6 +149,28 @@ ReactDOM.render(
           <Marker
             gridUnit={15}
             skin={{marker: '#ff0000'}}
+          />
+        )}
+      </SvgComponent>
+      <h2>Lines</h2>
+      <SvgComponent
+        origin={{x: 150, y: 150}}
+        style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
+        {StateProxy(
+          <Lines
+            gridUnit={15}
+          />
+        )}
+      </SvgComponent>
+      <h2>Labels</h2>
+      <SvgComponent
+        width={400}
+        height={400}
+        origin={{x: 200, y: 200}}
+        style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
+        {StateProxy(
+          <Labels
+            gridUnit={15}
           />
         )}
       </SvgComponent>
