@@ -33,14 +33,16 @@ export class Stripe extends DefsComponent {
 
 export class Dots extends DefsComponent {
 
-  renderDef(GU, offset, _origin, _size) {
+  renderDef(GU, _offset, _origin, _size) {
     const radius = 1;
+    const patternWidth = 1;
+    const dotCenter = 0.5;
     return (
       <pattern key="defs-dots" id="dots"
-        width={GU} height={GU}
+        width={patternWidth * GU} height={patternWidth * GU}
         patternUnits="userSpaceOnUse">
         <circle className="off"
-          cx={GU / 2} cy={GU / 2} r={radius}
+          cx={dotCenter * GU} cy={dotCenter * GU} r={radius}
           fill="#000000" stroke="none"/>
       </pattern>
     );

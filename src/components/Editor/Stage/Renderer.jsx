@@ -25,12 +25,13 @@ export class Renderer extends Component {
   }
 
   isVisible(name) {
-    return (this.props.visibility.indexOf(name) !== -1);
+    const indexNotExist = -1;
+    return (this.props.visibility.indexOf(name) !== indexNotExist);
   }
 
   render() {
     const {
-      width, height, fieldSize, gridUnit, skin, normalizeCoordinates,
+      width, height, gridUnit, scaleFactor, skin,
       minLengthForArrowsToDisplay, triangleSize, energies,
       highlights, labels, lines, dots,
     } = this.props;
@@ -49,12 +50,9 @@ export class Renderer extends Component {
     const className = classNames.join(' ');
 
     const origin = {x: Math.floor(width / 2), y: Math.floor(height / 2)};
-    const offsetX = Math.floor(width / 2 - fieldSize / 2) % gridUnit;
-    const offsetY = Math.floor(height / 2 - fieldSize / 2) % gridUnit;
 
     const defsProps = {
-      gridUnit,
-      offset: {x: offsetX, y: offsetY},
+      gridUnit: scaleFactor,
       origin,
       size: {width, height},
     };
@@ -84,6 +82,7 @@ export class Renderer extends Component {
               fill="url(#dots)" />
             <Grid
               gridUnit={gridUnit}
+              scaleFactor={scaleFactor}
               dotsPerSide={ForceFieldAnatomy.DOTS_PER_SIDE}
               skin={skin}
               dots={dots}/>
@@ -91,32 +90,34 @@ export class Renderer extends Component {
           : null }
         { this.isVisible('Marker') ?
           <Marker
-            gridUnit={gridUnit}
+            scaleFactor={scaleFactor}
+            contextWidth={ForceFieldAnatomy.CONTEXT_WIDTH}
+            coreWidth={ForceFieldAnatomy.CORE_WIDTH}
+            centerCircleRadius={ForceFieldAnatomy.CENTER_RADIUS}
+            contextMarkerSize={ForceFieldAnatomy.CONTEXT_MARKER_SIZE}
             skin={skin} />
         : null }
         { this.isVisible('Lines') ?
           <Lines
-            gridUnit={gridUnit}/>
+            scaleFactor={scaleFactor}
+            contextWidth={ForceFieldAnatomy.CONTEXT_WIDTH}
+            coreWidth={ForceFieldAnatomy.CORE_WIDTH}
+            centerCircleRadius={ForceFieldAnatomy.CENTER_RADIUS}
+            contextMarkerSize={ForceFieldAnatomy.CONTEXT_MARKER_SIZE}
+            lineColor={skin.lines} />
         : null }
         { this.isVisible('Areas') ?
-          <Areas
-            gridUnit={gridUnit} />
+          <Areas scaleFactor={scaleFactor} />
           : null }
         { this.isVisible('Labels') ?
-          <Labels
-            gridUnit={gridUnit}
-            skin={skin} />
+          <Labels scaleFactor={scaleFactor} />
           : null }
         { this.isVisible('Forces') ?
           <Forces
-            stageWidth={width}
-            stageHeight={height}
-            fieldSize={fieldSize}
-            origin={origin}
             energies={energies}
             gridUnit={gridUnit}
-            normalizeCoordinates={normalizeCoordinates}
-            arrowsPerSide={ForceFieldAnatomy.DOTS_PER_SIDE}
+            scaleFactor={scaleFactor}
+            arrowsPerSide={ForceFieldAnatomy.ARROWS_PER_SIDE}
             arrowTriangleSize={triangleSize}
             minArrowLength={minLengthForArrowsToDisplay}
             skin={skin}
@@ -132,9 +133,7 @@ Renderer.propTypes = {
   energies: Forces.propTypes.energies,
   width: PropTypes.number,
   height: PropTypes.number,
-  fieldSize: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
-  normalizeCoordinates: PropTypes.func.isRequired,
   triangleSize: PropTypes.number.isRequired,
   minLengthForArrowsToDisplay: PropTypes.number.isRequired,
   labels: React.PropTypes.arrayOf(PropTypes.string),

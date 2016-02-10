@@ -1,56 +1,88 @@
 import React, {Component} from 'react';
+import Vector from 'victor';
 import PropTypes from '../../../../PropTypes';
 import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+
+const CONTEXT_MARKER_WIDTH = 3;
+const CORE_EDGE_MARKER_WIDTH = 6;
+const CENTER_MARKER_WIDTH = 6;
 
 export class Marker extends Component {
 
   render() {
-    const {gridUnit, skin: {marker}} = this.props;
-    const circleRadius = ForceFieldAnatomy.CENTER_RADIUS;
+    const {
+      scaleFactor,
+      contextWidth, coreWidth, centerCircleRadius, contextMarkerSize,
+      skin: {marker},
+    } = this.props;
 
     const characterMarkerCoordinates = [
-      8 * gridUnit + 1/2 * gridUnit,
-      -8 * gridUnit,
-      8 * gridUnit,
-      -8 * gridUnit,
-      8 * gridUnit,
-      -8 * gridUnit - 1/2 * gridUnit
-    ].join();
+      new Vector(
+        contextWidth + contextMarkerSize,
+        -contextWidth,
+      ),
+      new Vector(
+        contextWidth,
+        -contextWidth,
+      ),
+      new Vector(
+        contextWidth,
+        -contextWidth - contextMarkerSize,
+      ),
+    ].map((point) => {
+      point.multiplyScalar(scaleFactor);
+      return `${point.x},${point.y}`;
+    }).join(' ');
 
-    let groups = [];
+    const groups = [];
 
-    const gu5 = 5 * gridUnit;
+    const coreRectEdge = coreWidth * scaleFactor;
 
-    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
+    ForceFieldAnatomy.QUADRANTS.forEach((quadrant) => {
 
       const deg = quadrant.deg;
       const transform = `rotate(${deg})`;
 
       groups.push(
         <g key={deg} transform={transform}>
-          <polyline points={characterMarkerCoordinates} strokeWidth='3' fill='none' stroke={marker} />
-          <circle r={6} cx={gu5} cy={-gu5} fill={marker} />
+          <polyline points={characterMarkerCoordinates}
+            strokeWidth={CONTEXT_MARKER_WIDTH} fill='none' stroke={marker} />
+          <circle r={(1 / CORE_EDGE_MARKER_WIDTH) * scaleFactor}
+            cx={coreRectEdge} cy={-coreRectEdge} fill={marker} />
         </g>
       );
 
     });
 
     groups.push(
-      <circle key={'circle'} cx={0} cy={0} r={circleRadius * gridUnit} fill='none' strokeWidth='3' stroke={marker} />
+      <circle key={'circle'}
+        cx={0} cy={0} r={centerCircleRadius * scaleFactor}
+        fill='none' strokeWidth={CENTER_MARKER_WIDTH} stroke={marker} />
     );
 
-    return <g id="Marker" className="Marker">{groups}</g>;
+    return (
+      <g id="Marker" className="Marker">
+        {groups}
+      </g>
+    );
   }
 }
 
 Marker.propTypes = {
-  gridUnit: PropTypes.number.isRequired,
+  scaleFactor: PropTypes.number.isRequired,
+  contextWidth: PropTypes.number,
+  coreWidth: PropTypes.number,
+  centerCircleRadius: PropTypes.number,
+  contextMarkerSize: PropTypes.number,
   skin: PropTypes.shape({
     marker: PropTypes.string.isRequired,
   }).isRequired,
-  style: PropTypes.object,
 };
 
 Marker.defaultProps = {
-  style: {},
+  scaleFactor: 1,
+  contextWidth: 8,
+  coreWidth: 5,
+  centerCircleRadius: Math.sqrt(2),
+  contextMarkerSize: 0.5,
 };

@@ -13,12 +13,11 @@ function hasIntersection(a, b) {
 export class Grid extends Component {
 
   render() {
-    const {gridUnit, dotsPerSide, skin: {dots}} = this.props;
+    const {scaleFactor, gridUnit, dotsPerSide, skin: {dots}} = this.props;
     const dotHighlights = new Set(this.props.dots);
 
-    const circles = [];
-
-    ForceFieldAnatomy.QUADRANTS.forEach((quadrant, index) => {
+    const circles = ForceFieldAnatomy.QUADRANTS.map((quadrant) => {
+      const circles = [];
       for (let ix = 0; ix <= dotsPerSide; ix++) {
         for (let iy = 0; iy <= dotsPerSide; iy++) {
 
@@ -28,8 +27,7 @@ export class Grid extends Component {
 
           const x = quadrant.coefficient.x * ix;
           const y = quadrant.coefficient.y * iy;
-          const TEN = 10;
-          const forceFieldDescriptor = new ForceFieldDescriptor(x / TEN, y / TEN);
+          const forceFieldDescriptor = new ForceFieldDescriptor(x * gridUnit, y * gridUnit);
 
           if (forceFieldDescriptor.isCenter()) {
             continue;
@@ -42,19 +40,32 @@ export class Grid extends Component {
             radius = INTERSECTION_CIRCLE_RADIUS;
           }
 
-          circles.push(<circle key={`${quadrant.deg}:${x},${y}`} className={classNames} cx={x * gridUnit} cy={-y * gridUnit} r={radius} stroke={dots} />);
+          const scaledX = x * scaleFactor;
+          const scaledY = y * scaleFactor;
+
+          circles.push(
+            <circle key={`${quadrant.deg}:${x},${y}`} className={classNames}
+              cx={scaledX} cy={-scaledY}
+              r={radius}
+              fill={dots} />
+            );
 
         }
       }
-
+      return circles;
     });
 
-    return <g id="Grid" className="Grid">{circles}</g>;
+    return (
+      <g id="Grid" className="Grid">
+        {circles}
+      </g>
+    );
   }
 }
 
 Grid.propTypes = {
-  gridUnit: PropTypes.number.isRequired,
+  scaleFactor: PropTypes.number,
+  gridUnit: PropTypes.number,
   dotsPerSide: PropTypes.number,
   skin: PropTypes.shape({
     dots: PropTypes.string.isRequired,
@@ -63,6 +74,8 @@ Grid.propTypes = {
 };
 
 Grid.defaultProps = {
+  scaleFactor: 1,
+  gridUnit: 1,
   dotsPerSide: 5,
   dots: [],
 };

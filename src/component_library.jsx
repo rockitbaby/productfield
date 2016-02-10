@@ -18,13 +18,13 @@ import {Arrow} from './components/Editor/Stage/Renderer/Defs/Symbols';
 
 class SvgComponent extends Component {
   render() {
-    const {origin, width, height} = this.props;
+    const {origin, width, height, scaleFactor} = this.props;
     return (
       <svg
         style={this.props.style}
         width={width}
         height={height}
-        viewBox={`-${origin.x} -${origin.y} ${width} ${height}`}>
+        viewBox={`-${origin.x / scaleFactor} -${origin.y / scaleFactor} ${width / scaleFactor} ${height / scaleFactor}`}>
         {this.props.children}
       </svg>
     );
@@ -34,6 +34,7 @@ class SvgComponent extends Component {
 SvgComponent.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
+  scaleFactor: PropTypes.number,
   origin: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
@@ -44,6 +45,7 @@ SvgComponent.propTypes = {
 SvgComponent.defaultProps = {
   width: 300,
   height: 300,
+  scaleFactor: 1,
   origin: {x: 0, y: 0},
   style: {},
 };
@@ -86,7 +88,7 @@ function deNormalizeCoordinates(x,y) {
 // const fieldSize = gridUnit * dotsInField
 const energies = [
   {id: '1', x: 1, y: 1, strength: -2, isMuted: false},
-  {id: '2', x: 10, y: 10, strength: 2, isMuted: false},
+  {id: '2', x: -1, y: -1, strength: 2, isMuted: false},
 ];
 
 ReactDOM.render(
@@ -104,10 +106,9 @@ ReactDOM.render(
         {StateProxy(
           <Forces
             energies={energies}
-            stageWidth={300}
-            stageHeight={300}
-            fieldSize={250}
-            gridUnit={15}
+            gridUnit={0.1}
+            scaleFactor={15}
+            arrowsPerSide={10}
             skin={{negativeArrow: '#ff0000', positiveArrow: '#00ff00'}}
             normalizeCoordinates={normalizeCoordinates}
           />
@@ -132,11 +133,16 @@ ReactDOM.render(
         )}
       </SvgComponent>
       <h2>Grid</h2>
-      <SvgComponent origin={{x: 150, y: 150}} style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
+      <SvgComponent
+        width={500}
+        height={500}
+        origin={{x: 250, y: 250}}
+        style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
         {StateProxy(
           <Grid
-            gridUnit={15}
-            dotsPerSide={5}
+            scaleFactor={20}
+            gridUnit={0.1}
+            dotsPerSide={10}
             skin={{dots: '#ff0000'}}
             normalizeCoordinates={normalizeCoordinates}
           />
@@ -144,11 +150,14 @@ ReactDOM.render(
       </SvgComponent>
       <h2>Marker</h2>
       <SvgComponent
-        origin={{x: 150, y: 150}}
+        width={500}
+        height={500}
+        scaleFactor={1}
+        origin={{x: 250, y: 250}}
         style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
         {StateProxy(
           <Marker
-            gridUnit={15}
+            scaleFactor={20}
             skin={{marker: '#ff0000'}}
           />
         )}
@@ -159,7 +168,7 @@ ReactDOM.render(
         style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
         {StateProxy(
           <Lines
-            gridUnit={15}
+            scaleFactor={15}
           />
         )}
       </SvgComponent>
@@ -169,7 +178,7 @@ ReactDOM.render(
         style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
         {StateProxy(
           <Areas
-            gridUnit={15}
+            scaleFactor={15}
           />
         )}
       </SvgComponent>
@@ -181,7 +190,7 @@ ReactDOM.render(
         style={{padding: '10px', backgroundColor: 'lightgray', overflow: 'visible'}}>
         {StateProxy(
           <Labels
-            gridUnit={15}
+            scaleFactor={20}
           />
         )}
       </SvgComponent>
@@ -191,10 +200,11 @@ ReactDOM.render(
           width={300}
           height={300}
           fieldSize={250}
-          gridUnit={15}
+          gridUnit={0.1}
+          scaleFactor={15}
+          energies={energies}
           triangleSize={4}
           minLengthForArrowsToDisplay={2}
-          normalizeCoordinates={normalizeCoordinates}
           skin={{
             background: 'rgba(150,150,0,0.4)',
             dots: '#ff0000',
@@ -223,7 +233,9 @@ ReactDOM.render(
       </SvgPattern>
       <h2>Dots</h2>
       <SvgPattern patternId='dots'>
-        <Dots gridUnit={15} offset={{x:0,y:0}} size={{width: 300, height: 300}} origin={{x:0, y:0}}/>
+        {StateProxy(
+          <Dots gridUnit={15} offset={{x:0,y:0}} size={{width: 300, height: 300}} origin={{x:0, y:0}}/>
+        )}
       </SvgPattern>
     </TabPanel>
     <TabPanel title='Energy'>
