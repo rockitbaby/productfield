@@ -29,10 +29,7 @@ module.exports = [
       loaders: [{
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: [
-          'react-hot',
-          'babel?presets[]=react,presets[]=es2015,plugins[]=syntax-trailing-function-commas'
-        ]
+        loader: 'react-hot!babel'
       },{
         test: /\.css$/,
         exclude: /node_modules/,
@@ -72,11 +69,7 @@ module.exports = [
       loaders: [{
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015'],
-          plugins: ['syntax-trailing-function-commas']
-        }
+        loader: 'babel-loader'
       }]
     },
     resolve: {

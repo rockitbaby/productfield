@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'PropTypes';
-import ForceFieldAnatomy from '../../../ForceFieldAnatomy';
 
 import {Marker} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';
@@ -14,48 +13,57 @@ import {Circle} from './Renderer/Defs/Masks';
 import {Solid} from './Renderer/Defs/Filters';
 import {Arrow} from './Renderer/Defs/Symbols';
 
+import {allowCustomAttributes} from 'utils';
+import DOMProperty from 'react/lib/DOMProperty';
+
+allowCustomAttributes(DOMProperty, ['mask', 'maskUnits']);
+
 export const defaultVisibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Labels', 'Forces'];
 
 export class Renderer extends Component {
 
   rendererStyles() {
     return {
-      backgroundColor: this.props.skin.background,
-    };
+      height: this.props.height,
+      width: '100%',
+      backgroundColor: this.props.skin.background
+    }
   }
 
   isVisible(name) {
-    const indexNotExist = -1;
-    return (this.props.visibility.indexOf(name) !== indexNotExist);
+    return (this.props.visibility.indexOf(name) != -1);
   }
 
   render() {
     const {
-      width, height, gridUnit, scaleFactor, skin,
+      width, height, fieldSize, gridUnit, skin, normalizeCoordinates,
       minLengthForArrowsToDisplay, triangleSize, energies,
       highlights, labels, lines, dots,
     } = this.props;
 
-    const classNames = [];
-    highlights.forEach((name) => {
-      classNames.push(`highlight-${name}`);
+    let classNames = [];
+    highlights.forEach(function(name) {
+      classNames.push('highlight-' + name);
     });
 
-    labels.forEach((name) => {
-      classNames.push(`label-${name}`);
+    labels.forEach(function(name) {
+      classNames.push('label-' + name);
     });
-    lines.forEach((name) => {
-      classNames.push(`line-${name}`);
+    lines.forEach(function(name) {
+      classNames.push('line-' + name);
     });
-    const className = classNames.join(' ');
+    let className = classNames.join(' ');
 
     const origin = {x: Math.floor(width / 2), y: Math.floor(height / 2)};
+    const offsetX = Math.floor(width / 2 - fieldSize / 2) % gridUnit
+    const offsetY = Math.floor(height / 2 - fieldSize / 2) % gridUnit
 
     const defsProps = {
-      gridUnit: scaleFactor,
+      gridUnit,
+      offset: {x: offsetX, y: offsetY},
       origin,
       size: {width, height},
-    };
+    }
 
     return (
       <svg
@@ -63,7 +71,7 @@ export class Renderer extends Component {
         style={this.rendererStyles()}
         width={width}
         height={height}
-        viewBox={`-${origin.x} -${origin.y} ${width} ${height}`} >
+        viewBox={`0 0 ${width} ${height}`} >
         <defs>
           <Solid {...defsProps} />
           <Circle {...defsProps} />
@@ -74,50 +82,44 @@ export class Renderer extends Component {
         </defs>
         { this.isVisible('Grid') ?
           <g>
-            <rect
-              x={-width/2}
-              y={-height/2}
-              width={width}
-              height={height}
-              fill="url(#dots)" />
-            <Grid
-              gridUnit={gridUnit}
-              scaleFactor={scaleFactor}
-              dotsPerSide={ForceFieldAnatomy.DOTS_PER_SIDE}
-              skin={skin}
-              dots={dots}/>
+            <rect mask={"url(#circle)"} width={width} height={height} fill="url(#dots)" />
+              <Grid
+                origin={origin}
+                gridUnit={gridUnit}
+                skin={skin}
+                dots={dots}/>
           </g>
           : null }
         { this.isVisible('Marker') ?
           <Marker
-            scaleFactor={scaleFactor}
-            contextWidth={ForceFieldAnatomy.CONTEXT_WIDTH}
-            coreWidth={ForceFieldAnatomy.CORE_WIDTH}
-            centerCircleRadius={ForceFieldAnatomy.CENTER_RADIUS}
-            contextMarkerSize={ForceFieldAnatomy.CONTEXT_MARKER_SIZE}
+            origin={origin}
+            gridUnit={gridUnit}
             skin={skin} />
         : null }
         { this.isVisible('Lines') ?
           <Lines
-            scaleFactor={scaleFactor}
-            contextWidth={ForceFieldAnatomy.CONTEXT_WIDTH}
-            coreWidth={ForceFieldAnatomy.CORE_WIDTH}
-            centerCircleRadius={ForceFieldAnatomy.CENTER_RADIUS}
-            contextMarkerSize={ForceFieldAnatomy.CONTEXT_MARKER_SIZE}
-            lineColor={skin.lines} />
+            origin={origin}
+            gridUnit={gridUnit}/>
         : null }
         { this.isVisible('Areas') ?
-          <Areas scaleFactor={scaleFactor} />
+          <Areas
+            origin={origin}
+            gridUnit={gridUnit} />
           : null }
         { this.isVisible('Labels') ?
-          <Labels scaleFactor={scaleFactor} />
+          <Labels
+            origin={origin}
+            gridUnit={gridUnit}
+            skin={skin} />
           : null }
         { this.isVisible('Forces') ?
           <Forces
+            stageWidth={width}
+            stageHeight={height}
+            fieldSize={fieldSize}
             energies={energies}
             gridUnit={gridUnit}
-            scaleFactor={scaleFactor}
-            arrowsPerSide={ForceFieldAnatomy.ARROWS_PER_SIDE}
+            normalizeCoordinates={normalizeCoordinates}
             arrowTriangleSize={triangleSize}
             minArrowLength={minLengthForArrowsToDisplay}
             skin={skin}
@@ -133,7 +135,9 @@ Renderer.propTypes = {
   energies: Forces.propTypes.energies,
   width: PropTypes.number,
   height: PropTypes.number,
+  fieldSize: PropTypes.number.isRequired,
   gridUnit: PropTypes.number.isRequired,
+  normalizeCoordinates: PropTypes.func.isRequired,
   triangleSize: PropTypes.number.isRequired,
   minLengthForArrowsToDisplay: PropTypes.number.isRequired,
   labels: React.PropTypes.arrayOf(PropTypes.string),
@@ -144,8 +148,7 @@ Renderer.propTypes = {
     background: PropTypes.string.isRequired,
     dots: PropTypes.string.isRequired,
     marker: PropTypes.string.isRequired,
-    negativeArrow: PropTypes.string.isRequired,
-    positiveArrow: PropTypes.string.isRequired,
+    arrows: PropTypes.string.isRequired,
   }).isRequired,
   dots: PropTypes.arrayOf(PropTypes.string),
 };

@@ -13,13 +13,14 @@ function hasIntersection(a, b) {
 export class Grid extends Component {
 
   render() {
-    const {scaleFactor, gridUnit, dotsPerSide, skin: {dots}} = this.props;
+    const {origin, gridUnit, skin: {dots}} = this.props;
     const dotHighlights = new Set(this.props.dots);
 
-    const circles = ForceFieldAnatomy.QUADRANTS.map((quadrant) => {
-      const circles = [];
-      for (let ix = 0; ix <= dotsPerSide; ix++) {
-        for (let iy = 0; iy <= dotsPerSide; iy++) {
+    let circles = []
+
+    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant, index) {
+      for(let ix = 0; ix <= ForceFieldAnatomy.DOTS_PER_SIDE; ix++) {
+        for(let iy = 0; iy <= ForceFieldAnatomy.DOTS_PER_SIDE; iy++) {
 
           if (ix + iy === 0) {
             continue;
@@ -27,46 +28,35 @@ export class Grid extends Component {
 
           const x = quadrant.coefficient.x * ix;
           const y = quadrant.coefficient.y * iy;
-          const forceFieldDescriptor = new ForceFieldDescriptor(x * gridUnit, y * gridUnit);
+          const TEN = 10;
+          const forceFieldDescriptor = new ForceFieldDescriptor(x / TEN, y / TEN);
 
-          if (forceFieldDescriptor.isCenter()) {
+          if(forceFieldDescriptor.isCenter()) {
             continue;
           }
           let radius = DEFAULT_CIRCLE_RADIUS;
           const classNames = forceFieldDescriptor.getClassNames();
           const names = new Set(forceFieldDescriptor.getNames());
 
-          if (hasIntersection(names, dotHighlights)) {
+          if(hasIntersection(names, dotHighlights)) {
             radius = INTERSECTION_CIRCLE_RADIUS;
           }
 
-          const scaledX = x * scaleFactor;
-          const scaledY = y * scaleFactor;
-
-          circles.push(
-            <circle key={`${quadrant.deg}:${x},${y}`} className={classNames}
-              cx={scaledX} cy={-scaledY}
-              r={radius}
-              fill={dots} />
-            );
+          circles.push(<circle key={`${quadrant.deg}:${x},${y}`} className={classNames} cx={x * gridUnit} cy={-y * gridUnit} r={radius} stroke={dots} />);
 
         }
       }
-      return circles;
+
     });
 
-    return (
-      <g id="Grid" className="Grid">
-        {circles}
-      </g>
-    );
+    let transform = 'translate(' + origin.x + ',' + origin.y + ')';
+    return <g id="Grid" className="Grid" transform={transform}>{circles}</g>;
   }
 }
 
 Grid.propTypes = {
-  scaleFactor: PropTypes.number,
-  gridUnit: PropTypes.number,
-  dotsPerSide: PropTypes.number,
+  origin: PropTypes.point.isRequired,
+  gridUnit: PropTypes.number.isRequired,
   skin: PropTypes.shape({
     dots: PropTypes.string.isRequired,
   }).isRequired,
@@ -74,8 +64,5 @@ Grid.propTypes = {
 };
 
 Grid.defaultProps = {
-  scaleFactor: 1,
-  gridUnit: 1,
-  dotsPerSide: 5,
   dots: [],
 };

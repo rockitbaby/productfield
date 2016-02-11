@@ -1,0 +1,172 @@
+<<<<<<< 84659fd7e2899bc867d8c474f3ae1725589c41fe:src/components/Editor/Stage/Renderer/Lines.jsx
+import React, {Component, PropTypes} from 'react';
+import uuid from 'node-uuid';
+import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
+import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+=======
+import React, {Component} from 'react';
+import PropTypes from 'PropTypes';
+import ForceFieldDescriptor from 'ForceFieldDescriptor';
+import Anatomy from 'ForceFieldAnatomy';
+
+import {allowCustomAttributes} from 'utils';
+>>>>>>> add utils, refactoring lines:src/components/Editor/ForceField/Renderer/Lines.jsx
+import DOMProperty from 'react/lib/DOMProperty';
+
+allowCustomAttributes(DOMProperty, ['stroke-dasharray']);
+
+<<<<<<< 84659fd7e2899bc867d8c474f3ae1725589c41fe:src/components/Editor/Stage/Renderer/Lines.jsx
+DOMProperty.injection.injectDOMPropertyConfig({
+  isCustomAttribute: function (attributeName) {
+    return (attributeName === 'stroke-dasharray');
+  }
+});
+=======
+class Line extends Component {
+
+  render() {
+    const from = this.props.from;
+    const to = this.props.to;
+    const GU = this.props.gridUnit;
+    const className = this.props.className;
+    if(this.props.dashed) {
+      return <line className={className} stroke-dasharray="5, 5" stroke={'black'} strokeWidth={2} x1={from.x * GU} y1={-from.y * GU} x2={to.x * GU} y2={-to.y * GU} />;
+    } else {
+      return <line className={className} stroke={'black'} strokeWidth={2} x1={from.x * GU} y1={-from.y * GU} x2={to.x * GU} y2={-to.y * GU} />;
+    }
+    
+  }
+}
+
+Line.propTypes = {
+  gridUnit: PropTypes.number.isRequired,
+  from: PropTypes.point.isRequired,
+  to: PropTypes.point.isRequired,
+  dashed: PropTypes.bool,
+  className: PropTypes.string,
+};
+>>>>>>> add utils, refactoring lines:src/components/Editor/ForceField/Renderer/Lines.jsx
+
+function P(x, y) {
+  return {
+    x: x,
+    y: y,
+  };
+}
+
+<<<<<<< 84659fd7e2899bc867d8c474f3ae1725589c41fe:src/components/Editor/Stage/Renderer/Lines.jsx
+class Line extends Component {
+
+  render() {
+    const {from, to, gridUnit, className, dashed} = this.props;
+=======
+export default class Lines extends Component {
+>>>>>>> add utils, refactoring lines:src/components/Editor/ForceField/Renderer/Lines.jsx
+
+    if(dashed) {
+      return <line className={className} stroke-dasharray="5, 5" stroke={'black'}  strokeWidth={2} x1={from.x * gridUnit} y1={-from.y * gridUnit} x2={to.x * gridUnit} y2={-to.y * gridUnit} />
+    } else {
+      return <line className={className} stroke={'black'} strokeWidth={2} x1={from.x * gridUnit} y1={-from.y * gridUnit} x2={to.x * gridUnit} y2={-to.y * gridUnit} />
+    }
+  }
+}
+
+<<<<<<< 84659fd7e2899bc867d8c474f3ae1725589c41fe:src/components/Editor/Stage/Renderer/Lines.jsx
+Line.propTypes = {
+  gridUnit: React.PropTypes.number,
+  from: React.PropTypes.object,
+  to: React.PropTypes.object,
+  dashed: React.PropTypes.bool,
+  className: React.PropTypes.string
+};
+
+export class Lines extends Component {
+
+  render() {
+    const {stageWidth, stageHeight, gridUnit} = this.props;
+    const origin = {x: Math.floor(stageWidth / 2), y: Math.floor(stageHeight / 2)};
+
+    let lines = [];
+    lines.push(<Line key={'core-1'} className='Lines-core' from={P(-5, 5)} to={P(5, 5)} gridUnit={gridUnit} />);
+    lines.push(<Line key={'core-2'} className='Lines-core' from={P(5, 5)} to={P(5, -5)} gridUnit={gridUnit} />);
+    lines.push(<Line key={'core-3'} className='Lines-core' from={P(5, -5)} to={P(-5, -5)} gridUnit={gridUnit} />);
+    lines.push(<Line key={'core-4'} className='Lines-core' from={P(-5, -5)} to={P(-5, 5)} gridUnit={gridUnit} />);
+=======
+  render() {
+    /*eslint no-magic-numbers:0*/
+
+    const GU = this.props.gridUnit;
+    const origin = this.props.origin;
+    const dotsColor = this.props.skin.dots;
+
+    const lines = [];
+    lines.push(<Line key={'core-1'} className='Lines-core' from={P(-5, 5)} to={P(5, 5)} gridUnit={GU} />);
+    lines.push(<Line key={'core-2'} className='Lines-core' from={P(5, 5)} to={P(5, -5)} gridUnit={GU} />);
+    lines.push(<Line key={'core-3'} className='Lines-core' from={P(5, -5)} to={P(-5, -5)} gridUnit={GU} />);
+    lines.push(<Line key={'core-4'} className='Lines-core' from={P(-5, -5)} to={P(-5, 5)} gridUnit={GU} />);
+>>>>>>> add utils, refactoring lines:src/components/Editor/ForceField/Renderer/Lines.jsx
+
+    Anatomy.QUADRANTS.forEach((quadrant) => {
+
+      let x1 = 0 * quadrant.coefficient.x;
+      let y1 = Anatomy.CENTER_RADIUS * quadrant.coefficient.y;
+      let x2 = 0 * quadrant.coefficient.x;
+      let y2 = 5 * quadrant.coefficient.y;
+      let key = `${quadrant.deg}-1`;
+
+      lines.push(<Line key={key} className='Lines-core' from={P(x1, y1)} to={P(x2, y2)} gridUnit={gridUnit} />);
+
+      x1 = Anatomy.CENTER_RADIUS * quadrant.coefficient.x;
+      y1 = 0 * quadrant.coefficient.y;
+      x2 = 5 * quadrant.coefficient.x;
+      y2 = 0 * quadrant.coefficient.y;
+      key = `${quadrant.deg}-2`;
+
+      lines.push(<Line key={key} className='Lines-core' from={P(x1, y1)} to={P(x2, y2)} gridUnit={gridUnit} />);
+
+      // dashed
+      x1 = 0 * quadrant.coefficient.x;
+      y1 = 5 * quadrant.coefficient.y;
+      x2 = 0 * quadrant.coefficient.x;
+      y2 = 8.5 * quadrant.coefficient.y;
+      key = `${quadrant.deg}-3`;
+
+      lines.push(<Line key={key} className='Lines-context' dashed={true} from={P(x1, y1)} to={P(x2, y2)} gridUnit={gridUnit} />);
+
+      x1 = 5 * quadrant.coefficient.x;
+      y1 = 0 * quadrant.coefficient.y;
+      x2 = 8.5 * quadrant.coefficient.x;
+      y2 = 0 * quadrant.coefficient.y;
+      key = `${quadrant.deg}-4`;
+
+      lines.push(<Line key={key} className='Lines-context' dashed={true} from={P(x1, y1)} to={P(x2, y2)} gridUnit={gridUnit} />);
+
+      x1 = 5 * quadrant.coefficient.x;
+      y1 = 5 * quadrant.coefficient.y;
+      x2 = 8 * quadrant.coefficient.x;
+      y2 = 8 * quadrant.coefficient.y;
+      key = `${quadrant.deg}-5`;
+
+      lines.push(<Line key={key} className='Lines-context' from={P(x1, y1)} to={P(x2, y2)} gridUnit={gridUnit} />);
+
+<<<<<<< 84659fd7e2899bc867d8c474f3ae1725589c41fe:src/components/Editor/Stage/Renderer/Lines.jsx
+      //lines.push(<text className="Labels-character" x={x * gridUnit} y={-y * gridUnit + considerHeight * LABEL_HEIGHT} textAnchor={textAnchor}>{quadrant.name}</text>)
+
+=======
+>>>>>>> add utils, refactoring lines:src/components/Editor/ForceField/Renderer/Lines.jsx
+    });
+
+    const transform = `translate(${origin.x},${origin.y})`;
+    return <g id="Lines" className="Lines" transform={transform}>{lines}</g>;
+  }
+
+}
+<<<<<<< 84659fd7e2899bc867d8c474f3ae1725589c41fe:src/components/Editor/Stage/Renderer/Lines.jsx
+
+Lines.propTypes = {
+  stageWidth: PropTypes.number.isRequired,
+  stageHeight: PropTypes.number.isRequired,
+  gridUnit: PropTypes.number.isRequired,
+};
+=======
+>>>>>>> add utils, refactoring lines:src/components/Editor/ForceField/Renderer/Lines.jsx
