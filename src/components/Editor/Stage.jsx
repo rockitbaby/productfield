@@ -10,26 +10,28 @@ import energyStyles from './Stage/Energy/energy.css';
 const FORCE_ARROW_HEAD_SIZE = 4;
 const MIN_FORCE_ARROW_LENGTH = 2;
 const DOTS_IN_FIELD = 20;
+const FIELD_PADDING = 50;
+const GRID_UNIT = 0.1;
 
 export class Stage extends Component {
 
   getProperties() {
-    const maximumFieldSize = Math.floor(Math.min(this.props.width, this.props.height)) - 50;
-    const gridUnit = Math.floor(maximumFieldSize / DOTS_IN_FIELD);
-    const fieldSize = gridUnit * DOTS_IN_FIELD;
+    const maximumFieldSize = Math.floor(Math.min(this.props.width, this.props.height)) - FIELD_PADDING;
+    const scaleFactor = Math.floor(maximumFieldSize / DOTS_IN_FIELD);
+    const fieldSize = scaleFactor * DOTS_IN_FIELD;
 
-    const lightSkin =  {
+    const lightSkin = {
                      dots:   "#304FFE",
                      marker: "#304FFE",
-                     arrows: "#F2F2F2",
+                     lines: "#000000",
                      positiveArrow: "#008000",
                      negativeArrow: "#800000",
                      background: '#FFFFFF',
                    };
-    const darkSkin =  {
+    const darkSkin = {
                      dots:   "#FFFFFF",
                      marker: "#FFFFFF",
-                     arrows: "#F2F2F2",
+                     lines: "#F2F2F2",
                      positiveArrow: "#008000",
                      negativeArrow: "#800000",
                      background: '#000000',
@@ -37,20 +39,21 @@ export class Stage extends Component {
 
     return {
       fieldSize: fieldSize,
-      gridUnit: gridUnit,
+      gridUnit: GRID_UNIT,
+      scaleFactor: scaleFactor,
       triangleSize: FORCE_ARROW_HEAD_SIZE,
       minLengthForArrowsToDisplay: MIN_FORCE_ARROW_LENGTH,
       width:  this.props.width,
       height: this.props.height,
       skin: this.props.isPresentationModeEnabled ? darkSkin : lightSkin,
-    }
+    };
   }
 
   deNormalizeOneCoordinate(val, isY) {
-    var properties = this.getProperties();
+    const properties = this.getProperties();
 
-    var deNormalizedVal = (val * properties.fieldSize) / 2;
-    var deTranslatedVal = deNormalizedVal;
+    const deNormalizedVal = (val * properties.fieldSize) / 2;
+    let deTranslatedVal = deNormalizedVal;
 
     if(isY) {
       deTranslatedVal = deNormalizedVal - properties.height / 2;
@@ -67,13 +70,13 @@ export class Stage extends Component {
   }
 
   normalizeCoordinates(x, y) {
-    var properties = this.getProperties();
+    const properties = this.getProperties();
 
-    var translatedX = (x - properties.width / 2);
-    var translatedY = (y - properties.height / 2);
+    const translatedX = (x - properties.width / 2);
+    const translatedY = (y - properties.height / 2);
 
-    var normalizedX = (2 * translatedX) / properties.fieldSize;
-    var normalizedY = -(2 * translatedY) / properties.fieldSize;
+    const normalizedX = (2 * translatedX) / properties.fieldSize;
+    const normalizedY = -(2 * translatedY) / properties.fieldSize;
 
     return [normalizedX, normalizedY];
   }
@@ -84,7 +87,7 @@ export class Stage extends Component {
       position: 'absolute',
       left: pixelatedX,
       top: pixelatedY,
-    }
+    };
   }
 
   energyEditorPositioningStyles(x, y) {
@@ -115,8 +118,8 @@ export class Stage extends Component {
 
     const field = node.offsetParent;
 
-    var newX = clientX - field.offsetLeft;
-    var newY = clientY - field.offsetTop;
+    let newX = clientX - field.offsetLeft;
+    let newY = clientY - field.offsetTop;
 
     if (newX <= offsetX) {
       newX = offsetX;
@@ -139,10 +142,10 @@ export class Stage extends Component {
   handleDoubleClick(event) {
     event.preventDefault();
     const stage = event.currentTarget;
-    var pXstage = event.pageX - stage.offsetLeft;
-    var pYstage = event.pageY - stage.offsetTop;
+    const pXstage = event.pageX - stage.offsetLeft;
+    const pYstage = event.pageY - stage.offsetTop;
 
-    var [normalizedX, normalizedY] = this.normalizeCoordinates(pXstage, pYstage);
+    const [normalizedX, normalizedY] = this.normalizeCoordinates(pXstage, pYstage);
 
     this.props.onEnergyAdd({id: uuid.v1(), x: normalizedX, y: normalizedY, strength: 1, isMuted: false});
   }
@@ -168,12 +171,11 @@ export class Stage extends Component {
   render() {
 
     const rendererProps = Object.assign(this.getProperties(), {
-      normalizeCoordinates: this.normalizeCoordinates.bind(this),
       energies: this.props.energies.filter((energy) => !energy.isMuted).map((energy) => ({
         x: energy.x, y: energy.y, strength: energy.strength,
       })),
       isPresentationModeEnabled: this.props.isPresentationModeEnabled,
-    })
+    });
 
     let className = 'ForceFieldStage';
     if (this.props.isEnergyMoving) {

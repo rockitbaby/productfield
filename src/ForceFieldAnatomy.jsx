@@ -27,8 +27,10 @@ export default {
 
   DOTS_IN_GRID: 21,
   DOTS_PER_SIDE: 10,
+  ARROWS_PER_SIDE: 15,
   CORE_WIDTH: 5,
   CONTEXT_WIDTH: 8,
+  CONTEXT_MARKER_SIZE: 0.5,
   CENTER_RADIUS: Math.sqrt(2),
   LABELS: {
     context: [ // starting top-left, clockwise
@@ -54,9 +56,9 @@ export default {
       labels: ['motivations', 'users', 'problem'],
       coefficient: {
         x: 1,
-        y: 1
+        y: 1,
       },
-      deg: 0
+      deg: 0,
     },
     {
       name: 'market',
@@ -86,4 +88,4 @@ export default {
       deg: 270
     }
   ],
-}
+};
