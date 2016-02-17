@@ -1,0 +1,107 @@
+.u-visual-debug {
+  display: none;
+}
+text {
+  font-family: Merriweather;
+}
+
+.highlight-goals .Areas-goals,
+.highlight-motivations .Areas-motivations,
+.highlight-users .Areas-users,
+.highlight-customers .Areas-customers,
+.highlight-distribution .Areas-distribution,
+.highlight-production .Areas-production,
+.highlight-enablers .Areas-enablers,
+.highlight-drivers .Areas-drivers,
+.highlight-competition .Areas-competition,
+.highlight-uniqueness .Areas-uniqueness,
+.highlight-solution .Areas-solution,
+.highlight-problem .Areas-problem,
+
+.highlight-core .Areas-core,
+.highlight-context .Areas-context,
+.highlight-all .Areas polygon,
+.highlight-all .Areas rect
+{
+  fill: url(#Crosshatch);
+  display: block;
+}
+
+.Areas polygon,
+.Areas rect {
+  display: none;
+}
+
+.highlight-_single .Areas polygon,
+.highlight-_single .Areas rect {
+  transform-origin: 50% 50%;
+  transform: scale(1.1) rotate(1deg);  
+}
+
+.highlight-_stripe .Areas polygon,
+.highlight-_stripe .Areas rect {
+  fill: url(#Stripe);
+}
+
+.Pattern-crosshatch {
+  stroke: #000;
+  stroke-width: 0.5;
+}
+
+.Labels text {
+  opacity: 0.2; 
+  opacity: 0;
+  fill: #000000;
+}
+
+.Labels .Labels-context {
+  text-transform: uppercase;
+  font-family: sans-serif;
+}
+
+.Labels .Labels-core {
+  text-transform: lowercase;
+  font-family: sans-serif;
+}
+
+.Labels .Labels-character {
+  text-transform: uppercase;
+  font-family: serif;
+}
+
+.label-goals .Labels-goals,
+.label-motivations .Labels-motivations,
+.label-users .Labels-users,
+.label-customers .Labels-customers,
+.label-distribution .Labels-distribution,
+.label-production .Labels-production,
+.label-enablers .Labels-enablers,
+.label-drivers .Labels-drivers,
+.label-competition .Labels-competition,
+.label-uniqueness .Labels-uniqueness,
+.label-solution .Labels-solution,
+.label-problem .Labels-problem,
+
+.label-value .Labels-value,
+.label-market .Labels-market,
+.label-resources .Labels-resources,
+.label-idea .Labels-idea,
+
+.label-core .Labels-core,
+.label-context .Labels-context,
+.label-character .Labels-character,
+.label-all .Labels text {
+  opacity: 1;
+}
+
+.Lines line {
+  opacity: 0;
+  stroke-width: 1.5;
+}
+
+.line-core .Lines-core,
+.line-context .Lines-context,
+.line-all .Lines-core,
+.line-all .Lines-context {
+  opacity: 1;
+}

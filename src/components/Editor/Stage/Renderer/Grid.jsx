@@ -1,44 +1,81 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from '../../../../PropTypes';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
+import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 
-const CONTEXT_CIRCLE_RADIUS = 1;
-const DEFAULT_CIRCLE_RADIUS = 0.75;
+const INTERSECTION_CIRCLE_RADIUS = 4;
+const DEFAULT_CIRCLE_RADIUS = 1;
+
+function hasIntersection(a, b) {
+  return new Set([...a].filter((x) => b.has(x))).size;
+}
 
 export class Grid extends Component {
 
   render() {
-    const {stageWidth, stageHeight, fieldSize, gridUnit, skin: {dots}} = this.props;
+    const {scaleFactor, gridUnit, dotsPerSide, skin: {dots}} = this.props;
+    const dotHighlights = new Set(this.props.dots);
 
-    const offsetX = Math.floor(stageWidth / 2 - fieldSize / 2) % gridUnit;
-    const offsetY = Math.floor(stageHeight / 2 - fieldSize / 2) % gridUnit
+    const circles = ForceFieldAnatomy.QUADRANTS.map((quadrant) => {
+      const circles = [];
+      for (let ix = 0; ix <= dotsPerSide; ix++) {
+        for (let iy = 0; iy <= dotsPerSide; iy++) {
 
-    var circles = []
-    for (var x = offsetX; x < stageWidth; x = x + gridUnit) {
-      for (var y = offsetY; y < stageHeight; y = y + gridUnit) {
-        const [normalizedX, normalizedY] = this.props.normalizeCoordinates(x, y);
-        var forceFieldDescriptor = new ForceFieldDescriptor(normalizedX, normalizedY);
-        var radius = DEFAULT_CIRCLE_RADIUS;
-        if (forceFieldDescriptor.isCenter()) {
-          continue;
+          if (ix + iy === 0) {
+            continue;
+          }
+
+          const x = quadrant.coefficient.x * ix;
+          const y = quadrant.coefficient.y * iy;
+          const forceFieldDescriptor = new ForceFieldDescriptor(x * gridUnit, y * gridUnit);
+
+          if (forceFieldDescriptor.isCenter()) {
+            continue;
+          }
+          let radius = DEFAULT_CIRCLE_RADIUS;
+          const classNames = forceFieldDescriptor.getClassNames();
+          const names = new Set(forceFieldDescriptor.getNames());
+
+          if (hasIntersection(names, dotHighlights)) {
+            radius = INTERSECTION_CIRCLE_RADIUS;
+          }
+
+          const scaledX = x * scaleFactor;
+          const scaledY = y * scaleFactor;
+
+          circles.push(
+            <circle key={`${quadrant.deg}:${x},${y}`} className={classNames}
+              cx={scaledX} cy={-scaledY}
+              r={radius}
+              fill={dots} />
+            );
+
         }
-        if (forceFieldDescriptor.isContext()) {
-          radius = CONTEXT_CIRCLE_RADIUS;
-        }
-        const classNames = forceFieldDescriptor.getClassNames();
-        circles.push(<circle key={`${x},${y}`} className={classNames} cx={x} cy={y} r={radius} stroke={dots} />)
       }
-    }
-    return <g>{circles}</g>;
+      return circles;
+    });
+
+    return (
+      <g id="Grid" className="Grid">
+        {circles}
+      </g>
+    );
   }
 }
 
 Grid.propTypes = {
-  stageWidth: PropTypes.number.isRequired,
-  stageHeight: PropTypes.number.isRequired,
-  fieldSize: PropTypes.number.isRequired,
-  gridUnit: PropTypes.number.isRequired,
+  scaleFactor: PropTypes.number,
+  gridUnit: PropTypes.number,
+  dotsPerSide: PropTypes.number,
   skin: PropTypes.shape({
     dots: PropTypes.string.isRequired,
   }).isRequired,
-  normalizeCoordinates: PropTypes.func.isRequired,
+  dots: PropTypes.arrayOf(PropTypes.string),
+};
+
+Grid.defaultProps = {
+  scaleFactor: 1,
+  gridUnit: 1,
+  dotsPerSide: 5,
+  dots: [],
 };

@@ -1,2 +1,5 @@
 /node_modules
 npm-debug.log
+dist/app.bundle.js
+dist/illustrator.bundle.js
+server/illustrator.generated.js
