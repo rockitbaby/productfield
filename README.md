@@ -17,7 +17,7 @@ A Force Field Analysis Tools for the Product Field Canvas.
 
 ### Run Illustrator Server
 
-The illustrator server renders the product field as svg image. I will be used to create explaing images fpr the product field (e-)book.
+The illustrator server renders the product field as svg image. I will be used to create explaining images for the product field (e-)book.
 
 - `webpack && node server`
 
@@ -50,7 +50,7 @@ CSS files for the parent component also live in that directory.
 
 Components are by design dump components, which means they can not alter themselves, but propagate user interactions to their parents.
 
-The reducer and the action creators live in `src/state`. Also, the connected components, i.e. the components which can trigger actions and delegate the app state to their children live here. There is only one component connected with the state machine, that is ConnectedEditor. 
+The reducer and the action creators live in `src/state`. Also, the connected components, i.e. the components which can trigger actions and delegate the app state to their children live here. There is only one component connected with the state machine, that is ConnectedEditor.
 
 ### CSS Naming Conventions
 

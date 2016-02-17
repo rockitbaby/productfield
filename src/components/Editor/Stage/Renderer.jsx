@@ -77,9 +77,10 @@ export class Renderer extends Component {
             <rect
               x={-width/2}
               y={-height/2}
-              width={width}
-              height={height}
-              fill="url(#dots)" />
+              width={width + scaleFactor/2}
+              height={height + scaleFactor/2}
+              fill="url(#dots)"
+              transform={ `translate(-${scaleFactor/2} -${scaleFactor/2})`}/>
             <Grid
               gridUnit={gridUnit}
               scaleFactor={scaleFactor}

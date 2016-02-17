@@ -1,6 +1,8 @@
 var express = require("express");
 var path = require("path");
-var render = require("./illustrator.generated.js");
+var illustratorExports = require("./illustrator.generated.js");
+
+var render = illustratorExports.default;
 
 var app = express();
 
