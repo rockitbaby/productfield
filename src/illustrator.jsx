@@ -104,6 +104,7 @@ function getProperties(params) {
   return {
     width: width,
     height: height,
+    scaleFactor: gridUnit,
     gridUnit: gridUnit,
     skin: {
       dots:   "#000000",
