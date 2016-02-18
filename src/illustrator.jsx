@@ -110,6 +110,8 @@ function getProperties(params) {
     height: height,
     scaleFactor: gridUnit,
     gridUnit: gridUnit,
+    triangleSize: 0,                  //not used at this moment in the illustrator server
+    minLengthForArrowsToDisplay: 0,   //not used at this moment in the illustrator server
     skin: {
       dots:   "#000000",
       marker: "#000000",
@@ -117,7 +119,9 @@ function getProperties(params) {
       background: '#FFFFFF',
       areaFill: 'pattern',
       areas: '#FFFF00',
-      arrows: '#000000'
+      arrows: '#000000',
+      negativeArrow: '#000000',   //not used at this moment in the illustrator server
+      positiveArrow: '#000000',   //not used at this moment in the illustrator server
     },
     visibility: visibility,
     highlights: highlights,
