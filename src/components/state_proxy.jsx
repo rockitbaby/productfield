@@ -5,16 +5,16 @@ export function StateProxy(component) {
 
     constructor(props) {
       super(props);
-      let stateProps = Object.assign({}, props.children.props);
-      let resetComponentProps = this.resetProps(stateProps).bind(this);
-      let initialState = Object.assign({}, stateProps, {resetComponentProps});
+      const stateProps = Object.assign({}, props.children.props);
+      const resetComponentProps = this.resetProps(stateProps).bind(this);
+      const initialState = Object.assign({}, stateProps, {resetComponentProps});
       this.state = initialState;
     }
 
     resetProps(props) {
       return () => {
         this.setState(props);
-      }
+      };
     }
 
     render() {
@@ -25,7 +25,7 @@ export function StateProxy(component) {
     }
   }
 
-  let {type: {name}} = component;
+  const {type: {name}} = component;
   StateProxy.displayName = `StateProxy(${name})`;
   return (
     <StateProxy>

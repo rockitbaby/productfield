@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import uuid from 'node-uuid';
-import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import ForceFieldAnatomy from '../ForceFieldAnatomy';
 
 const LABEL_HEIGHT = 18;
 const FONT_SIZE_CORRECTION = 2;

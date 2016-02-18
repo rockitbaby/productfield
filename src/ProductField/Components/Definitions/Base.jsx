@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PropTypes from 'PropTypes';
+import PropTypes from '../../PropTypes';
 
 export default class DefsComponent extends Component {
 

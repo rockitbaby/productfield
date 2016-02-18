@@ -1,11 +1,11 @@
 import React from 'react';
 import {allowCustomAttributes} from 'utils';
-import DefsComponent from './DefsComponent';
+import Base from './Base';
 import DOMProperty from 'react/lib/DOMProperty';
 
 allowCustomAttributes(DOMProperty, ['in', 'filter', 'flood-color']);
 
-export class Solid extends DefsComponent {
+export class Solid extends Base {
 
   renderDef(_gridUnit, _offset) {
     /*eslint no-multi-spaces:0*/

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Vector from 'victor';
-import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import ForceFieldAnatomy from '../ForceFieldAnatomy';
 
 function convertPointsToScaledSvgPath(points, scaleFactor) {
   return points.map((point) => {

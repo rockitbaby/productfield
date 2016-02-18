@@ -1,9 +1,9 @@
 import React from 'react';
-import DefsComponent from './DefsComponent';
-import Anatomy from 'ForceFieldAnatomy';
+import Base from './Base';
+import Anatomy from '../../ForceFieldAnatomy';
 
 
-export class Arrow extends DefsComponent {
+export class Arrow extends Base {
 
   renderDef(_GU, _offset, _origin, _size) {
     return (

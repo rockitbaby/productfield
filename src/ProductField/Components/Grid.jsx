@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import PropTypes from '../../../../PropTypes';
-import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
-import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import PropTypes from '../PropTypes';
+import ForceFieldDescriptor from '../ForceFieldDescriptor';
+import ForceFieldAnatomy from '../ForceFieldAnatomy';
 
 const INTERSECTION_CIRCLE_RADIUS = 4;
 const DEFAULT_CIRCLE_RADIUS = 1;
