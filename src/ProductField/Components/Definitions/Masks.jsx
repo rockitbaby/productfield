@@ -1,9 +1,9 @@
 import React from 'react';
-import DefsComponent from './DefsComponent';
-import Anatomy from 'ForceFieldAnatomy';
+import Base from './Base';
+import Anatomy from '../../ForceFieldAnatomy';
 
 
-export class Circle extends DefsComponent {
+export class Circle extends Base {
 
   renderDef(GU, offset, origin, size) {
     /*eslint no-multi-spaces:0*/

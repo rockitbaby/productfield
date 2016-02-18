@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Vector from 'victor';
-import PropTypes from '../../../../PropTypes';
-import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import PropTypes from '../PropTypes';
+import ForceFieldAnatomy from '../ForceFieldAnatomy';
 
 const CONTEXT_MARKER_WIDTH = 3;
 const CORE_EDGE_MARKER_WIDTH = 6;

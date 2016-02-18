@@ -1,8 +1,8 @@
 import React from 'react';
-import DefsComponent from './DefsComponent';
+import Base from './Base';
 
 
-export class Crosshatch extends DefsComponent {
+export class Crosshatch extends Base {
 
   renderDef(_GU, _offset, _origin, _size) {
     return (
@@ -16,7 +16,7 @@ export class Crosshatch extends DefsComponent {
 
 }
 
-export class Stripe extends DefsComponent {
+export class Stripe extends Base {
 
   renderDef(_GU, _offset, _origin, _size) {
     return (
@@ -31,7 +31,7 @@ export class Stripe extends DefsComponent {
 
 }
 
-export class Dots extends DefsComponent {
+export class Dots extends Base {
 
   renderDef(GU, _offset, _origin, _size) {
     const radius = 1;

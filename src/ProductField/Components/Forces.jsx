@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Vector from 'victor';
-import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import ForceFieldAnatomy from '../ForceFieldAnatomy';
 import {ForceFieldCalculator} from './ForceFieldCalculator';
 import {ForceArrow} from './ForceArrow';
 

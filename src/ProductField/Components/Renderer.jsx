@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
-import PropTypes from 'PropTypes';
-import ForceFieldAnatomy from '../../../ForceFieldAnatomy';
 
-import {Marker} from './Renderer/Marker';
-import {Lines} from './Renderer/Lines';
-import {Labels} from './Renderer/Labels';
-import {Grid} from './Renderer/Grid';
-import {Areas} from './Renderer/Areas';
-import {Forces} from './Renderer/Forces';
+import PropTypes from '../PropTypes';
+import ForceFieldAnatomy from '../ForceFieldAnatomy';
 
-import {Crosshatch, Stripe, Dots} from './Renderer/Defs/Patterns';
-import {Circle} from './Renderer/Defs/Masks';
-import {Solid} from './Renderer/Defs/Filters';
-import {Arrow} from './Renderer/Defs/Symbols';
+import {Marker} from './Marker';
+import {Lines} from './Lines';
+import {Labels} from './Labels';
+import {Grid} from './Grid';
+import {Areas} from './Areas';
+import {Forces} from './Forces';
+
+import {Crosshatch, Stripe, Dots} from './Definitions/Patterns';
+import {Circle} from './Definitions/Masks';
+import {Solid} from './Definitions/Filters';
+import {Arrow} from './Definitions/Symbols';
 
 export const defaultVisibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Labels', 'Forces'];
 

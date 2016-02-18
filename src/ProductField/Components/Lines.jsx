@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import uuid from 'node-uuid';
-import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import ForceFieldAnatomy from '../ForceFieldAnatomy';
 
 import {allowCustomAttributes} from 'utils';
 import DOMProperty from 'react/lib/DOMProperty';

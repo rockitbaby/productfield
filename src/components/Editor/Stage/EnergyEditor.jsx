@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import {Slider} from './Energy/Slider';
-import styles from './Energy/energy_editor.css';
+import {Slider} from './EnergyEditor/Slider';
+import styles from './energy_editor.css';
 
 export class EnergyEditor extends Component {
 
