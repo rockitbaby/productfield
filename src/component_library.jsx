@@ -2,19 +2,21 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import {Tabs, Tab, TabList, TabPanel} from 'react-tabs';
-import {StateProxy} from './components/state_proxy';
-import {ForceArrow} from './components/Editor/Stage/Renderer/ForceArrow';
-import {Forces} from './components/Editor/Stage/Renderer/Forces';
-import {Grid} from './components/Editor/Stage/Renderer/Grid';
-import {Marker} from './components/Editor/Stage/Renderer/Marker';
-import {Lines} from './components/Editor/Stage/Renderer/Lines';
-import {Labels} from './components/Editor/Stage/Renderer/Labels';
-import {Areas} from './components/Editor/Stage/Renderer/Areas';
-import {Renderer} from './components/Editor/Stage/Renderer';
-import {Slider} from './components/Editor/Stage/Energy/Slider';
-import {Energy} from './components/Editor/Stage/Energy';
-import {Crosshatch, Dots, Stripe} from './components/Editor/Stage/Renderer/Defs/Patterns';
-import {Arrow} from './components/Editor/Stage/Renderer/Defs/Symbols';
+import {
+  StateProxy,
+  ForceArrow,
+  Forces,
+  Grid,
+  Marker,
+  Lines,
+  Labels,
+  Areas,
+  Renderer,
+  Slider,
+  Energy,
+  Crosshatch, Dots, Stripe,
+  Arrow,
+} from 'ProductField';
 
 class SvgComponent extends Component {
   render() {

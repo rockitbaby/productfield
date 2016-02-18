@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import PropTypes from 'PropTypes';
-import ForceFieldAnatomy from '../../../ForceFieldAnatomy';
+import PropTypes from './PropTypes';
+import ForceFieldAnatomy from './ForceFieldAnatomy';
 
 import {Marker} from './Renderer/Marker';
 import {Lines} from './Renderer/Lines';

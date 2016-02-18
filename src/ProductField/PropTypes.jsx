@@ -1,8 +1,7 @@
 import {PropTypes} from 'react';
 
-
 function isPoint(isRequired, props, propName, componentName = 'ANONYMOUS') {
-  if (props[propName] == null) {
+  if (props[propName] === null) {
 
     if(isRequired) {
       return new Error(
@@ -17,7 +16,7 @@ function isPoint(isRequired, props, propName, componentName = 'ANONYMOUS') {
 }
 
 function isSize(isRequired, props, propName, componentName = 'ANONYMOUS') {
-  if (props[propName] == null) {
+  if (props[propName] === null) {
 
     if(isRequired) {
       return new Error(

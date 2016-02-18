@@ -1,21 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import ForceFieldAnatomy from './ForceFieldAnatomy';
 
 import {createStore} from 'redux';
 import {fromJS} from 'immutable';
 import reducer from './state/reducer';
-import {setState} from './state/action_creators'
+import {setState} from './state/action_creators';
 
-import {Renderer, defaultVisibility as rendererVisibility} from './components/Editor/Stage/Renderer';
+import { ForceFieldAnatomy, Renderer} from 'ProductField';
+
+console.log(ForceFieldAnatomy);
+
+const rendererVisibility = ForceFieldAnatomy.defaultVisibility;
+
 
 const store = createStore(reducer);
-var initialState = fromJS({
+const initialState = fromJS({
   energies: [
     {id: 2, x: 0.4, y: 0.1, strength: 2, isMuted: false},
     {id: 1, x: 0.8, y: -0.8, strength: 1, isMuted: false},
-  ]
+  ],
 });
 store.dispatch(setState(initialState));
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import DefsComponent from './DefsComponent';
-import Anatomy from 'ForceFieldAnatomy';
+import Anatomy from '../../ForceFieldAnatomy';
 
 
 export class Circle extends DefsComponent {

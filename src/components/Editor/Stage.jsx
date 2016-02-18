@@ -3,7 +3,7 @@ import {DraggableCore} from 'react-draggable';
 import uuid from 'node-uuid';
 import {Energy} from './Stage/Energy';
 import {EnergyEditor} from './Stage/EnergyEditor';
-import {Renderer} from './Stage/Renderer';
+import {Renderer} from 'ProductField';
 
 const FORCE_ARROW_HEAD_SIZE = 4;
 const MIN_FORCE_ARROW_LENGTH = 2;
