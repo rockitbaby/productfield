@@ -4,8 +4,6 @@ import uuid from 'node-uuid';
 import {Energy} from './Stage/Energy';
 import {EnergyEditor} from './Stage/EnergyEditor';
 import {Renderer} from './Stage/Renderer';
-import sliderStyles from './Stage/Energy/slider.css';
-import energyStyles from './Stage/Energy/energy.css';
 
 const FORCE_ARROW_HEAD_SIZE = 4;
 const MIN_FORCE_ARROW_LENGTH = 2;
@@ -159,13 +157,7 @@ export class Stage extends Component {
 
   handleClick(event) {
     const {target} = event;
-    const classList = Array.from(target.classList);
-    if (
-      classList.indexOf(sliderStyles.handle) === -1 &&
-      classList.indexOf(energyStyles.sliderAdditionIcon) === -1
-    ) {
-      this.props.onEnergyEdit(null);
-    }
+    this.props.onEnergyEdit(null);
   }
 
   render() {

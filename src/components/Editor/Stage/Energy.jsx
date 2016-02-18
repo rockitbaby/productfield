@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import GlobalStyles from '../../../styles/GlobalStyles'
-import styles from './Energy/energy.css';
+import styles from './energy.css';
 
 export class Energy extends Component {
 
